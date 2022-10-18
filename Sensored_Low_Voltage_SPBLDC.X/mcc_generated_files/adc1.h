@@ -90,7 +90,7 @@
  */
 typedef enum 
 {
-    channel_AN11,//Channel Name:AN11   Assigned to:Shared Channel
+    POT1,//Channel Name:AN11   Assigned to:Shared Channel
     channel_AN24,//Channel Name:AN24   Assigned to:Shared Channel
     channel_AN25,//Channel Name:AN25   Assigned to:Shared Channel
 } ADC1_CHANNEL;
@@ -383,7 +383,7 @@ inline static uint16_t ADC1_ConversionResultGet( ADC1_CHANNEL channel )
 
     switch(channel)
     {
-        case channel_AN11:
+        case POT1:
                 result = ADCBUF11;
                 break;
         case channel_AN24:
@@ -441,7 +441,7 @@ inline static bool ADC1_IsConversionComplete(ADC1_CHANNEL channel)
 
     switch(channel)
     {
-        case channel_AN11:
+        case POT1:
                 status = ADSTATLbits.AN11RDY;
                 break;
         case channel_AN24:
@@ -637,7 +637,7 @@ inline static void ADC1_IndividualChannelInterruptEnable(ADC1_CHANNEL channel)
 {
     switch(channel)
     {
-        case channel_AN11:
+        case POT1:
                 IEC6bits.ADCAN11IE = 1;
                 break;
         case channel_AN24:
@@ -677,7 +677,7 @@ inline static void ADC1_IndividualChannelInterruptDisable(ADC1_CHANNEL channel)
 {
     switch(channel)
     {
-        case channel_AN11:
+        case POT1:
                 IEC6bits.ADCAN11IE = 0;
                 break;
         case channel_AN24:
@@ -716,7 +716,7 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
 {
     switch(channel)
     {
-        case channel_AN11:
+        case POT1:
                 IFS6bits.ADCAN11IF = 0;
                 break;
         case channel_AN24:
@@ -732,10 +732,10 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
 
 /**
   @Summary
-    ADC1 channel_AN11 callback routine.
+    ADC1 POT1 callback routine.
 
   @Description
-    This routine is a ADC1 channel_AN11 callback function.
+    This routine is a ADC1 POT1 callback function.
   
   @Preconditions
     None.
@@ -748,17 +748,17 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
  
   @Example 
     <code>
-        ADC1_Setchannel_AN11InterruptHandler(&ADC1_channel_AN11_CallBack);
+        ADC1_SetPOT1InterruptHandler(&ADC1_POT1_CallBack);
     </code>
 */
-void ADC1_channel_AN11_CallBack(uint16_t adcVal);
+void ADC1_POT1_CallBack(uint16_t adcVal);
 
 /**
   @Summary
-    Assigns a function pointer with a ADC1 channel_AN11 callback address.
+    Assigns a function pointer with a ADC1 POT1 callback address.
 
   @Description
-    This routine assigns a function pointer with a ADC1 channel_AN11 callback address.
+    This routine assigns a function pointer with a ADC1 POT1 callback address.
   
   @Preconditions
     None.
@@ -771,10 +771,10 @@ void ADC1_channel_AN11_CallBack(uint16_t adcVal);
  
   @Example 
     <code>
-        ADC1_Setchannel_AN11InterruptHandler(&ADC1_channel_AN11_CallBack);
+        ADC1_SetPOT1InterruptHandler(&ADC1_POT1_CallBack);
     </code>
 */
-void ADC1_Setchannel_AN11InterruptHandler(void* handler);
+void ADC1_SetPOT1InterruptHandler(void* handler);
 
 /**
   @Summary
