@@ -33,7 +33,7 @@ To clone or download this application from Github, go to the [main page of this 
 
 1. <p style='text-align: justify;'> Connect the wires for Hall sensor and phase windings of the motor to the appropriate terminals, as mentioned in the table below.</p>
 
-     <table>
+<table>
   <tr>
     <th>Motor Wire</th>
     <th>LVMC Terminal</th>
@@ -47,36 +47,35 @@ To clone or download this application from Github, go to the [main page of this 
     <td>Phase B (J14)</td>
   </tr>
   <tr>
-    <td>Hall Supply</td>
+    <td>Hall Supply (RED)</td>
     <td>3.3V (J7)</td>
   </tr>
   <tr>
-    <td>Hall Ground</td>
+    <td>Hall Ground (BLACK)</td>
     <td>GND (J7)</td>
   </tr>
   <tr>
-    <td>Hall Signal</td>
+    <td>Hall Signal (BLUE)</td>
     <td>HALL C (J7)</td>
   </tr>
 </table>
-    <p align="left" >
-     <img  src="images/phaseconnectors.jpg"></p>
+     <p align="left">
+     <img  src="images/phaseconnectors.jpg" width ="400"></p>
      <p align="left" >
-     <img  src="images/hallconnectors.jpg"></p>
+     <img  src="images/hallconnectors.jpg" width ="400"></p>
 
-
-4. <p style='text-align: justify;'>	Plug in the 12V power supply to connector J1 provided on the LVMC Board.</p>
-      <p align="left">
-      <img  src="images/lvmcpower.jpg"></p>
+2. <p style='text-align: justify;'>Plug in the 12V power supply to connector J1 provided on the LVMC Board.</p>
+<p align="left">
+<img  src="images/lvmcpower.jpg" width ="400"></p>
  
 
- 5.	<p style='text-align: justify;'>The board has an onboard programmer ‘PICkit™ On Board (PKoB4)’ , which can be used for programming or debugging the dsPIC33CK256MP508. To use an on-board programmer, connect a micro-USB cable between Host PC and Connector J13 provided on the LVMC Board. To enable communication using X2CScope between the board and the host PC, connect a micro-USB cable to J6.</p>
+3.	<p style='text-align: justify;'>The board has an onboard programmer ‘PICkit™ On Board (PKoB4)’ , which can be used for programming or debugging the dsPIC33CK256MP508. To use an on-board programmer, connect a micro-USB cable between Host PC and Connector J13 provided on the LVMC Board. To enable communication using X2CScope between the board and the host PC, connect a micro-USB cable to J6.</p>
 
 
-      <p align="left">
-     <img  src="images/lvmcpkob4.jpg"></p>
+<p align="left">
+     <img  src="images/lvmcpkob4.PNG" width ="400"></p>
      <p align="left">
-     <img  src="images/lvmcuart.jpg"></p>
+     <img  src="images/lvmcuart.jpg" width ="400"></p>
 
  
 <br />
@@ -130,21 +129,21 @@ Follow below instructions step by step to setup and run the motor control demo a
 
 1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File>Open Project)</span> the project <span style="font-family:Courier New; font-size:;">Sensored_Low_Voltage_SPBLDC.X</span> with device selection dsPIC33CK256MP508.</p>
     <p align="left">
-       <img  src="images/idedeviceselection.png"></p>
+       <img  src="images/idedeviceselection.PNG"></p>
   
 
 2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">Sensored_Low_Voltage_SPBLDC.X </span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'Sensored_Low_Voltage_SPBLDC'</b> will then appear in bold.</p>
     <p align="left">
-     <img  src="images/ideprojectsetup.png"></p>
+     <img  src="images/ideprojectsetup.PNG"></p>
  
 
 	
 3. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> Sensored_Low_Voltage_SPBLDC.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">Sensored_Low_Voltage_SPBLDC.X</span> </p>
      <p style='text-align: leftjustify;'>
 - Ensure either <span style="font-family:Courier New; font-size:;">CLOSEDLOOP  or OPENLOOP</span> are defined in the <span style="font-family:Courier New; font-size:;">LOOP CONTROLLER</span> section.
-      <p align="left"><img  src="images/configLoop.png"></p><p style='text-align: leftjustify;'>
+      <p align="left"><img  src="images/configLoop.PNG"></p><p style='text-align: leftjustify;'>
 - Uncomment the defined <span style="font-family:Courier New; font-size:;">OVERTEMPERATURE_DETECTION</span>, <span style="font-family:Courier New; font-size:;">OVERCURRENT_DETECTION</span> and/or <span style="font-family:Courier New; font-size:;">STALL_DETECTION</span> in the <span style="font-family:Courier New; font-size:;">MOTOR FAULT DETECTION</span> section to enable the motor fault detections. 
-      <p align="left"><img  src="images/configFault.png"></p>
+      <p align="left"><img  src="images/configFault.PNG"></p>
       
 
 4. Right click on the project <i>Sensored_Low_Voltage_SPBLDC.X</i> and select “Properties”  to open its Project Properties Dialog. Click the “Conf: [LVMC]” category to reveal the general project configuration information. The development tools used for testing the firmware are listed in the section [2.2 Software Tools Used for Testing the firmware](#22-software-tools-used-for-testing-the-firmware).
@@ -158,25 +157,25 @@ Follow below instructions step by step to setup and run the motor control demo a
        <p style='text-align: justify;'>     
  -   After selecting Hardware Tool and Compiler Toolchain, click button <b>Apply</b>
         <p align="left">
-        <img  src="images/projectpropertiessettings.png"></p>
+        <img  src="images/projectpropertiessettings.PNG"></p>
 
 5. <p style='text-align: justify;'> Ensure that the checkbox <b>'Load symbols when programming or building for production (slows process)'</b> is checked, which is under the 'Loading' category of the Project Properties window.</p>        
         
       <p align="left">
-      <img  src="images/loadvariables.png"></p>
+      <img  src="images/loadvariables.PNG"></p>
 
-6. <p style='text-align: justify;'>To build the project (in this case Sensored_Low_Voltage_SPBLDC.X.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
+6. <p style='text-align: justify;'>To build the project (in this case Sensored_Low_Voltage_SPBLDC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
     <p align="left">
-    <img  src="images/deviceprogramming.png"></p>
+    <img  src="images/deviceprogramming.PNG"></p>
 
 7. <p style='text-align: justify;'> When the device is programmed successfully, run or stop the motor by pressing the push button <b>SW1</b>. LD10 (LED1) should turn on and the motor should start spinning smoothly in one direction in the range indicated by the potentiometer. Ensure that the motor is spinning smoothly without any vibration.</p>
      <p align="left">
-     <img  src="images/startButton.jpg"></p>
+     <img  src="images/startButton.jpg" width ="200"></p>
  
 
 8.  <p style='text-align: justify;'> The motor speed can be varied using the potentiometer (labeled <b>'POT1'</b>).</p>
     <p align="left">
-    <img  src="images/potentiometer.jpg"></p>
+    <img  src="images/potentiometer.jpg" width ="200"></p>
 
 9.  <p style='text-align: justify;'> The direction of the motor rotation can be changed to reverse by pressing the push button <b>SW1</b>.</p>
 
@@ -201,20 +200,20 @@ Follow below instructions step by step to setup and run the motor control demo a
        <img  src="images/x2cselection.png"></p>
  
 
-5. Open the X2C-Scope Configuration window and in <b>'Select project'</b> menu, select <b>pmsm</b> project as shown.
+5. Open the X2C-Scope Configuration window and in <b>'Select project'</b> menu, select <b>Sensored_Low_Voltage_SPBLDC</b> project as shown.
     <p align="left">
-    <img  src="images/x2cprojectselection.png"></p>
+    <img  src="images/x2cprojectselection.PNG"></p>
 
 6.	Serial communication needs to be set up, as shown in the following figure. Ensure the communication baud rate is set to 115200 as configured in the application firmware. The COM port used depends on the system settings. The <span style="font-family:Courier New; font-size:;">refresh button</span> lists the available COM Ports. Select the COM Port as per the connection.
 
     <p align="left">
-     <img  src="images/x2cconnectionsetup.png"></p>
+     <img  src="images/x2cconnectionsetup.PNG"></p>
  
 
 
 7. Once the COM port is detected, click on <b>'Disconnected'</b> and turn to <b>'Connected'</b>, to establish a serial communication between Host PC and the board.
      <p align="left">
-    <img  src="images/x2cconnectionbutton.png"></p>
+    <img  src="images/x2cconnectionbutton.PNG"></p>
 
 
 8. Set the <b>'Project Setup'</b> as shown below and click <b>'Set Value'</b>. Set Scope sample time as interval at which <span style="font-family:Courier New; font-size:1;">X2CScopeUpdate()</span> is called. In this application it is every 50µs.
@@ -224,22 +223,22 @@ Follow below instructions step by step to setup and run the motor control demo a
 
 9. When the setup is established, click on open scope View (under sub window <b>'Data Views'</b>), this opens 'Scope Window'.
      <p align="left">
-      <img  src="images/x2cdataview.png"></p>
+      <img  src="images/x2cdataview.PNG"></p>
     	     
 
 10. In this window, select the variables that needs to be monitored. To do this, click on the source against each channel, a window Select Variables opens upon the screen. From the available list, the required variable can be chosen. Ensure check boxes Enable & Visible are checked for the variables to be plotted.<br>
 To view data plots continuously, uncheck<span style="font-family:Courier New; font-size:1;"> Single-shot</span>. When <span style="font-family:Courier New; font-size:1;">Single-shot</span> is checked it captures the data once and stops. The Sample time factor value multiplied with Sample time determines the time difference between any two consecutive data points on the plot.
     <p align="left">
-    <img  src="images/x2cdatapointselection.png"></p>
+    <img  src="images/x2cdatapointselection.PNG"></p>
 
 11.	Click on <b>'SAMPLE'</b>, then X2C-Scope window shows variables in real time, which is updated automatically.
      <p align="left">
-     <img  src="images/x2csample.png"></p>
+     <img  src="images/x2csample.PNG"></p>
  
 
 12.	Click on <b>'ABORT'</b> to stop.
      <p align="left">
-     <img  src="images/x2cabort.png"></p>
+     <img  src="images/x2cabort.PNG"></p>
  
  ## 6. REFERENCES:
 For additional information, refer following documents or links.
