@@ -1,6 +1,6 @@
 ![image](images/microchip.jpg) 
 
-## LVMC dsPIC33CK SENSORED SPBLDC MOTOR DRIVER
+## LVMC SENSORED SINGLE PHASE BRUSHLESS DC MOTOR DRIVER USING dsPIC33CK
 
 ## 1. INTRODUCTION
 <p style='text-align: justify;'>
@@ -11,7 +11,7 @@ This document describes the setup requirements for running the Sensored Single P
 ## 2.	SUGGESTED DEMONSTRATION REQUIREMENTS
 
 ### 2.1 Motor Control Application Firmware Required for the Demonstration
-To clone or download this application from Github, go to the [main page of this repository](https://github.com/microchip-pic-avr-solutions/mclv-48v-300w-an1292-dspic33ck1024mp710) and then click Clone button to clone this repository or download as zip file.
+To clone or download this application from Github, go to the [main page of this repository](https://bitbucket.microchip.com/projects/MCU16CE/repos/lvmc-dspic33ck-an2049-sensored-single-phase-bldc-motor-driver/browse) and then click Clone button to clone this repository or download as zip file.
 > **_NOTE:_**
 >In this document, hereinafter this firmware package is referred as firmware.
 ### 2.2 Software Tools Used for Testing the firmware
@@ -73,7 +73,7 @@ To clone or download this application from Github, go to the [main page of this 
 
 
 <p align="left">
-     <img  src="images/lvmcpkob4.PNG" width ="400"></p>
+     <img  src="images/lvmcpkob4.png" width ="400"></p>
      <p align="left">
      <img  src="images/lvmcuart.jpg" width ="400"></p>
 
@@ -242,7 +242,7 @@ To view data plots continuously, uncheck<span style="font-family:Courier New; fo
  
  ## 6. REFERENCES:
 For additional information, refer following documents or links.
-1. ANXXXX Application Note “[Sensored Single Phase BLDC Motor Driver using dsPIC33CK](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ApplicationNotes/ApplicationNotes/01292A.pdf)”
+1. ANXXXX Application Note [Sensored Single Phase BLDC Motor Driver using dsPIC33CK] (soon)
 2. [dsPIC33CK Low-Voltage Motor Control board User's Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU16/ProductDocuments/UserGuides/DS50002927a.pdf)
 3. [dsPIC33CK256MP508 Family Datasheet (DS70005349)](https://ww1.microchip.com/downloads/en/DeviceDoc/dsPIC33CK256MP508-Family-Data-Sheet-DS70005349H.pdf)
 
