@@ -132,6 +132,7 @@
 #include "pwm.h"
 #include "adc1.h"
 #include "X2Cscope/X2Cscope.h"
+#include "tmr1.h"
 
 void SYSTEM_Initialize(void)
 {
@@ -142,6 +143,7 @@ void SYSTEM_Initialize(void)
     UART1_Initialize();
     ADC1_Initialize();
     PWM_Initialize();
+    TMR1_Initialize();
     X2Cscope_Init();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);

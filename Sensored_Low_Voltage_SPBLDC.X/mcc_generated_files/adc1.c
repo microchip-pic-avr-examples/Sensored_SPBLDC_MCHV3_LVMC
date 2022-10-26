@@ -53,7 +53,7 @@
 */
 
 static void (*ADC1_CommonDefaultInterruptHandler)(void);
-static void (*ADC1_channel_AN11DefaultInterruptHandler)(uint16_t adcVal);
+static void (*ADC1_POT1DefaultInterruptHandler)(uint16_t adcVal);
 static void (*ADC1_channel_AN24DefaultInterruptHandler)(uint16_t adcVal);
 static void (*ADC1_channel_AN25DefaultInterruptHandler)(uint16_t adcVal);
 
@@ -160,7 +160,7 @@ void ADC1_Initialize (void)
 	
     //Assign Default Callbacks
     ADC1_SetCommonInterruptHandler(&ADC1_CallBack);
-    ADC1_Setchannel_AN11InterruptHandler(&ADC1_channel_AN11_CallBack);
+    ADC1_SetPOT1InterruptHandler(&ADC1_POT1_CallBack);
     ADC1_Setchannel_AN24InterruptHandler(&ADC1_channel_AN24_CallBack);
     ADC1_Setchannel_AN25InterruptHandler(&ADC1_channel_AN25_CallBack);
     
@@ -168,9 +168,9 @@ void ADC1_Initialize (void)
     IFS5bits.ADCIF = 0;
     // Enabling ADC1 interrupt.
     IEC5bits.ADCIE = 1;
-    // Clearing channel_AN11 interrupt flag.
+    // Clearing POT1 interrupt flag.
     IFS6bits.ADCAN11IF = 0;
-    // Enabling channel_AN11 interrupt.
+    // Enabling POT1 interrupt.
     IEC6bits.ADCAN11IE = 1;
     // Clearing channel_AN24 interrupt flag.
     IFS12bits.ADCAN24IF = 0;
@@ -260,28 +260,28 @@ void __attribute__ ( ( __interrupt__ , auto_psv, weak ) ) _ADCInterrupt ( void )
     IFS5bits.ADCIF = 0;
 }
 
-void __attribute__ ((weak)) ADC1_channel_AN11_CallBack( uint16_t adcVal )
+void __attribute__ ((weak)) ADC1_POT1_CallBack( uint16_t adcVal )
 { 
 
 }
 
-void ADC1_Setchannel_AN11InterruptHandler(void* handler)
+void ADC1_SetPOT1InterruptHandler(void* handler)
 {
-    ADC1_channel_AN11DefaultInterruptHandler = handler;
+    ADC1_POT1DefaultInterruptHandler = handler;
 }
 
 void __attribute__ ( ( __interrupt__ , auto_psv, weak ) ) _ADCAN11Interrupt ( void )
 {
-    uint16_t valchannel_AN11;
+    uint16_t valPOT1;
     //Read the ADC value from the ADCBUF
-    valchannel_AN11 = ADCBUF11;
+    valPOT1 = ADCBUF11;
 
-    if(ADC1_channel_AN11DefaultInterruptHandler) 
+    if(ADC1_POT1DefaultInterruptHandler) 
     { 
-        ADC1_channel_AN11DefaultInterruptHandler(valchannel_AN11); 
+        ADC1_POT1DefaultInterruptHandler(valPOT1); 
     }
 
-    //clear the channel_AN11 interrupt flag
+    //clear the POT1 interrupt flag
     IFS6bits.ADCAN11IF = 0;
 }
 

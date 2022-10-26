@@ -118,8 +118,8 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     __builtin_write_RPCON(0x0000); // unlock PPS
 
-    RPOR22bits.RP77R = 0x0001;    //RD13->UART1:U1TX
     RPINR18bits.U1RXR = 0x004E;    //RD14->UART1:U1RX
+    RPOR22bits.RP77R = 0x0001;    //RD13->UART1:U1TX
 
     __builtin_write_RPCON(0x0800); // lock PPS
     

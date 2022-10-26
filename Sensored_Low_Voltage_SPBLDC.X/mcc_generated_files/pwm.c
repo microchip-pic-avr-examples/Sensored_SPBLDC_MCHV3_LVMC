@@ -192,14 +192,14 @@ void PWM_Initialize (void)
     PG1TRIGC = 0x00;
     // TRIGC 0; 
     PG2TRIGC = 0x00;
-    // DTL 50; 
-    PG1DTL = 0x32;
-    // DTL 50; 
-    PG2DTL = 0x32;
-    // DTH 50; 
-    PG1DTH = 0x32;
-    // DTH 50; 
-    PG2DTH = 0x32;
+    // DTL 100; 
+    PG1DTL = 0x64;
+    // DTL 100; 
+    PG2DTL = 0x64;
+    // DTH 100; 
+    PG1DTH = 0x64;
+    // DTH 100; 
+    PG2DTH = 0x64;
     
     /* Initialize PWM Generator Interrupt Handler*/
     PWM_SetGenerator1InterruptHandler(&PWM_Generator1_CallBack);

@@ -65,8 +65,8 @@
 /* Instruction:
  * Default Loop Controller is in Closed Loop mode.
  * Comment out the following line to run the motor in Open Loop mode. */
-#define CLOSEDLOOP
-
+//#define CLOSEDLOOP
+#define OPENLOOP
 // *****************************************************************************
 // Section: MOTOR FAULT DETECTION
 // *****************************************************************************  
@@ -79,7 +79,7 @@
 
 /* Constants for Motor Stall Detection */
 #define HALL_STATE_CHANGE_PER_ELEC_CYCLE    2
-#define STALL_COUNT_LIMIT   204000 //10 seconds
+#define STALL_COUNT_LIMIT   50000 //5 seconds
 
 /* Constants for Overtemperature Detection */
 #define ADCBUF_DSPICTEMP ADCBUF24
@@ -112,11 +112,11 @@
 #define POLES               4      // Number of poles 
 #define MAX_CL_MOTORSPEED   2200   // Specify the maximum speed in rpm of motor 
 
-#define MIN_OL_MOTORSPEED   400    // Specify the min openloop speed in rpm of motor
-#define MIN_CL_MOTORSPEED   400    // Specify the min openloop speed in rpm of motor
+#define MIN_OL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
+#define MIN_CL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
 
-#define MAX_DUTYCYCLE             (MPER)      //Specify maximum duty cycle for PWM
-#define MIN_DUTYCYCLE             (MPER*0.23) //Specify minimum duty cycle for PWM
+#define MAX_DUTYCYCLE             MPER-1      //Specify maximum duty cycle for PWM
+#define MIN_DUTYCYCLE             MPER*0.2 //Specify minimum duty cycle for PWM
 #define MAX_TMR_COUNT              65535
 // ***************************************************************************** 
 #define TIMER_PRESCALER     64
@@ -140,8 +140,8 @@
 
 //******************************************************************************
 /** Velocity Control Loop Coefficients */
-#define SPEEDCNTR_PTERM        Q15(0.999)
-#define SPEEDCNTR_ITERM        Q15(0.0012)
+#define SPEEDCNTR_PTERM        Q15(0.9999)
+#define SPEEDCNTR_ITERM        Q15(0.0009)
 #define SPEEDCNTR_CTERM        Q15(0.9999)
 #define SPEEDCNTR_OUTMAX       Q15(0.9999)
 #define SPEEDCNTR_OUTMIN       Q15(0.0)
@@ -161,7 +161,6 @@ const uint16_t PWM_STATE1_CLKW[4] = {0x3000, 0x3400, 0x0000, 0x3000};
 const uint16_t PWM_STATE2_CLKW[4] = {0x3000, 0x0000, 0x3400, 0x3000};
 uint16_t PWM_STATE1[4];
 uint16_t PWM_STATE2[4];
-
 
 // *****************************************************************************
 // Section: Enums, Structures

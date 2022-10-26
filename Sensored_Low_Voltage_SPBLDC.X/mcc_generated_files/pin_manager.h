@@ -73,11 +73,11 @@
   @Example
     <code>
     // Set RB9 high (1)
-    channel_AN11_SetHigh();
+    POT1_SetHigh();
     </code>
 
 */
-#define channel_AN11_SetHigh()          (_LATB9 = 1)
+#define POT1_SetHigh()          (_LATB9 = 1)
 /**
   @Summary
     Sets the GPIO pin, RB9, low using LATB9.
@@ -97,11 +97,11 @@
   @Example
     <code>
     // Set RB9 low (0)
-    channel_AN11_SetLow();
+    POT1_SetLow();
     </code>
 
 */
-#define channel_AN11_SetLow()           (_LATB9 = 0)
+#define POT1_SetLow()           (_LATB9 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RB9, using LATB9.
@@ -121,11 +121,11 @@
   @Example
     <code>
     // Toggle RB9
-    channel_AN11_Toggle();
+    POT1_Toggle();
     </code>
 
 */
-#define channel_AN11_Toggle()           (_LATB9 ^= 1)
+#define POT1_Toggle()           (_LATB9 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RB9.
@@ -147,11 +147,11 @@
     uint16_t portValue;
 
     // Read RB9
-    postValue = channel_AN11_GetValue();
+    postValue = POT1_GetValue();
     </code>
 
 */
-#define channel_AN11_GetValue()         _RB9
+#define POT1_GetValue()         _RB9
 /**
   @Summary
     Configures the GPIO pin, RB9, as an input.
@@ -171,11 +171,11 @@
   @Example
     <code>
     // Sets the RB9 as an input
-    channel_AN11_SetDigitalInput();
+    POT1_SetDigitalInput();
     </code>
 
 */
-#define channel_AN11_SetDigitalInput()  (_TRISB9 = 1)
+#define POT1_SetDigitalInput()  (_TRISB9 = 1)
 /**
   @Summary
     Configures the GPIO pin, RB9, as an output.
@@ -195,11 +195,11 @@
   @Example
     <code>
     // Sets the RB9 as an output
-    channel_AN11_SetDigitalOutput();
+    POT1_SetDigitalOutput();
     </code>
 
 */
-#define channel_AN11_SetDigitalOutput() (_TRISB9 = 0)
+#define POT1_SetDigitalOutput() (_TRISB9 = 0)
 /**
   @Summary
     Sets the GPIO pin, RE10, high using LATE10.

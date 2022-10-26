@@ -1,25 +1,25 @@
 /**
-  @Generated PIC24 / dsPIC33 / PIC32MM MCUs Header File
+  System Interrupts Generated Driver File 
 
   @Company:
     Microchip Technology Inc.
 
   @File Name:
-    mcc.h
+    interrupt_manager.h
 
   @Summary:
-    This is the mcc.h file generated using PIC24 / dsPIC33 / PIC32MM MCUs
+    This is the generated driver implementation file for setting up the
+    interrupts using PIC24 / dsPIC33 / PIC32MM MCUs
 
   @Description:
-    This file will be removed in future MCC releases. Use system.h instead.
-    Generation Information :
+    This source file provides implementations for PIC24 / dsPIC33 / PIC32MM MCUs interrupts.
+    Generation Information : 
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.0
         Device            :  dsPIC33CK256MP508
     The generated drivers are tested against the following:
         Compiler          :  XC16 v1.70
         MPLAB             :  MPLAB X v5.50
 */
-
 /*
     (c) 2020 Microchip Technology Inc. and its subsidiaries. You may use this
     software and any derivatives exclusively with Microchip products.
@@ -42,31 +42,47 @@
     TERMS.
 */
 
-#ifndef MCC_H
-#define	MCC_H
-#include <xc.h>
-#include "system.h"
-#include "clock.h"
-#include "pin_manager.h"
-#include <stdint.h>
-#include <stdbool.h>
-#include "system_types.h"
-#include "reset.h"
-
-#include "uart1.h"
-#include "X2Cscope/X2Cscope.h"
-#include "adc1.h"
-#include "cmp1.h"
-#include "pwm.h"
-#include "interrupt_manager.h"
-#include "traps.h"
-#include "watchdog.h"
-#include "sccp3_tmr.h"
-#include "reset.h"
-
-#warning "This file will be removed in future MCC releases. Use system.h instead."
-
-#endif	/* MCC_H */
 /**
- End of File
+    Section: Includes
 */
+#include <xc.h>
+
+/**
+    void INTERRUPT_Initialize (void)
+*/
+void INTERRUPT_Initialize (void)
+{
+    //    CCTI: CCP1 Timer Event
+    //    Priority: 1
+        IPC1bits.CCT1IP = 1;
+    //    PWM2I: PWM Generator 2
+    //    Priority: 1
+        IPC17bits.PWM2IP = 1;
+    //    PWM1I: PWM Generator 1
+    //    Priority: 7
+        IPC16bits.PWM1IP = 7;
+    //    CNEI: Change Notification E
+    //    Priority: 7
+        IPC19bits.CNEIP = 7;
+    //    CNDI: Change Notification D
+    //    Priority: 1
+        IPC18bits.CNDIP = 1;
+    //    ADCAN11: ADC AN11 Convert Done
+    //    Priority: 7
+        IPC25bits.ADCAN11IP = 7;
+    //    ADCI: ADC Global Interrupt
+    //    Priority: 1
+        IPC22bits.ADCIP = 1;
+    //    ADCAN24: ADC AN24 Convert Done
+    //    Priority: 6
+        IPC48bits.ADCAN24IP = 6;
+    //    ADCAN25: ADC AN25 Convert Done
+    //    Priority: 1
+        IPC48bits.ADCAN25IP = 1;
+    //    CMPI: Comparator 1 
+    //    Priority: 5
+        IPC19bits.CMP1IP = 5;
+    //    TI: Timer 1
+    //    Priority: 6
+        IPC0bits.T1IP = 6;
+}
