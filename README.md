@@ -1,6 +1,6 @@
 ![image](images/microchip.jpg) 
 
-## DPSK3 POWER BOOST AVERAGE CURRENT MODE CONTROL
+## DSPIC33CK SENSORED SINGLE PHASE BLDC MOTOR DRIVER
 
 Board Image if any.
 
