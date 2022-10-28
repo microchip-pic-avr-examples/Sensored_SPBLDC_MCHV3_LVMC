@@ -45,8 +45,6 @@ void CMP1_Initialize(void)
     // Disable the CMP module before the initialization
     CMP1_Disable();
 	
-	// Disable the Interrupt 
-    IEC4bits.CMP1IE = 0;
 	
 	// Comparator Register settings
 	DACCTRL1L = 0xC0; //CLKDIV 1:1; DACON disabled; DACSIDL disabled; FCLKDIV 1:1; CLKSEL FPLLO - System Clock with PLL Enabled; 
@@ -60,12 +58,8 @@ void CMP1_Initialize(void)
 	SLP1CONL = 0x00; //HCFSEL None; SLPSTRT None; SLPSTOPB None; SLPSTOPA None; 
 	SLP1DAT = 0x00; //SLPDAT 0; 
 	DAC1DATL = 0x00; //DACDATL 0; 
-	DAC1DATH = 0xDAA; //DACDATH 3498;
+	DAC1DATH = 0xCD; //DACDATH 205; 
     
-    // Clearing IF flag before enabling the interrupt.
-    IFS4bits.CMP1IF = 0;
-    // Enabling CMP1 interrupt.
-    IEC4bits.CMP1IE = 1;
 	
     CMP1_Enable();
 
@@ -234,15 +228,27 @@ void __attribute__ ((weak)) CMP1_CallBack(void)
     // Add your custom callback code here
 }
 
-/* Interrupt Service routine for CMP1 */
-void __attribute__ ( ( interrupt, no_auto_psv ) ) _CMP1Interrupt(void)
+/******************************************************************************
+*    Function:			CMP1_Tasks
+*    Description:       The Task function can be called in the main application 
+*						using the High Speed Comparator, when interrupts are not 
+*						used.  This would thus introduce the polling mode feature 
+*						of the Analog Comparator.                                                                     
+*      
+*	 Parameters:		None                                      
+*    Return Value:      None 
+******************************************************************************/
+void CMP1_Tasks(void)
 {
+	if(IFS4bits.CMP1IF)
+	{
 		// CMP1 callback function 
 		CMP1_CallBack();
 	
 		// clear the CMP1 interrupt flag
 		IFS4bits.CMP1IF = 0;
 	}
+}
 
 /**
  End of File

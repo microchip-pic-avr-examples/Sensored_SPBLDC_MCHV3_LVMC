@@ -52,9 +52,6 @@
 */
 void INTERRUPT_Initialize (void)
 {
-    //    CCTI: CCP1 Timer Event
-    //    Priority: 1
-        IPC1bits.CCT1IP = 1;
     //    PWM2I: PWM Generator 2
     //    Priority: 1
         IPC17bits.PWM2IP = 1;
@@ -79,9 +76,6 @@ void INTERRUPT_Initialize (void)
     //    ADCAN25: ADC AN25 Convert Done
     //    Priority: 1
         IPC48bits.ADCAN25IP = 1;
-    //    CMPI: Comparator 1 
-    //    Priority: 5
-        IPC19bits.CMP1IP = 5;
     //    TI: Timer 1
     //    Priority: 6
         IPC0bits.T1IP = 6;

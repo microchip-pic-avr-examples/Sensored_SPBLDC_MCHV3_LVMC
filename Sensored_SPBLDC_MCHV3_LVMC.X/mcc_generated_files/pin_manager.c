@@ -56,6 +56,7 @@
 /**
  Section: File specific functions
 */
+void (*HALL1_InterruptHandler)(void) = NULL;
 void (*HALL3_InterruptHandler)(void) = NULL;
 
 /**
@@ -69,7 +70,7 @@ void PIN_MANAGER_Initialize (void)
     LATA = 0x0000;
     LATB = 0x0000;
     LATC = 0x0000;
-    LATD = 0x0000;
+    LATD = 0x2040;
     LATE = 0x0000;
 
     /****************************************************************************
@@ -78,8 +79,8 @@ void PIN_MANAGER_Initialize (void)
     TRISA = 0x001F;
     TRISB = 0x0FFD;
     TRISC = 0xFFFF;
-    TRISD = 0xDFFF;
-    TRISE = 0xFF3F;
+    TRISD = 0xDFBF;
+    TRISE = 0xFC3F;
 
     /****************************************************************************
      * Setting the Weak Pull Up and Weak Pull Down SFR(s)
@@ -118,27 +119,35 @@ void PIN_MANAGER_Initialize (void)
      ***************************************************************************/
     __builtin_write_RPCON(0x0000); // unlock PPS
 
-    RPINR18bits.U1RXR = 0x004E;    //RD14->UART1:U1RX
+    RPOR19bits.RP70R = 0x0003;    //RD6->UART2:U2TX
     RPOR22bits.RP77R = 0x0001;    //RD13->UART1:U1TX
+    RPINR19bits.U2RXR = 0x0047;    //RD7->UART2:U2RX
+    RPINR18bits.U1RXR = 0x004E;    //RD14->UART1:U1RX
 
     __builtin_write_RPCON(0x0800); // lock PPS
     
     /****************************************************************************
      * Interrupt On Change: any
      ***************************************************************************/
+    CNEN0Dbits.CNEN0D1 = 1;    //Pin : RD1
     CNEN0Ebits.CNEN0E10 = 1;    //Pin : RE10
+    CNEN1Dbits.CNEN1D1 = 1;    //Pin : RD1
     CNEN1Ebits.CNEN1E10 = 1;    //Pin : RE10
     /****************************************************************************
      * Interrupt On Change: flag
      ***************************************************************************/
+    CNFDbits.CNFD1 = 0;    //Pin : RD1
     CNFEbits.CNFE10 = 0;    //Pin : RE10
     /****************************************************************************
      * Interrupt On Change: config
      ***************************************************************************/
+    CNCONDbits.CNSTYLE = 1;    //Config for PORTD
+    CNCONDbits.ON = 1;    //Config for PORTD
     CNCONEbits.CNSTYLE = 1;    //Config for PORTE
     CNCONEbits.ON = 1;    //Config for PORTE
     
     /* Initialize IOC Interrupt Handler*/
+    HALL1_SetInterruptHandler(&HALL1_CallBack);
     HALL3_SetInterruptHandler(&HALL3_CallBack);
     
     /****************************************************************************
@@ -150,9 +159,26 @@ void PIN_MANAGER_Initialize (void)
     IEC4bits.CNEIE = 1; //Enable CNEI interrupt
 }
 
+void __attribute__ ((weak)) HALL1_CallBack(void)
+{
+
+}
+
 void __attribute__ ((weak)) HALL3_CallBack(void)
 {
 
+}
+
+void HALL1_SetInterruptHandler(void (* InterruptHandler)(void))
+{ 
+    IEC4bits.CNDIE = 0; //Disable CNDI interrupt
+    HALL1_InterruptHandler = InterruptHandler; 
+    IEC4bits.CNDIE = 1; //Enable CNDI interrupt
+}
+
+void HALL1_SetIOCInterruptHandler(void *handler)
+{ 
+    HALL1_SetInterruptHandler(handler);
 }
 
 void HALL3_SetInterruptHandler(void (* InterruptHandler)(void))
@@ -172,6 +198,17 @@ void __attribute__ (( interrupt, no_auto_psv )) _CNDInterrupt ( void )
 {
     if(IFS4bits.CNDIF == 1)
     {
+        if(CNFDbits.CNFD1 == 1)
+        {
+            if(HALL1_InterruptHandler) 
+            { 
+                HALL1_InterruptHandler(); 
+            }
+            
+            CNFDbits.CNFD1 = 0;  //Clear flag for Pin - RD1
+
+        }
+        
         
         // Clear the flag
         IFS4bits.CNDIF = 0;

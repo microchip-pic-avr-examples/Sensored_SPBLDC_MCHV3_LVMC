@@ -103,12 +103,18 @@ void BoardServiceStepIsr(void) {
 
 void BoardService(void) {
     if (boardServiceISRCounter == BOARD_SERVICE_TICK_COUNT) {
-
+        #ifdef MCHV3
+        // Button scanning loop for Button 1 to start Motor
+        ButtonScan(&buttonStartStop, S1); 
+        #endif
+        #ifdef LVMC
         // Button scanning loop for Button 1 to start Motor
         ButtonScan(&buttonStartStop, SW1);
+
         // Button scanning loop for SW2 to change direction
         ButtonScan(&buttonFwdRev, SW2);
         boardServiceISRCounter = 0;
+        #endif
     }
 }
 

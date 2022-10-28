@@ -54,17 +54,17 @@
 #include "reset.h"
 
 #include "reset.h"
-#include "sccp1_tmr.h"
-#include "X2Cscope/X2Cscope.h"
-#include "interrupt_manager.h"
-#include "traps.h"
+#include "watchdog.h"
+#include "uart2.h"
 #include "pwm.h"
 #include "uart1.h"
+#include "X2Cscope/X2Cscope.h"
 #include "sccp3_tmr.h"
-#include "watchdog.h"
-#include "cmp1.h"
+#include "interrupt_manager.h"
+#include "traps.h"
 #include "tmr1.h"
 #include "adc1.h"
+#include "cmp1.h"
 
 #warning "This file will be removed in future MCC releases. Use system.h instead."
 

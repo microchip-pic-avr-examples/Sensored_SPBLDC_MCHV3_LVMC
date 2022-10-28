@@ -67,6 +67,35 @@
  * Comment out the following line to run the motor in Open Loop mode. */
 //#define CLOSEDLOOP
 #define OPENLOOP
+
+// *****************************************************************************
+// Section: DEFAULT DIRECTION OF ROTATION
+// *****************************************************************************  
+/* Instruction:
+ * Default setting of motor rotation is CW (CLOCKWISE)
+ * CCW is used when default directional rotation of motor is COUNTER CLOCKWISE
+ * Comment out either CW or CCW. */
+#define CW
+//#define CCW
+
+// *****************************************************************************
+/** Motor Ratings (from Name Plate Details or Datasheet)*/
+// *****************************************************************************
+/* Instruction:
+ * Please check Name Plate Details or Data sheet of the Motor
+ * DUTYCYCLE can be changed */
+#define POLEPAIRS		    2      // Number of pole pairs    
+#define POLES               4      // Number of poles 
+#define MAX_CL_MOTORSPEED   4000   // Specify the maximum speed in rpm of motor 
+
+#define MIN_OL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
+#define MIN_CL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
+
+#define MAX_DUTYCYCLE      (MPER-1)      //Specify maximum duty cycle for PWM
+#define MIN_DUTYCYCLE      (MPER*0.1)    //Specify minimum duty cycle for PWM
+
+// ***************************************************************************** 
+
 // *****************************************************************************
 // Section: MOTOR FAULT DETECTION
 // *****************************************************************************  
@@ -93,33 +122,28 @@
 // *****************************************************************************
 // Section: Constants
 // *****************************************************************************
+#ifdef MCHV3
+/* Potentiometer (Speed Reference - PIN # 36 - RB9) */
+#define ADCBUF_POTENTIOMETER ADCBUF19
+/* Hall Sensor (HALL1 - PIN # 38 - RD1) */
+#define HALLSENSOR                 HALL1_GetValue()
+#endif
+#ifdef LVMC
 /* Potentiometer (Speed Reference - PIN # 61 - RB9) */
 #define ADCBUF_POTENTIOMETER ADCBUF11
 /* Hall Sensor (HALL3 - PIN # 57 - RE10) */
 #define HALLSENSOR                 HALL3_GetValue()
+#endif
 // Instruction cycle frequency (Hz) - 100,000,000 Hz
 #define FCY                     100000000UL
 #define PWM_FREQ_HZ             20000
+#define MAX_TMR_COUNT        65535
+#define TIMER_PRESCALER     64
 //Converting to 1.15 Numerical Format
 #define Q15(Float_Value)	\
 ((Float_Value < 0.0) ? (int16_t)(32768 * (Float_Value) - 0.5) \
 : (int16_t)(32767 * (Float_Value) + 0.5))
 
-// *****************************************************************************
-/** Motor Ratings (from Name Plate Details or Datasheet)*/
-// *****************************************************************************   
-#define POLEPAIRS		    2      // Number of pole pairs    
-#define POLES               4      // Number of poles 
-#define MAX_CL_MOTORSPEED   2200   // Specify the maximum speed in rpm of motor 
-
-#define MIN_OL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
-#define MIN_CL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
-
-#define MAX_DUTYCYCLE             MPER-1      //Specify maximum duty cycle for PWM
-#define MIN_DUTYCYCLE             MPER*0.2 //Specify minimum duty cycle for PWM
-#define MAX_TMR_COUNT              65535
-// ***************************************************************************** 
-#define TIMER_PRESCALER     64
 // Period Calculation
 // Period = (FCY / TIMER_PRESCALE) / (RPM * NO_POLEPAIRS )/10
 #define MAXPERIOD	(unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MIN_OL_MOTORSPEED * POLEPAIRS)/10))	
@@ -157,10 +181,18 @@
 /**
   Section: Single Phase Sequence
 **/
+#ifdef CW
+const uint16_t PWM_STATE1_CLKW[4] = {0x3000, 0x0000, 0x3400, 0x3000};
+const uint16_t PWM_STATE2_CLKW[4] = {0x3000, 0x3400, 0x0000, 0x3000};
+uint16_t PWM_STATE1[4];
+uint16_t PWM_STATE2[4];
+#endif
+#ifdef CCW
 const uint16_t PWM_STATE1_CLKW[4] = {0x3000, 0x3400, 0x0000, 0x3000};
 const uint16_t PWM_STATE2_CLKW[4] = {0x3000, 0x0000, 0x3400, 0x3000};
 uint16_t PWM_STATE1[4];
 uint16_t PWM_STATE2[4];
+#endif
 
 // *****************************************************************************
 // Section: Enums, Structures

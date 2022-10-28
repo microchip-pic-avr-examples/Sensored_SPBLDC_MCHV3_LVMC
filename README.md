@@ -1,10 +1,10 @@
 ![image](images/microchip.jpg) 
 
-## LVMC SENSORED SINGLE PHASE BRUSHLESS DC MOTOR DRIVER USING dsPIC33CK
+## SENSORED SINGLE PHASE BRUSHLESS DC MOTOR DRIVER USING dsPIC33CK (LOW VOLTAGE FAN MOTOR ON LVMC BOARD)
 
 ## 1. INTRODUCTION
 <p style='text-align: justify;'>
-This document describes the setup requirements for running the Sensored Single Phase BLDC Motor Driver, which is referenced in ANXXXX “Sensored Single Phase BLDC Motor Driver using dsPIC33CK” using a dsPIC33CK Low Voltage Motor Control (LVMC) Development Board (DM330031).</p>
+This document describes the setup requirements for running the Low Voltage, Sensored, Single Phase BLDC Motor Driver, which is referenced in ANXXXX “Sensored Single Phase BLDC Motor Driver using dsPIC33CK” using a dsPIC33CK Low Voltage Motor Control (LVMC) Development Board (DM330031).</p>
 
 
 
@@ -31,32 +31,38 @@ To clone or download this application from Github, go to the [main page of this 
 ## 3. HARDWARE SETUP
 <p style='text-align: justify;'>This section describes hardware setup required for the demonstration.</p>
 
-1. <p style='text-align: justify;'> Connect the wires for Hall sensor and phase windings of the motor to the appropriate terminals, as mentioned in the table below.</p>
+1. <p style='text-align: justify;'> Connect the wires for Hall sensor and phase windings of the motor to the appropriate terminals of the development board, as mentioned in the table below.</p>
 
 <table>
   <tr>
     <th>Motor Wire</th>
     <th>LVMC Terminal</th>
+    <th>MCHV3 Terminal</th>
   </tr>
   <tr>
     <td>Motor Pin A</td>
     <td>Phase A (J14)</td>
+    <td>MOTOR PHASE 1 M1 (J17)</td>
   </tr>
   <tr>
     <td>Motor Pin B</td>
     <td>Phase B (J14)</td>
+    <td>MOTOR PHASE 2 M2 (J17)</td>
   </tr>
   <tr>
     <td>Hall Supply (RED)</td>
     <td>3.3V (J7)</td>
+    <td>5V (J9)</td>
   </tr>
   <tr>
     <td>Hall Ground (BLACK)</td>
     <td>GND (J7)</td>
+    <td>GROUND (J9)</td>
   </tr>
   <tr>
     <td>Hall Signal (BLUE)</td>
     <td>HALL C (J7)</td>
+    <td>HALL A(J9)</td>
   </tr>
 </table>
      <p align="left">
@@ -64,16 +70,38 @@ To clone or download this application from Github, go to the [main page of this 
      <p align="left" >
      <img  src="images/hallconnectors.jpg" width ="400"></p>
 
-2. <p style='text-align: justify;'>Plug in the 12V power supply to connector J1 provided on the LVMC Board.</p>
+2. <p style='text-align: justify;'> On the MCHV-3 Development Board, connect a 90V-265V power supply to the J1 Terminal. On the LVMC Development Board, plug in the 12V (up to 48V) power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
+
+<table>
+  <tr>
+    <th></th>
+    <th>MCHV-3 </th>
+    <th>LVMC </th>
+  </tr>
+  <tr>
+    <td><b>Supply</b></td>
+    <td>90V - 265V</td>
+    <td>12V - 48V</td>
+  </tr>
+    <tr>
+    <td><b>Terminal</b></td>
+    <td>J1</td>
+    <td>J1</td>
+  </tr>
+</table>
 <p align="left">
 <img  src="images/lvmcpower.jpg" width ="400"></p>
  
 
-3.	<p style='text-align: justify;'>The board has an onboard programmer ‘PICkit™ On Board (PKoB4)’ , which can be used for programming or debugging the dsPIC33CK256MP508. To use an on-board programmer, connect a micro-USB cable between Host PC and Connector J13 provided on the LVMC Board. To enable communication using X2CScope between the board and the host PC, connect a micro-USB cable to J6.</p>
+3.	<p style='text-align: justify;'>The LVMC board has an onboard programmer ‘PICkit™ On Board (PKoB4)’ , which can be used for programming or debugging the dsPIC33CK256MP508. To use an on-board programmer, connect a micro-USB cable between Host PC and Connector J13 provided on the LVMC Board. To enable communication using X2CScope between the board and the host PC, connect a micro-USB cable to J6.
+
+<br>
+
+The MCHV-3 Development Board uses ‘PICkit™ On Board (PKoB4)’ also. Connect a micro-USB cable between Host PC and Connector J20. To enable communication using X2CScope between the board and the host PC, connect a micro-USB cable to J6.</p>
 
 
 <p align="left">
-     <img  src="images/lvmcpkob4.png" width ="400"></p>
+     <img  src="images/lvmcpkob4.jpg" width ="400"></p>
      <p align="left">
      <img  src="images/lvmcuart.jpg" width ="400"></p>
 
@@ -127,18 +155,18 @@ Refer to MPLAB X IDE help topic <i>“Path, File, and Folder Name Restrictions�
 <p style='text-align: justify;'>
 Follow below instructions step by step to setup and run the motor control demo application:</p>
 
-1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File>Open Project)</span> the project <span style="font-family:Courier New; font-size:;">Sensored_Low_Voltage_SPBLDC.X</span> with device selection dsPIC33CK256MP508.</p>
+1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File>Open Project)</span> the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_MCHV3_LVMC.X</span> with device selection dsPIC33CK256MP508.</p>
     <p align="left">
        <img  src="images/idedeviceselection.PNG"></p>
   
 
-2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">Sensored_Low_Voltage_SPBLDC.X </span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'Sensored_Low_Voltage_SPBLDC'</b> will then appear in bold.</p>
+2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_MCHV3_LVMC.X </span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'Sensored_SPBLDC_MCHV3_LVMC'</b> will then appear in bold.</p>
     <p align="left">
      <img  src="images/ideprojectsetup.PNG"></p>
  
 
 	
-3. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> Sensored_Low_Voltage_SPBLDC.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">Sensored_Low_Voltage_SPBLDC.X</span> </p>
+3. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> Sensored_SPBLDC_MCHV3_LVMC.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_MCHV3_LVMC.X</span> </p>
      <p style='text-align: leftjustify;'>
 - Ensure either <span style="font-family:Courier New; font-size:;">CLOSEDLOOP  or OPENLOOP</span> are defined in the <span style="font-family:Courier New; font-size:;">LOOP CONTROLLER</span> section.
       <p align="left"><img  src="images/configLoop.PNG"></p><p style='text-align: leftjustify;'>
@@ -146,7 +174,7 @@ Follow below instructions step by step to setup and run the motor control demo a
       <p align="left"><img  src="images/configFault.PNG"></p>
       
 
-4. Right click on the project <i>Sensored_Low_Voltage_SPBLDC.X</i> and select “Properties”  to open its Project Properties Dialog. Click the “Conf: [LVMC]” category to reveal the general project configuration information. The development tools used for testing the firmware are listed in the section [2.2 Software Tools Used for Testing the firmware](#22-software-tools-used-for-testing-the-firmware).
+4. Right click on the project <i>Sensored_SPBLDC_MCHV3_LVMC.X</i> and select “Properties”  to open its Project Properties Dialog. Click the “Conf: [LVMC]” category to reveal the general project configuration information. The development tools used for testing the firmware are listed in the section [2.2 Software Tools Used for Testing the firmware](#22-software-tools-used-for-testing-the-firmware).
    <p style='text-align: justify;'>
     In the <b><i>‘Conf: [LVMC]’</i></b> category window: 
     <p style='text-align: justify;'>
@@ -164,7 +192,7 @@ Follow below instructions step by step to setup and run the motor control demo a
       <p align="left">
       <img  src="images/loadvariables.PNG"></p>
 
-6. <p style='text-align: justify;'>To build the project (in this case Sensored_Low_Voltage_SPBLDC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
+6. <p style='text-align: justify;'>To build the project (in this case Sensored_SPBLDC_MCHV3_LVMC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
     <p align="left">
     <img  src="images/deviceprogramming.PNG"></p>
 
@@ -200,7 +228,7 @@ Follow below instructions step by step to setup and run the motor control demo a
        <img  src="images/x2cselection.png"></p>
  
 
-5. Open the X2C-Scope Configuration window and in <b>'Select project'</b> menu, select <b>Sensored_Low_Voltage_SPBLDC</b> project as shown.
+5. Open the X2C-Scope Configuration window and in <b>'Select project'</b> menu, select <b>Sensored_SPBLDC_MCHV3_LVMC</b> project as shown.
     <p align="left">
     <img  src="images/x2cprojectselection.PNG"></p>
 

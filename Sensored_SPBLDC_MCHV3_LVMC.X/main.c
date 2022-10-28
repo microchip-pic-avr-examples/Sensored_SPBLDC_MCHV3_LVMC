@@ -43,9 +43,17 @@
 */
 
 /**
-  Section: Included Files
+  TITLE: SENSORED SINGLE PHASE BRUSHLESS DC MOTOR DRIVER
 **/
 
+/**
+ NOTE: Please set Build Configuration to MCHV3 or LVMC 
+ *     and check userparams.h before programming
+**/
+
+/**
+  Section: Included Files
+**/
 #include <xc.h>
 #include <stdbool.h>
 #include "mcc_generated_files/system.h"
@@ -54,7 +62,6 @@
 #include "mcc_generated_files/sccp3_tmr.h"
 #include "mcc_generated_files/pwm.h"
 #include "mcc_generated_files/adc1.h"
-#include "mcc_generated_files/cmp1.h"
 #include "mcc_generated_files/tmr1.h"
 #include "userparams.h"
 #include "button_service.h"
@@ -62,22 +69,21 @@
 /**
   Section: Variables
 **/
-
 bool runMotor = 0;
 bool changeDirection = 0;
 bool runDirection = 0;
+
+uint16_t readyRun=0;
+uint16_t startup=0;
 
 uint16_t appState = 0;
 uint16_t hallValue = 1;
 int16_t inputReference = 0;
 uint16_t desiredDC = 0;
-uint16_t arrayIndex = 0;
 
 uint32_t temp;
 uint32_t timerValue,pastTimerValue,timerValueDelta;
 
-uint16_t readyRun = 0;
-uint16_t startup = 0;
 uint16_t dutyCycle; 
 uint16_t measuredSpeed;
 uint16_t desiredSpeed;
@@ -85,33 +91,36 @@ uint16_t desiredSpeed;
 uint32_t motorStallCounter = 0;
 uint32_t overcurrentCounter = 0;
 
-OVERTEMP_T faultOverTemp;
 MOVING_AVG_SPEED_T movingAvgSpeed;
 PI_CONTROLLER_T PI_Input;
+OVERTEMP_T faultOverTemp;
 
 /**
   Section: Function Declarations
 **/
-
 void InitializePWM(void);
 void ADC_ISR(void);
 void HALL_ISR(void);
 void StateMachine(void);
 void RotationSwitchingTable();
 void CheckHalUpdatePWM(void);
+void PWMDisableOutputs(void);
+void PWMEnableOutputs(void);
+
 void SpeedReference(void);
 void OpenLoopSpeedController(void);
 void PICloseLoopController(void);
+
 void CalcMovingAvgSpeed(int32_t instSpeed);
 void InitMovingAvgSpeed(void);
 void Init_PIControlParameters(void);
-void StartUp(void);
+
+void StartUpHighVoltage(void);
+void StartUpLowVoltage(void);
 void OverTemperature(void);
 void StallDetection(void);
 void OverCurrent(void);
 void ShutDown(void);
-void PWMDisableOutputs(void);
-void PWMEnableOutputs(void);
 
 /*
  *  MAIN APPLICATION
@@ -120,11 +129,10 @@ void PWMEnableOutputs(void);
 /* Function:
     main()
   Summary:
-    This routine controls the motor control operations via push buttons.
+    This routine controls the motor control operations via switches.
   Description:
     Initializes the system.
     Starts and stops and changes the drive direction of the motor.
-    Indicates changes using LED1 and LED2.
   Precondition:
     None.
   Parameters:
@@ -138,11 +146,19 @@ int main(void)
 {
     SYSTEM_Initialize();
     InitializePWM();
+    #ifdef LVMC
     HALL3_SetInterruptHandler(HALL_ISR);
-    ADC1_SetPOT1InterruptHandler(ADC_ISR);
+    ADC1_Setchannel_AN11InterruptHandler(ADC_ISR);
+    #endif
+    #ifdef MCHV3
+    HALL1_SetInterruptHandler(HALL_ISR);
+    ADC1_Setchannel_AN19InterruptHandler(ADC_ISR);
+    LED2_SetHigh(); //Device is programmed Indicator
+    #endif
     SCCP3_TMR_Period32BitSet(PERIOD_CONSTANT);
     BoardServiceInit();
     appState = INIT;
+    
     while (1)
     {
         X2CScope_Communicate();
@@ -152,24 +168,29 @@ int main(void)
         {
             if(runMotor == 0)
             {
-                
                 runMotor = 1;
                 LED1_SetHigh(); //ON indicator
+                #ifdef LVMC
                 LED2_SetHigh(); //Forward Indicator
+                #endif
             }
             else
             {
                 runMotor = 0;
                 LED1_SetLow(); //OFF indicator
+                #ifdef LVMC
                 LED2_SetLow(); //Reverse Indicator
+                #endif
             }
         }
-        
+        #ifdef LVMC
         if(ForwardReverse() && changeDirection == 0)
         {
             changeDirection = 1;
             LED2_Toggle(); //Direction Change Indicator
         }
+        #endif
+        
     }
     return 1; 
 }
@@ -216,15 +237,16 @@ void InitializePWM(void)
  */
 void HALL_ISR(void)
 {
-    // Stall Timer Reset
+    #ifdef STALL_DETECTION
+    //Stall Timer Reset
     motorStallCounter = 0;
+    #endif
     
-    // Hall State Assignment
-    if (HALLSENSOR == 0) 
+    if (HALLSENSOR == 0) //Forward
     {
         hallValue = 1;
     }
-    if (HALLSENSOR == 1) 
+    if (HALLSENSOR == 1) //Reverse
     {
         hallValue = 2;
     }
@@ -240,7 +262,6 @@ void HALL_ISR(void)
         timerValueDelta = timerValue - pastTimerValue;
     }
     pastTimerValue = timerValue;
-
     CalcMovingAvgSpeed(timerValueDelta);
 }
 
@@ -289,23 +310,31 @@ void StateMachine()
     switch(appState)
     {
         case INIT:
+            PWMDisableOutputs();
             InitMovingAvgSpeed();
             Init_PIControlParameters();
-            dutyCycle = 0;
+            dutyCycle = MIN_DUTYCYCLE;
             readyRun = 0;
             appState = CMD_WAIT;
             
         break;
 
-        case CMD_WAIT:  
+        case CMD_WAIT:
+            RotationSwitchingTable(runDirection);
+            CNCONDbits.ON = 1;
             if(runMotor == 1)
             {
-                RotationSwitchingTable(runDirection);
-                CNCONEbits.ON = 1;
-                StartUp();
+                #ifdef MCHV3 
+                    StartUpHighVoltage();
+                #endif
+
+                #ifdef LVMC 
+                    StartUpLowVoltage();
+                #endif
+                
                 if(readyRun == 1)
                 {
-                appState = RUN;
+                    appState = RUN;
                 }
             }
 
@@ -316,11 +345,9 @@ void StateMachine()
             SpeedReference();
         #ifdef CLOSEDLOOP
             PICloseLoopController();
-        #endif
-
-        #ifdef OPENLOOP
-            OpenLoopSpeedController(); 
-        #endif
+        #else
+            OpenLoopSpeedController();
+        #endif           
 
         #ifdef  STALL_DETECTION
             StallDetection();
@@ -333,7 +360,8 @@ void StateMachine()
         #ifdef  OVERCURRENT_DETECTION
             OverCurrent();
         #endif
-
+        
+            #ifdef LVMC
             if(changeDirection == 1)
             {
                 dutyCycle = 0;
@@ -341,6 +369,8 @@ void StateMachine()
                 PWMDisableOutputs();
                 appState = CHANGE_DIRECTION;
             }
+            #endif
+
             if(runMotor == 0)
             {
                 measuredSpeed = 0;
@@ -351,6 +381,7 @@ void StateMachine()
             
         break;
         
+        #ifdef LVMC
         case CHANGE_DIRECTION:
             
             if(changeDirection == 1)
@@ -373,15 +404,15 @@ void StateMachine()
             }
             
         break;
-        
+        #endif
         case STOP:
             measuredSpeed = 0;
             desiredSpeed = 0;
             dutyCycle = 0;
             PG1DC = PG2DC = dutyCycle;
             PWMDisableOutputs();
+            readyRun = 0;
             appState = INIT;
-            
         break;
     }
 }
@@ -403,6 +434,8 @@ void StateMachine()
  */
 void RotationSwitchingTable()
 {
+	uint16_t arrayIndex = 0;
+    
 	if(runDirection == 0)
     {
 	    for(arrayIndex = 0; arrayIndex < 4; arrayIndex++)
@@ -499,8 +532,10 @@ void OpenLoopSpeedController(void)
     {
         dutyCycle = desiredDC;
     }
+    
     PG1DC = dutyCycle;
     PG2DC = dutyCycle;
+    
 }
 
 /* Function:
@@ -520,8 +555,10 @@ void OpenLoopSpeedController(void)
  */
 void PICloseLoopController(void) 
 {
+    SpeedReference();
+    
     if (runMotor == 1)
-        { 
+        {
             if (measuredSpeed > desiredSpeed)
             {
                 measuredSpeed = desiredSpeed;
@@ -551,7 +588,7 @@ void PICloseLoopController(void)
 /* Function:
     StartUp()
   Summary:
-    This routine propels the motor into motion with a start up sequence that lasts 200ms.
+    This routine changes the starting position the motor.
   Description:
     Overrides the PWM Generators to reposition the motor prior to motor driving.
   Precondition:
@@ -563,8 +600,92 @@ void PICloseLoopController(void)
   Remarks:
     None.
  */
-            
-void StartUp(void)
+void StartUpHighVoltage(void)
+{
+    TMR1_Start();
+    if(IFS0bits.T1IF == 1)
+    {
+        if(startup == 0)
+        {
+            PG1IOCONL = 0x3400;
+            PG2IOCONL = 0x0000;
+            PG2DC = MPER*0.5;
+            startup++;
+        }
+        else if(startup == 1) 
+        {
+            PG1IOCONL = 0x3400;
+            PG2IOCONL = 0x0000;
+            PG2DC = MPER*0.5;
+            startup++;
+        }
+        else if(startup == 2) 
+        {
+            PG1IOCONL = 0x3400;
+            PG2IOCONL = 0x0000;
+            PG2DC = MPER*0.5;
+            startup++;
+        }
+        else if(startup == 3) 
+        {
+            PG1IOCONL = 0x3400;
+            PG2IOCONL = 0x0000;
+            PG2DC = MPER*0.5;
+            startup++;
+        }
+        else if(startup == 4) 
+        {
+            PG1IOCONL = 0x3400;
+            PG2IOCONL = 0x0000;
+            PG2DC = MPER*0.5;
+            startup++;
+        }
+        else if(startup == 5)
+        {
+            PG1IOCONL = 0x3400;
+            PG2IOCONL = 0x0000;
+            PG2DC = MPER*0.5;
+            startup++;
+        }
+        else if(startup == 6) 
+        {
+            CheckHalUpdatePWM();
+            dutyCycle = MPER*0.6;
+            PG2DC = dutyCycle;
+            PG1DC = dutyCycle;
+            startup++;
+        }
+        else if(startup == 7) 
+        {
+            CheckHalUpdatePWM();
+            dutyCycle = MPER*0.7;
+            PG2DC = dutyCycle;
+            PG1DC = dutyCycle;
+            startup++;
+        }
+        else if(startup == 8) 
+        {
+            CheckHalUpdatePWM();
+            dutyCycle = MPER*0.8;
+            PG2DC = dutyCycle;
+            PG1DC = dutyCycle;
+            startup++;
+        }
+        else if(startup == 9)
+        {
+            CheckHalUpdatePWM();
+            dutyCycle = MPER*0.9;
+            PG2DC = dutyCycle;
+            PG1DC = dutyCycle;
+            startup = 0;
+            readyRun = 1;
+            measuredSpeed = 0;
+        }
+        IFS0bits.T1IF = 0;
+    }
+}
+
+void StartUpLowVoltage(void)
 {
     TMR1_Start();
     if(IFS0bits.T1IF == 1)
@@ -809,6 +930,7 @@ void OverCurrent(void)
         overcurrentCounter++;
     }
 }
+
 /* Function:
     ShutDown()
   Summary:
@@ -831,6 +953,7 @@ void ShutDown()
     LED1_SetLow();
     LED2_SetLow();
 }
+
 
 /* Function:
     PWMDisableOutputs()

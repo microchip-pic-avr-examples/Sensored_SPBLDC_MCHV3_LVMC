@@ -71,7 +71,8 @@
  *  PWM ISR cycles (i.e. BOARD_SERVICE_TICK_COUNT = 1 milli Second / PWM period)
  */
 #define BOARD_SERVICE_TICK_COUNT   20
-
+/* Forward/Reverse Indicator (S2 - BUTTON1 - PIN # 68 - RE5) */
+#define S1                         !S1_GetValue()
 /* Start/Stop Button (SW1 - BUTTON1 - PIN # 59 - RE11) */
 #define SW1                        !SWITCH1_GetValue()
 /* Forward/Reverse Indicator (SW2 - BUTTON2 - PIN # 62 - RE12) */

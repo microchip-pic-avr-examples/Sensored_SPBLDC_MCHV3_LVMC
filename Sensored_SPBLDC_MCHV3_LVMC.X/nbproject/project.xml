@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>Sensored_Low_Voltage_SPBLDC</name>
+            <name>Sensored_SPBLDC_MCHV3_LVMC</name>
             <creation-uuid>824645ab-75df-4e95-8572-4e3c2d6115f0</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
@@ -16,6 +16,10 @@
                 <sourceRootElem>.</sourceRootElem>
             </sourceRootList>
             <confList>
+                <confElem>
+                    <name>MCHV3</name>
+                    <type>2</type>
+                </confElem>
                 <confElem>
                     <name>LVMC</name>
                     <type>2</type>
