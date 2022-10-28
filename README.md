@@ -31,7 +31,7 @@ To clone or download this application from Github, go to the [main page of this 
 ## 3. HARDWARE SETUP
 <p style='text-align: justify;'>This section describes hardware setup required for the demonstration.</p>
 
-1. <p style='text-align: justify;'> Connect the wires for Hall sensor and phase windings of the motor to the appropriate terminals, as mentioned in the table below.</p>
+1. <p style='text-align: justify;'> Connect the wires for Hall sensor and phase windings of the motor to the appropriate terminals of the development board, as mentioned in the table below.</p>
 
 <table>
   <tr>
@@ -70,7 +70,25 @@ To clone or download this application from Github, go to the [main page of this 
      <p align="left" >
      <img  src="images/hallconnectors.jpg" width ="400"></p>
 
-2. <p style='text-align: justify;'>Plug in the 12V power supply to connector J1 provided on the LVMC Board. On the MCHV-3 Development Board, connect the 90V - 265V power supply to J1 </p>
+2. <p style='text-align: justify;'> On the MCHV-3 Development Board, connect a 90V-265V power supply to the J1 Terminal. On the LVMC Development Board, plug in the 12V (up to 48V) power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
+
+<table>
+  <tr>
+    <th></th>
+    <th>MCHV-3 </th>
+    <th>LVMC </th>
+  </tr>
+  <tr>
+    <td><b>Supply</b></td>
+    <td>90V - 265V</td>
+    <td>12V - 48V</td>
+  </tr>
+    <tr>
+    <td><b>Terminal</b></td>
+    <td>J1</td>
+    <td>J1</td>
+  </tr>
+</table>
 <p align="left">
 <img  src="images/lvmcpower.jpg" width ="400"></p>
  
@@ -83,7 +101,7 @@ The MCHV-3 Development Board uses ‘PICkit™ On Board (PKoB4)’ also. Connect
 
 
 <p align="left">
-     <img  src="images/lvmcpkob4.png" width ="400"></p>
+     <img  src="images/lvmcpkob4.jpg" width ="400"></p>
      <p align="left">
      <img  src="images/lvmcuart.jpg" width ="400"></p>
 
