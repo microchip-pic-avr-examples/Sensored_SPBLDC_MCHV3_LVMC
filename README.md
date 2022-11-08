@@ -4,7 +4,7 @@
 
 ## <b>INTRODUCTION</b>
 <p style='text-align: justify;'>
-This document describes the setup requirements for running the Sensored Single Phase BLDC Motor Driver, which is referenced in the "Sensored Single Phase BLDC Motor Driver using dsPIC33CK” application note. .</p>
+This document describes the setup requirements for running the Sensored Single Phase BLDC Motor Driver, which is referenced in the "Sensored Single Phase BLDC Motor Driver using dsPIC33CK” application note.</p>
 
 ### <b>Motor Control Application Firmware Required for the Demonstration</b>
 - Sensored_SPBLDC_MCHV3_LVMC.X
@@ -170,7 +170,7 @@ The Motor Control Demo application uses push button to start or stop the motor a
 
 <p style='text-align: justify;'>
 
-For more details refer Microchip Application note ANXXXX 'Sensored Single Phase BLDC Motor driver' available at [Microchip web site](https://www.microchip.com/). </p>
+For more details refer Microchip Application note 'Sensored Single Phase BLDC Motor driver' available at [Microchip web site](https://www.microchip.com/). </p>
 
 > **_NOTE:_**
 > The project may not build correctly in Windows OS if Maximum path length of any source file in the project is more than 260 characters. In case absolute path is exceeding or nearing maximum length, do any (or both) of the following:
@@ -178,7 +178,7 @@ For more details refer Microchip Application note ANXXXX 'Sensored Single Phase 
 > - Place firmware in a location, such that absolute path length of each file included in the projects does not exceed the Maximum Path length specified. 
 Refer to MPLAB X IDE help topic <i>“Path, File, and Folder Name Restrictions”</i> for details.
 
-### 5.2 Basic Demonstration
+### Basic Demonstration
 <p style='text-align: justify;'>
 Follow below instructions step by step to setup and run the motor control demo application:</p>
 
@@ -194,14 +194,14 @@ Follow below instructions step by step to setup and run the motor control demo a
 
 3. <p style='text-align: leftjustify;'> On the configuration panel drop down menu, select if the development board used for demonstration is MCHV3 or LVMC.</p>
     <p align="left">
-     <img  src="images/configpanel.PNG"></p>
+     <img  src="images/configpanel.png"></p>
 
 4. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> Sensored_SPBLDC_MCHV3_LVMC.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_MCHV3_LVMC.X</span> </p>
      <p style='text-align: leftjustify;'>
 - Ensure either <span style="font-family:Courier New; font-size:;">CLOSEDLOOP  or OPENLOOP</span> are defined in the <span style="font-family:Courier New; font-size:;">LOOP CONTROLLER</span> section.
 - Select the default rotation of the motor based on the motor specification sheet by commenting either <span style="font-family:Courier New; font-size:;"> CW or CCW</span>.
 - Uncomment the defined <span style="font-family:Courier New; font-size:;">OVERTEMPERATURE_DETECTION</span>, <span style="font-family:Courier New; font-size:;">OVERCURRENT_DETECTION</span> and/or <span style="font-family:Courier New; font-size:;">STALL_DETECTION</span> in the <span style="font-family:Courier New; font-size:;">MOTOR FAULT DETECTION</span> section to enable the motor fault detections. 
-      <p align="left"><img  src="images/config.PNG"></p><p style='text-align: leftjustify;'>
+      <p align="left"><img  src="images/config.png"></p><p style='text-align: leftjustify;'>
 
 5. Right click on the project <i>Sensored_SPBLDC_MCHV3_LVMC.X</i> and select “Properties”  to open its Project Properties Dialog. Click the selected category “Conf: [MCHV3]" or "Conf: [LVMC]” to display the general project configuration information. In the category window: 
 
@@ -211,16 +211,16 @@ Follow below instructions step by step to setup and run the motor control demo a
        <p style='text-align: justify;'>     
  -   After selecting Hardware Tool and Compiler Toolchain, click button <b>Apply</b>
         <p align="left">
-        <img  src="images/projectpropertiessettings.png"></p>
+        <img  src="images/projectpropertiessettings.PNG"></p>
 
 6. <p style='text-align: justify;'> Ensure that the checkbox <b>'Load symbols when programming or building for production (slows process)'</b> is checked, which is under the 'Loading' category of the Project Properties window.</p>        
         
       <p align="left">
-      <img  src="images/loadvariables.png"></p>
+      <img  src="images/loadvariables.PNG"></p>
 
 7. <p style='text-align: justify;'>To build the project (in this case Sensored_SPBLDC_MCHV3_LVMC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
     <p align="left">
-    <img  src="images/deviceprogramming.png"></p>
+    <img  src="images/deviceprogramming.PNG"></p>
 
 8. <p style='text-align: justify;'> When the device is programmed successfully, run or stop the motor by pressing the push button. The appropriate LEDs should turn on and the motor should start spinning smoothly in one direction in the range indicated by the potentiometer. Ensure that the motor is spinning smoothly without any vibration.</p>
 
@@ -235,7 +235,7 @@ Follow below instructions step by step to setup and run the motor control demo a
     <td>PUSH BUTTON - ON/OFF<p align="left" >
      <img  src="images/mchv3start.png" width ="700"></p></td>
     <td>SW1 - ON/OFF<br> SW2 - REVERSE direction<p align="left">
-     <img  src="images/startbutton.jpg" width ="350"></p></td>
+     <img  src="images/startButton.jpg" width ="350"></p></td>
   </tr>
 </table>
 
