@@ -48,28 +48,28 @@ D13 LED is off.
 <table>
   <tr>
     <th>Motor Wire</th>
-    <th>LVMC Terminal</th>
     <th>MCHV3 Terminal</th>
+    <th>LVMC Terminal</th>
   </tr>
   <tr>
     <td>Motor Pin A</td>
-    <td>Phase A (J14)</td>
     <td>M1 (J17)</td>
+    <td>Phase A (J14)</td>
   </tr>
   <tr>
     <td>Motor Pin B</td>
-    <td>Phase B (J14)</td>
     <td>M2 (J17)</td>
+    <td>Phase B (J14)</td>
   </tr>
   <tr>
     <td>Hall Supply (RED)</td>
-    <td>3.3V (J7)</td>
     <td>5V (J9)</td>
+    <td>3.3V (J7)</td>
   </tr>
   <tr>
     <td>Hall Ground (BLACK)</td>
-    <td>GND (J7)</td>
     <td>GROUND (J9)</td>
+    <td>GND (J7)</td>
   </tr>
   <tr>
     <td>Hall Signal (BLUE)</td>
@@ -80,22 +80,22 @@ D13 LED is off.
 <table>
   <tr>
     <th></th>
-    <th>LVMC Terminal</th>
     <th>MCHV3 Terminal</th>
+    <th>LVMC Terminal</th>
   </tr>
   <tr>
   <td>Motor Phases</td>
     <td><p align="left">
-     <img  src="images/phaseconnectors.jpg" width ="400"></p></td>
-    <td><p align="left" >
      <img  src="images/mchv3phases.jpg" width ="700"></p></td>
+    <td><p align="left" >
+     <img  src="images/phaseconnectors.jpg" width ="400"></p></td>
   </tr>
   <tr>
   <td>Hall Connectors</td>
     <td><p align="left" >
-     <img  src="images/hallconnectors.jpg" width ="400"></p></td>
-    <td><p align="left" >
      <img  src="images/mchv3hall.jpg" width ="700"></p></td>
+    <td><p align="left" >
+     <img  src="images/hallconnectors.jpg" width ="400"></p></td>
   </tr>
   </tr>
 </table>
