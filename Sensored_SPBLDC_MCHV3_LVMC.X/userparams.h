@@ -65,9 +65,8 @@
 /* Instruction:
  * Default Loop Controller is in Closed Loop mode.
  * Comment out the following line to run the motor in Open Loop mode. */
-//#define CLOSEDLOOP
-#define OPENLOOP
-
+#define CLOSEDLOOP
+//#define OPENLOOP
 // *****************************************************************************
 // Section: DEFAULT DIRECTION OF ROTATION
 // *****************************************************************************  
@@ -77,6 +76,15 @@
  * Comment out either CW or CCW. */
 #define CW
 //#define CCW
+// *****************************************************************************
+// Section: MOTOR FAULT DETECTION
+// *****************************************************************************  
+/* Instruction:
+ * Motor Fault Detections are disabled by default.
+ * Remove the comment to enable the desired fault detection. */
+//#define OVERTEMPERATURE_DETECTION
+//#define OVERCURRENT_DETECTION
+//#define STALL_DETECTION
 
 // *****************************************************************************
 /** Motor Ratings (from Name Plate Details or Datasheet)*/
@@ -96,16 +104,6 @@
 
 // ***************************************************************************** 
 
-// *****************************************************************************
-// Section: MOTOR FAULT DETECTION
-// *****************************************************************************  
-/* Instruction:
- * Motor Fault Detections are disabled by default.
- * Remove the comment to enable the desired fault detection. */
-//#define OVERTEMPERATURE_DETECTION
-//#define OVERCURRENT_DETECTION
-//#define STALL_DETECTION
-
 /* Constants for Motor Stall Detection */
 #define HALL_STATE_CHANGE_PER_ELEC_CYCLE    2
 #define STALL_COUNT_LIMIT   50000 //5 seconds
@@ -118,6 +116,7 @@
 /* Constants For Overcurrent Protection */
 #define OVERCURRENT_COUNTER 10000 //immediately
 #define OVERCURRENT_DETECT DAC1CONLbits.CMPSTAT
+
 
 // *****************************************************************************
 // Section: Constants

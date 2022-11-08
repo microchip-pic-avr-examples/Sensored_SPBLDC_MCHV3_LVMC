@@ -1,35 +1,50 @@
 ![image](images/microchip.jpg) 
 
-## SENSORED SINGLE PHASE BRUSHLESS DC MOTOR DRIVER USING dsPIC33CK (LOW VOLTAGE FAN MOTOR ON LVMC BOARD)
+# SENSORED SINGLE PHASE BRUSHLESS DC MOTOR DRIVER USING dsPIC33CK
 
-## 1. INTRODUCTION
+## <b>INTRODUCTION</b>
 <p style='text-align: justify;'>
-This document describes the setup requirements for running the Low Voltage, Sensored, Single Phase BLDC Motor Driver, which is referenced in ANXXXX “Sensored Single Phase BLDC Motor Driver using dsPIC33CK” using a dsPIC33CK Low Voltage Motor Control (LVMC) Development Board (DM330031).</p>
+This document describes the setup requirements for running the Sensored Single Phase BLDC Motor Driver, which is referenced in the "Sensored Single Phase BLDC Motor Driver using dsPIC33CK” application note. .</p>
 
+### <b>Motor Control Application Firmware Required for the Demonstration</b>
+- Sensored_SPBLDC_MCHV3_LVMC.X
 
-
-## 2.	SUGGESTED DEMONSTRATION REQUIREMENTS
-
-### 2.1 Motor Control Application Firmware Required for the Demonstration
-To clone or download this application from Github, go to the [main page of this repository](https://bitbucket.microchip.com/projects/MCU16CE/repos/lvmc-dspic33ck-an2049-sensored-single-phase-bldc-motor-driver/browse) and then click Clone button to clone this repository or download as zip file.
-> **_NOTE:_**
->In this document, hereinafter this firmware package is referred as firmware.
-### 2.2 Software Tools Used for Testing the firmware
+### <b>Software Tools Used for Testing the firmware</b>
 
 - MPLAB® X IDE v5.45 
 - MPLAB® XC16 Compiler v1.70
 - MPLAB® X IDE Plugin: X2C-Scope v1.3.3 
-- DFP: dsPIC33CK-MP_DFP v1.6.176
-> **_NOTE:_**
->The software used for testing the firmware prior to release is listed above. It is recommended to use the version listed above or later versions for building the firmware.
-### 2.3 Hardware Tools Required for the Demonstration
-- dsPIC33CK Low Voltage Motor Control (LVMC) Development Board (DM330031)
-- 12V Power Supply
-- 12V Single Phase Brushless DC Fan Motor 
+
+### <b> Hardware Tools Required for the Demonstration</b>
+
+<table>
+  <tr>
+    <th>Development Board</th>
+    <th>Power Supply</th>
+    <th>Motor</th>
+  </tr>
+  <tr>
+    <td>DSPICDEM™ MCHV-3 Development Board (DM330023-3)</td>
+    <td>10A 250V Power Adapter</td>
+    <td>High Voltage (310V, 65W) Single Phase BLDC Motor</td>
+  </tr>
+  <tr>
+    <td>dsPIC33CK Low Voltage Motor Control (LVMC) Development Board (DM330031)</td>
+    <td>12V Power Supply</td>
+    <td>Low Voltage (12V) Single Phase BLDC Motor</td>
+  </tr>
+  
+</table>
   <br />
 
-## 3. HARDWARE SETUP
+## <b>HARDWARE SETUP</b>
 <p style='text-align: justify;'>This section describes hardware setup required for the demonstration.</p>
+
+> **_NOTE:_**
+> Before making any connection on the MCHV-3 Board, verify that the system is not powered and it
+is fully discharged. The system is completed discharged when the red
+D13 LED is off.
+
 
 1. <p style='text-align: justify;'> Connect the wires for Hall sensor and phase windings of the motor to the appropriate terminals of the development board, as mentioned in the table below.</p>
 
@@ -65,10 +80,28 @@ To clone or download this application from Github, go to the [main page of this 
     <td>HALL A(J9)</td>
   </tr>
 </table>
-     <p align="left">
-     <img  src="images/phaseconnectors.jpg" width ="400"></p>
-     <p align="left" >
-     <img  src="images/hallconnectors.jpg" width ="400"></p>
+<table>
+  <tr>
+    <th></th>
+    <th>LVMC Terminal</th>
+    <th>MCHV3 Terminal</th>
+  </tr>
+  <tr>
+  <td>Motor Phases</td>
+    <td><p align="left">
+     <img  src="images/phaseconnectors.jpg" width ="400"></p></td>
+    <td><p align="left" >
+     <img  src="images/mchv3phases.jpg" width ="700"></p></td>
+  </tr>
+  <tr>
+  <td>Hall Connectors</td>
+    <td><p align="left" >
+     <img  src="images/hallconnectors.jpg" width ="400"></p></td>
+    <td><p align="left" >
+     <img  src="images/mchv3hall.jpg" width ="700"></p></td>
+  </tr>
+  </tr>
+</table>
 
 2. <p style='text-align: justify;'> On the MCHV-3 Development Board, connect a 90V-265V power supply to the J1 Terminal. On the LVMC Development Board, plug in the 12V (up to 48V) power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
 
@@ -90,51 +123,45 @@ To clone or download this application from Github, go to the [main page of this 
   </tr>
 </table>
 <p align="left">
+<img  src="images/mchv3power.jpg" width ="400"></p>
+<p align="left">
 <img  src="images/lvmcpower.jpg" width ="400"></p>
- 
-
-3.	<p style='text-align: justify;'>The LVMC board has an onboard programmer ‘PICkit™ On Board (PKoB4)’ , which can be used for programming or debugging the dsPIC33CK256MP508. To use an on-board programmer, connect a micro-USB cable between Host PC and Connector J13 provided on the LVMC Board. To enable communication using X2CScope between the board and the host PC, connect a micro-USB cable to J6.
-
-<br>
-
-The MCHV-3 Development Board uses ‘PICkit™ On Board (PKoB4)’ also. Connect a micro-USB cable between Host PC and Connector J20. To enable communication using X2CScope between the board and the host PC, connect a micro-USB cable to J6.</p>
-
-
-<p align="left">
-     <img  src="images/lvmcpkob4.jpg" width ="400"></p>
-     <p align="left">
-     <img  src="images/lvmcuart.jpg" width ="400"></p>
 
  
-<br />
 
-## 4. SOFTWARE SETUP AND RUN
-### 4.1 Setup: MPLAB X IDE and MPLAB XC16 Compiler
+3.	<p style='text-align: justify;'>The onboard programmer ‘PICkit™ On Board (PKoB4)’ , is used for programming or debugging the dsPIC33CK256MP508. To use an on-board programmer, connect a micro-USB cable between Host PC and the terminal provided on the LVMC Board as indicated on the PKoB4 row in the table below. To enable communication using X2CScope between the board and the host PC, refer to USB row in the table below.
 
-Install MPLAB X IDE and MPLAB XC16 Compiler versions that support the device dsPIC33CK256MP508 and PKoBv4. The MPLAB X IDE, MPLAB XC16 Compiler, and X2C-Scope plug-in used for testing the firmware are mentioned in the [Motor Control Application Firmware Required for the Demonstration](#21-motor-control-application-firmware-required-for-the-demonstration) section. To get help on  
+<table>
+  <tr>
+    <th> </th>
+    <th>MCHV-3 </th>
+    <th>LVMC </th>
+  </tr>
+  <tr>
+    <td><b>PKoB4</b></td>
+    <td>J19 (PROGRAM/DEBUG on the front panel)</td>
+    <td>J13</td>
+  </tr>
+    <tr>
+    <td><b>USB</b></td>
+    <td>J6 (USB on the front panel)</td>
+    <td>J6</td>
+  </tr>
+</table>
 
-- MPLAB X IDE installation, refer [link](https://microchipdeveloper.com/mplabx:installation)
-- MPLAB XC16 Compiler installation steps, refer [link](https://microchipdeveloper.com/xc16:installation)
 
-<p style='text-align: justify;'>If MPLAB IDE v8 or earlier is already installed on your computer, then run the MPLAB driver switcher (It is installed when MPLAB®X IDE is installed) to switch from MPLAB IDE v8 drivers to MPLAB X IDE drivers. If you have Windows 7 or 8, you must run MPLAB driver switcher in ‘Administrator Mode’. To run the Device Driver Switcher GUI application as administrator, right click on the executable (or desktop icon) and select ‘Run as Administrator’. For additional details refer MPLAB X IDE help topic <i>“Before You Begin: Install the USB Device Drivers (For Hardware Tools): USB Driver Installation for Windows Operating Systems”</i>. </p>
 
-### 4.2  X2C-Scope
-<p style='text-align: justify;'>
-X2C-Scope is a MPLAB X IDE plugin that allows a developer to interact with an application while the application program is running. X2C-Scope enables you to read, write, and plot global variables (for motor control) in real time. It communicates with the target using the UART. To use X2C-Scope, the plugin must be installed:</p>
+<p align="left"><img  src="images/mchv3front.jpg" width ="600"></p>
 
-- In MPLAB X IDE, select <i>Tools>Plugins</i> and click on the Available Plugins tab.
-- Select X2C-Scope plug-in by checking its check box, and then click Install.
-- Look for tool X2C-Scope under <i>Tools>Embedded.</i>
+<p align="left"> <img  src="images/lvmcpkob4.png" width ="400"></p>
+     <p align="left"><img  src="images/lvmcuart.jpg" width ="400"></p>
 
-<p align="left">
-  <img  src="images/x2cscopeconfiguration.png"></p>
  
 <br />
 
-## 5.  BASIC DEMONSTRATION
-### 5.1 Firmware Description
+## <b>BASIC DEMONSTRATION</b>
+### <b> Firmware Description</b>
 
-The firmware version needed for the demonstration is mentioned under the [Motor Control Application Firmware Required for the Demonstration](#21-motor-control-application-firmware-required-for-the-demonstration) section.
 <p style='text-align: justify;'>
 This firmware is implemented to work on Microchip’s 16-bit Digital signal controller (dsPIC® DSC) dsPIC33CK256MP508. 
 For more information, see the dsPIC33CK256MP508 Family datasheet (DS70005349).</p>
