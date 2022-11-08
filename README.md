@@ -21,17 +21,14 @@ This document describes the setup requirements for running the Sensored Single P
   <tr>
     <th>Development Board</th>
     <th>Power Supply</th>
-    <th>Motor</th>
   </tr>
   <tr>
     <td>DSPICDEM™ MCHV3 Development Board (DM3300233)</td>
     <td>10A 250V Power Adapter</td>
-    <td>High Voltage (310V, 65W) Single Phase BLDC Motor</td>
   </tr>
   <tr>
     <td>dsPIC33CK Low Voltage Motor Control (LVMC) Development Board (DM330031)</td>
     <td>12V Power Supply</td>
-    <td>Low Voltage (12V) Single Phase BLDC Motor</td>
   </tr>
   
 </table>
