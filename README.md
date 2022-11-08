@@ -24,7 +24,7 @@ This document describes the setup requirements for running the Sensored Single P
     <th>Motor</th>
   </tr>
   <tr>
-    <td>DSPICDEM™ MCHV3 Development Board (DM330023-3)</td>
+    <td>DSPICDEM™ MCHV3 Development Board (DM3300233)</td>
     <td>10A 250V Power Adapter</td>
     <td>High Voltage (310V, 65W) Single Phase BLDC Motor</td>
   </tr>
@@ -41,7 +41,7 @@ This document describes the setup requirements for running the Sensored Single P
 <p style='text-align: justify;'>This section describes hardware setup required for the demonstration.</p>
 
 > **_NOTE:_**
-> Before making any connection on the MCHV-3 Board, verify that the system is not powered and it
+> Before making any connection on the MCHV3 Board, verify that the system is not powered and it
 is fully discharged. The system is completed discharged when the red
 D13 LED is off.
 
@@ -103,12 +103,12 @@ D13 LED is off.
   </tr>
 </table>
 
-2. <p style='text-align: justify;'> On the MCHV-3 Development Board, connect a 90V-265V power supply to the J1 Terminal. On the LVMC Development Board, plug in the 12V (up to 48V) power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
+2. <p style='text-align: justify;'> On the MCHV3 Development Board, connect a 90V-265V power supply to the J1 Terminal. On the LVMC Development Board, plug in the 12V (up to 48V) power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
 
 <table>
   <tr>
     <th></th>
-    <th>MCHV-3 </th>
+    <th>MCHV3 </th>
     <th>LVMC </th>
   </tr>
   <tr>
@@ -134,7 +134,7 @@ D13 LED is off.
 <table>
   <tr>
     <th> </th>
-    <th>MCHV-3 </th>
+    <th>MCHV3 </th>
     <th>LVMC </th>
   </tr>
   <tr>
@@ -192,7 +192,7 @@ Follow below instructions step by step to setup and run the motor control demo a
      <img  src="images/ideprojectsetup.PNG"></p>
  
 
-3. <p style='text-align: leftjustify;'> On the configuration panel drop down menu, select if the development board used for demonstration is MCHV-3 or LVMC.</p>
+3. <p style='text-align: leftjustify;'> On the configuration panel drop down menu, select if the development board used for demonstration is MCHV3 or LVMC.</p>
     <p align="left">
      <img  src="images/configpanel.PNG"></p>
 
@@ -250,7 +250,7 @@ Follow below instructions step by step to setup and run the motor control demo a
  ## <b>REFERENCES:</b>
 For additional information, refer following documents or links.
 1. Sensored Single Phase BLDC Motor Driver using dsPIC33CK Application Note
-2. [dsPICDEM™ MCHV-3 Development Board User’s Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/UserGuides/DS50002505a.pdf)
+2. [dsPICDEM™ MCHV3 Development Board User’s Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/UserGuides/DS50002505a.pdf)
 2. [dsPIC33CK Low-Voltage Motor Control board User's Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU16/ProductDocuments/UserGuides/DS50002927a.pdf)
 3. [dsPIC33CK256MP508 Family Datasheet (DS70005349)](https://ww1.microchip.com/downloads/en/DeviceDoc/dsPIC33CK256MP508-Family-Data-Sheet-DS70005349H.pdf)
 
