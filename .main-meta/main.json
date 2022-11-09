@@ -37,11 +37,7 @@
 	  "peripherals":[
          "GPIO",
          "ADC",
-         "PWM",
-         "SCCP",
-         "TIMER",
-         "CMP",
-         "UART"
+         "PWM"
         
       ],
       "keywords":[
