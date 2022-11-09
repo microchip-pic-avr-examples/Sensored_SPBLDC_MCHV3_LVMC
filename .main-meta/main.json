@@ -37,8 +37,8 @@
 	  "peripherals":[
          "GPIO",
          "ADC",
-         "PWM"
-        
+         "PWM",
+         "SCCP"
       ],
       "keywords":[
          "Motor Control",
