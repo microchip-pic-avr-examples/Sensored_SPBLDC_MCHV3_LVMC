@@ -48,8 +48,8 @@ D13 LED is off.
 <table>
   <tr>
     <th>Motor Wire</th>
-    <th>MCHV3 Terminal</th>
-    <th>LVMC Terminal</th>
+    <th>MCHV3 Board</th>
+    <th>LVMC Board</th>
   </tr>
   <tr>
     <td>Motor Pin A</td>
@@ -80,8 +80,8 @@ D13 LED is off.
 <table>
   <tr>
     <th></th>
-    <th>MCHV3 Terminal</th>
-    <th>LVMC Terminal</th>
+    <th>MCHV3 Board</th>
+    <th>LVMC Board</th>
   </tr>
   <tr>
   <td>Motor Phases</td>
