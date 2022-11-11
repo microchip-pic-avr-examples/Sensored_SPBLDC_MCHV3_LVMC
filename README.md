@@ -48,8 +48,8 @@ D13 LED is off.
 <table>
   <tr>
     <th>Motor Wire</th>
-    <th>MCHV3 Terminal</th>
-    <th>LVMC Terminal</th>
+    <th>MCHV3 Board</th>
+    <th>LVMC Board</th>
   </tr>
   <tr>
     <td>Motor Pin A</td>
@@ -62,26 +62,26 @@ D13 LED is off.
     <td>Phase B (J14)</td>
   </tr>
   <tr>
-    <td>Hall Supply (RED)</td>
+    <td>Hall Supply</td>
     <td>5V (J9)</td>
     <td>3.3V (J7)</td>
   </tr>
   <tr>
-    <td>Hall Ground (BLACK)</td>
+    <td>Hall Ground</td>
     <td>GROUND (J9)</td>
     <td>GND (J7)</td>
   </tr>
   <tr>
-    <td>Hall Signal (BLUE)</td>
-    <td>HALL C (J7)</td>
+    <td>Hall Signal</td>
     <td>HALL A(J9)</td>
+    <td>HALL C (J7)</td>
   </tr>
 </table>
 <table>
   <tr>
     <th></th>
-    <th>MCHV3 Terminal</th>
-    <th>LVMC Terminal</th>
+    <th>MCHV3 Board</th>
+    <th>LVMC Board</th>
   </tr>
   <tr>
   <td>Motor Phases</td>
@@ -100,18 +100,18 @@ D13 LED is off.
   </tr>
 </table>
 
-2. <p style='text-align: justify;'> On the MCHV3 Development Board, connect a 90V-265V power supply to the J1 Terminal. On the LVMC Development Board, plug in the 12V (up to 48V) power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
+2. <p style='text-align: justify;'> On the MCHV3 Development Board, connect a 250V power adapter to the J1 Terminal. On the LVMC Development Board, plug in the 12V power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
 
 <table>
   <tr>
     <th></th>
-    <th>MCHV3 </th>
-    <th>LVMC </th>
+    <th>MCHV3 Board</th>
+    <th>LVMC Board</th>
   </tr>
   <tr>
     <td><b>Supply</b></td>
-    <td>90V - 265V</td>
-    <td>12V - 48V</td>
+    <td>250V</td>
+    <td>12V</td>
   </tr>
     <tr>
     <td><b>Terminal</b></td>
