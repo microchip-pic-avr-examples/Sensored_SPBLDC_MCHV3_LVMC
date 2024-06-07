@@ -348,6 +348,298 @@
 #define MCHV3_MCLV2_POTENTIOMETER_SetDigitalOutput() (_TRISD11 = 0)
 /**
   @Summary
+    Sets the GPIO pin, RD5, high using LATD5.
+
+  @Description
+    Sets the GPIO pin, RD5, high using LATD5.
+
+  @Preconditions
+    The RD5 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD5 high (1)
+    MCLV2_S2_SetHigh();
+    </code>
+
+*/
+#define MCLV2_S2_SetHigh()          (_LATD5 = 1)
+/**
+  @Summary
+    Sets the GPIO pin, RD5, low using LATD5.
+
+  @Description
+    Sets the GPIO pin, RD5, low using LATD5.
+
+  @Preconditions
+    The RD5 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD5 low (0)
+    MCLV2_S2_SetLow();
+    </code>
+
+*/
+#define MCLV2_S2_SetLow()           (_LATD5 = 0)
+/**
+  @Summary
+    Toggles the GPIO pin, RD5, using LATD5.
+
+  @Description
+    Toggles the GPIO pin, RD5, using LATD5.
+
+  @Preconditions
+    The RD5 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Toggle RD5
+    MCLV2_S2_Toggle();
+    </code>
+
+*/
+#define MCLV2_S2_Toggle()           (_LATD5 ^= 1)
+/**
+  @Summary
+    Reads the value of the GPIO pin, RD5.
+
+  @Description
+    Reads the value of the GPIO pin, RD5.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    uint16_t portValue;
+
+    // Read RD5
+    postValue = MCLV2_S2_GetValue();
+    </code>
+
+*/
+#define MCLV2_S2_GetValue()         _RD5
+/**
+  @Summary
+    Configures the GPIO pin, RD5, as an input.
+
+  @Description
+    Configures the GPIO pin, RD5, as an input.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD5 as an input
+    MCLV2_S2_SetDigitalInput();
+    </code>
+
+*/
+#define MCLV2_S2_SetDigitalInput()  (_TRISD5 = 1)
+/**
+  @Summary
+    Configures the GPIO pin, RD5, as an output.
+
+  @Description
+    Configures the GPIO pin, RD5, as an output.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD5 as an output
+    MCLV2_S2_SetDigitalOutput();
+    </code>
+
+*/
+#define MCLV2_S2_SetDigitalOutput() (_TRISD5 = 0)
+/**
+  @Summary
+    Sets the GPIO pin, RE5, high using LATE5.
+
+  @Description
+    Sets the GPIO pin, RE5, high using LATE5.
+
+  @Preconditions
+    The RE5 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RE5 high (1)
+    MCHV3_S1_SetHigh();
+    </code>
+
+*/
+#define MCHV3_S1_SetHigh()          (_LATE5 = 1)
+/**
+  @Summary
+    Sets the GPIO pin, RE5, low using LATE5.
+
+  @Description
+    Sets the GPIO pin, RE5, low using LATE5.
+
+  @Preconditions
+    The RE5 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RE5 low (0)
+    MCHV3_S1_SetLow();
+    </code>
+
+*/
+#define MCHV3_S1_SetLow()           (_LATE5 = 0)
+/**
+  @Summary
+    Toggles the GPIO pin, RE5, using LATE5.
+
+  @Description
+    Toggles the GPIO pin, RE5, using LATE5.
+
+  @Preconditions
+    The RE5 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Toggle RE5
+    MCHV3_S1_Toggle();
+    </code>
+
+*/
+#define MCHV3_S1_Toggle()           (_LATE5 ^= 1)
+/**
+  @Summary
+    Reads the value of the GPIO pin, RE5.
+
+  @Description
+    Reads the value of the GPIO pin, RE5.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    uint16_t portValue;
+
+    // Read RE5
+    postValue = MCHV3_S1_GetValue();
+    </code>
+
+*/
+#define MCHV3_S1_GetValue()         _RE5
+/**
+  @Summary
+    Configures the GPIO pin, RE5, as an input.
+
+  @Description
+    Configures the GPIO pin, RE5, as an input.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RE5 as an input
+    MCHV3_S1_SetDigitalInput();
+    </code>
+
+*/
+#define MCHV3_S1_SetDigitalInput()  (_TRISE5 = 1)
+/**
+  @Summary
+    Configures the GPIO pin, RE5, as an output.
+
+  @Description
+    Configures the GPIO pin, RE5, as an output.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RE5 as an output
+    MCHV3_S1_SetDigitalOutput();
+    </code>
+
+*/
+#define MCHV3_S1_SetDigitalOutput() (_TRISE5 = 0)
+/**
+  @Summary
     Sets the GPIO pin, RE7, high using LATE7.
 
   @Description

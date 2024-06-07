@@ -66,10 +66,10 @@
 // *****************************************************************************
 // *****************************************************************************  
 
-/* Start/Stop Button (SW1 - BUTTON1 - PIN # 59 - RE11) */
-//#define S1_MCHV3                  !S1_GetValue()
-//#define S3_MCLV2                  !MCLV2_S3_GetValue()
+/* Start/Stop Button (SW1 - RE11) */
 #define S1_LVMC                   !LVMC_S1_GetValue()
+
+/* Forward/Reverse direction Button (SW2 - RE12) */
 #define S2_LVMC                   !LVMC_S2_GetValue()
 
 /** Button De-bounce in milli Seconds */

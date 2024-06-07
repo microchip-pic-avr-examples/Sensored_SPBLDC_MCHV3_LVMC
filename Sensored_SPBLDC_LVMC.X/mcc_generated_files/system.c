@@ -128,20 +128,18 @@
 #include "uart1.h"
 #include "tmr1.h"
 #include "opa.h"
-#include "adc1.h"
-#include "sccp4_tmr.h"
-#include "sccp3_tmr.h"
 #include "X2Cscope/X2Cscope.h"
 #include "pwm.h"
+#include "sccp3_tmr.h"
 #include "interrupt_manager.h"
 #include "traps.h"
+#include "adc1.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
     CLOCK_Initialize();
     INTERRUPT_Initialize();
-    SCCP4_TMR_Initialize();
     SCCP3_TMR_Initialize();
     UART1_Initialize();
     PWM_Initialize();

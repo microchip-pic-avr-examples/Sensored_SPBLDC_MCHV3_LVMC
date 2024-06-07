@@ -1,23 +1,23 @@
 /**
-  @Generated PIC24 / dsPIC33 / PIC32MM MCUs Header File
+  Generated main.c file from MPLAB Code Configurator
 
-  @Company:
+  @Company
     Microchip Technology Inc.
 
-  @File Name:
-    mcc.h
+  @File Name
+    main.c
 
-  @Summary:
-    This is the mcc.h file generated using PIC24 / dsPIC33 / PIC32MM MCUs
+  @Summary
+    This is the generated main.c using PIC24 / dsPIC33 / PIC32MM MCUs.
 
-  @Description:
-    This file will be removed in future MCC releases. Use system.h instead.
+  @Description
+    This source file provides main entry point for system initialization and application code development.
     Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.4
         Device            :  dsPIC33CK256MP508
     The generated drivers are tested against the following:
         Compiler          :  XC16 v2.10
-        MPLAB             :  MPLAB X v6.05
+        MPLAB 	          :  MPLAB X v6.05
 */
 
 /*
@@ -42,34 +42,55 @@
     TERMS.
 */
 
-#ifndef MCC_H
-#define	MCC_H
-#include <xc.h>
-#include "system.h"
-#include "clock.h"
-#include "pin_manager.h"
-#include <stdint.h>
-#include <stdbool.h>
-#include "system_types.h"
-#include "reset.h"
-
-#include "cmp3.h"
-#include "uart1.h"
-#include "tmr1.h"
-#include "opa.h"
-#include "adc1.h"
-#include "sccp4_tmr.h"
-#include "sccp3_tmr.h"
-#include "reset.h"
-#include "watchdog.h"
-#include "X2Cscope/X2Cscope.h"
-#include "pwm.h"
-#include "interrupt_manager.h"
-#include "traps.h"
-
-#warning "This file will be removed in future MCC releases. Use system.h instead."
-
-#endif	/* MCC_H */
 /**
+  Section: Included Files
+*/
+#include "mcc_generated_files/system.h"
+#include "userparams.h"
+#include "drive.h"
+/*
+                         Main application
+ */
+int main(void)
+{
+    SYSTEM_Initialize();
+    InitializePWM();
+    ADC1_SetLVMC_POTENTIOMETERInterruptHandler(ADC_ISR);
+    LVMC_HALL_SetInterruptHandler(HALL_ISR);
+    SCCP3_TMR_Period32BitSet(PERIOD_CONSTANT);
+    BoardServiceInit();
+    appState = INIT;
+    runMotor = 0;
+    LVMC_LED1_SetHigh();
+    LVMC_LED2_SetHigh();
+    while (1)
+    {
+        X2Cscope_Communicate();
+        BoardService();
+        
+        if(StartStop()) //board switch state
+        {
+            if(runMotor == 0)
+            {
+                runMotor = 1; //ON state
+                LVMC_LED1_SetHigh();
+            }
+            else
+            {
+                runMotor = 0; //OFF state
+                LVMC_LED1_SetLow();
+            }
+        }
+        if(ForwardReverse() && changeDirection == 0)
+        {
+            changeDirection = 1;
+            LVMC_LED2_Toggle(); //Direction Change Indicator
+        }
+    }
+    return 1; 
+}
+
+/*
  End of File
 */
+

@@ -111,6 +111,8 @@ void SCCP3_TMR_Initialize(void)
     IFS2bits.CCT3IF = 0;
       
 
+    // Enabling SCCP3 interrupt.
+    IEC2bits.CCT3IE = 1;
 
 }
 
@@ -136,15 +138,14 @@ void __attribute__ ((weak)) SCCP3_TMR_Timer32CallBack(void)
     // Add your custom callback code here
 }
 
-void SCCP3_TMR_Timer32Tasks( void )
+void __attribute__ ( ( interrupt, no_auto_psv ) ) _CCT3Interrupt ( void )
 {
     /* Check if the Timer Interrupt/Status is set */
     if(IFS2bits.CCT3IF)
-    {
+    {         
+        sccp3_timer_obj.Timer32Elapsed = true;
 		// SCCP3 Timer 32 bit callback function 
 		SCCP3_TMR_Timer32CallBack();
-		
-        sccp3_timer_obj.Timer32Elapsed = true;
         IFS2bits.CCT3IF = 0;
     }
 }
