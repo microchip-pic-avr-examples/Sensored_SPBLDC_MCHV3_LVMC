@@ -47,6 +47,8 @@
 */
 #include "mcc_generated_files/system.h"
 #include "userparams.h"
+#include "drive.h"
+uint32_t reposition, drawback, propel;
 /*
                          Main application
  */
@@ -54,11 +56,13 @@ int main(void)
 {
     SYSTEM_Initialize(); //initializes peripherals
     InitializePWM(); //initializes PWM
-    SCCP3_TMR_Period32BitSet(PERIOD_CONSTANT); //initializes timer for speed calculation
-    HALL_A_SetInterruptHandler(HALL_ISR); //sets hall interrupt
     ADC1_SetMCHV3_MCLV2_POTENTIOMETERInterruptHandler(ADC_ISR); //sets adc interrupt for potentiometer
-    MCHV3_MCLV2_LED2_SetHigh(); //power on led
+    HALL_A_SetInterruptHandler(HALL_ISR); //sets hall interrupt
+    SCCP3_TMR_Period32BitSet(PERIOD_CONSTANT); //initializes timer for speed calculation
+    BoardServiceInit();
     appState = INIT; //sets state machine at initialize
+    MCHV3_MCLV2_LED1_SetHigh(); //power on led
+    MCHV3_MCLV2_LED2_SetHigh(); //power on led
     while (1)
     {
         X2Cscope_Communicate();
@@ -77,14 +81,16 @@ int main(void)
                 MCHV3_MCLV2_LED1_SetLow();
             }
         }
+        if(ForwardReverse() && changeDirection == 0)
+        {
+            changeDirection = 1;
+            MCHV3_MCLV2_LED2_Toggle(); //Direction Change Indicator
+        }
     }
     return 1; 
 }
 
-
-
-
-/**
+/*
  End of File
 */
 

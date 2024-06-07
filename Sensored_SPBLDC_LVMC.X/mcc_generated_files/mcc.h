@@ -1,25 +1,25 @@
 /**
-  System Interrupts Generated Driver File 
+  @Generated PIC24 / dsPIC33 / PIC32MM MCUs Header File
 
   @Company:
     Microchip Technology Inc.
 
   @File Name:
-    interrupt_manager.h
+    mcc.h
 
   @Summary:
-    This is the generated driver implementation file for setting up the
-    interrupts using PIC24 / dsPIC33 / PIC32MM MCUs
+    This is the mcc.h file generated using PIC24 / dsPIC33 / PIC32MM MCUs
 
   @Description:
-    This source file provides implementations for PIC24 / dsPIC33 / PIC32MM MCUs interrupts.
-    Generation Information : 
+    This file will be removed in future MCC releases. Use system.h instead.
+    Generation Information :
         Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.171.4
         Device            :  dsPIC33CK256MP508
     The generated drivers are tested against the following:
         Compiler          :  XC16 v2.10
         MPLAB             :  MPLAB X v6.05
 */
+
 /*
     (c) 2020 Microchip Technology Inc. and its subsidiaries. You may use this
     software and any derivatives exclusively with Microchip products.
@@ -42,47 +42,33 @@
     TERMS.
 */
 
-/**
-    Section: Includes
-*/
+#ifndef MCC_H
+#define	MCC_H
 #include <xc.h>
+#include "system.h"
+#include "clock.h"
+#include "pin_manager.h"
+#include <stdint.h>
+#include <stdbool.h>
+#include "system_types.h"
+#include "reset.h"
 
+#include "cmp3.h"
+#include "uart1.h"
+#include "tmr1.h"
+#include "opa.h"
+#include "reset.h"
+#include "watchdog.h"
+#include "X2Cscope/X2Cscope.h"
+#include "pwm.h"
+#include "sccp3_tmr.h"
+#include "interrupt_manager.h"
+#include "traps.h"
+#include "adc1.h"
+
+#warning "This file will be removed in future MCC releases. Use system.h instead."
+
+#endif	/* MCC_H */
 /**
-    void INTERRUPT_Initialize (void)
+ End of File
 */
-void INTERRUPT_Initialize (void)
-{
-    //    CCTI: CCP4 Timer Event
-    //    Priority: 1
-        IPC10bits.CCT4IP = 1;
-    //    CCTI: CCP3 Timer Event
-    //    Priority: 1
-        IPC9bits.CCT3IP = 1;
-    //    CNEI: Change Notification E
-    //    Priority: 1
-        IPC19bits.CNEIP = 1;
-    //    ADCAN11: ADC AN11 Convert Done
-    //    Priority: 1
-        IPC25bits.ADCAN11IP = 1;
-    //    ADCAN12: ADC AN12 Convert Done
-    //    Priority: 1
-        IPC25bits.ADCAN12IP = 1;
-    //    ADCAN17: ADC AN17 Convert Done
-    //    Priority: 1
-        IPC27bits.ADCAN17IP = 1;
-    //    ADCAN24: ADC AN24 Convert Done
-    //    Priority: 1
-        IPC48bits.ADCAN24IP = 1;
-    //    ADCAN23: ADC AN23 Convert Done
-    //    Priority: 1
-        IPC28bits.ADCAN23IP = 1;
-    //    ADCAN25: ADC AN25 Convert Done
-    //    Priority: 1
-        IPC48bits.ADCAN25IP = 1;
-    //    CMPI: Comparator 3 
-    //    Priority: 1
-        IPC19bits.CMP3IP = 1;
-    //    TI: Timer 1
-    //    Priority: 1
-        IPC0bits.T1IP = 1;
-}

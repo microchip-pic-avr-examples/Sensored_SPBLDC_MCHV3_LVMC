@@ -52,7 +52,7 @@
 // *****************************************************************************
 #include "userparams.h"
 /**
-  Section: Function Declarations
+  Section: Drive Functions
 **/
 
 /* Function:
@@ -93,16 +93,12 @@ void HALL_ISR(void)
     SCCP3_TMR_Counter32BitSet(0);
     SCCP3_TMR_Start();
     
-    if(timerValue > MAX_TMR_COUNT) //if speed is lower than approximately 400, do alernate speed calculation
+    if(timerValue > MAX_TMR_COUNT)
     {
         timerValue = MAX_TMR_COUNT;
     }
     
     CalcMovingAvgSpeed(timerValue); //if max_tmr_count= 357rpm
-    SCCP4_TMR_Stop();
-    SCCP4_TMR_Period32BitSet(timerValue);
-    SCCP4_TMR_Counter32BitSet(0);
-    SCCP4_TMR_Start();
 }
 
 /* Function:
@@ -154,6 +150,7 @@ void StateMachine()
             InitMovingAvgSpeed();
             Init_PIControlParameters();
             RotationSwitchingTable(runDirection);
+            CMP3_SetDACDataHighValue(OVERCURRENT_DETECTION_LIMIT);
             dutyCycle = MIN_DUTYCYCLE;
             //reset fault detection flag
             faultDetected.overtemperature_detected = 0;
@@ -361,7 +358,6 @@ void SpeedReference(void)
     desiredDC =(uint16_t)((__builtin_mulss(inputReference,MAX_DUTYCYCLE)>>12));
     temp =  (int32_t)(__builtin_muluu(desiredDC,(MAX_CL_MOTORSPEED - MIN_CL_MOTORSPEED)));
     desiredSpeed = (int16_t)((__builtin_divud(temp,(MAX_DUTYCYCLE)))+ MIN_CL_MOTORSPEED);
-    
     if(desiredSpeed < MIN_CL_MOTORSPEED)
     {
         desiredSpeed = MIN_CL_MOTORSPEED; //any speed lower than 400 will make timer overflow
@@ -385,7 +381,6 @@ void SpeedReference(void)
  */
 void OpenLoopSpeedController(void)
 {
-    //SpeedReference();
     if (desiredDC > MAX_DUTYCYCLE) //MPER*0.9
     {
         dutyCycle = MAX_DUTYCYCLE;
@@ -479,28 +474,21 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt()
     {
         PG1IOCONL = 0x3400;
         PG2IOCONL = 0x0000;
-        PG2DC = MPER*0.75;
+        PG1DC = MPER*0.75;
         startup++;
     }
     else if(startup == 4) 
     {
-        PG1IOCONL = 0x3400;
-        PG2IOCONL = 0x0000;
-        PG1DC = MPER*0.75;
-        startup++;
-    }
-    else if(startup == 5) 
-    {
         PG1IOCONL = 0x0000;
         PG2IOCONL = 0x3400;
-        PG2DC = MPER*0.4;
+        PG2DC = MPER*0.55;
         startup++;
     }
-    else if(startup == 6)
+    else if(startup == 5)
     {
         PG1IOCONL = 0x3400;
         PG2IOCONL = 0x0000;
-        PG1DC = MPER*0.75;
+        PG1DC = MPER*0.8;
         startup = 0;
         readyRun = 1;
     }
@@ -655,7 +643,6 @@ void Init_PIControlParameters(void) {
     PI_Input.piOutputSpeed.out = 0;
 }
 
-
 /* Function:
     StallDetection()
   Summary:
@@ -686,7 +673,21 @@ void StallDetection(void)
     }
 }
 
-/* Interrupt Service routine for CMP3 */
+/* Function:
+    Overcurrent Detection in CMP interrupt()
+  Summary:
+    This routine handles the Overcurrent Detection of the motor.
+  Description:
+    Shuts down the system when IBUS is in overcurrent for a certain period of time.
+  Precondition:
+    None.
+  Parameters:
+    None
+  Returns:
+    None.
+  Remarks:
+    None.
+ */
 void __attribute__ ( ( interrupt, no_auto_psv ) ) _CMP3Interrupt(void)
 {
 	cmp3 = DAC1CONLbits.CMPSTAT; //IBUS comparator out data
@@ -707,6 +708,22 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _CMP3Interrupt(void)
     IFS4bits.CMP3IF = 0;
 }
 
+/* Function:
+    Overtemperature Detection
+  Summary:
+    This routine handles the Overtemperatuer Detection of the LVMC MOSFET drivers.
+  Description:
+    Shuts down the system when temperature of MOSFET drivers increases above threshold
+    for a certain period of time.
+  Precondition:
+    None.
+  Parameters:
+    None
+  Returns:
+    None.
+  Remarks:
+    None.
+ */
 void OverTemperature(void)
 {
     faultOverTemp.measure = ADCBUF_DSPICTEMP;
@@ -724,3 +741,7 @@ void OverTemperature(void)
         }
     }
 }
+
+/**
+ End of File
+*/

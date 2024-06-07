@@ -106,11 +106,12 @@ void BoardService(void) {
 
         // Button scanning loop for Button 1 to start Motor
         ButtonScan(&buttonStartStop, S3_MCLV2);
+        
+        
         // Button scanning loop for SW2 to change direction
-        /*
-        ButtonScan(&buttonFwdRev, SW2);
+        ButtonScan(&buttonFwdRev, S2_MCLV2);
         boardServiceISRCounter = 0;
-        */
+        
     }
 }
 

@@ -60,7 +60,6 @@
 #include "motor_control/motor_control_types.h"
 #include "mcc_generated_files/pin_manager.h"
 #include "mcc_generated_files/sccp3_tmr.h"
-#include "mcc_generated_files/sccp4_tmr.h"
 #include "mcc_generated_files/tmr1.h"
 #include "mcc_generated_files/adc1.h"
 #include "mcc_generated_files/cmp3.h"
@@ -88,7 +87,6 @@ void Init_PIControlParameters(void);
 
 void OverTemperature(void);
 void StallDetection(void);
-void OverCurrent(void);
 /**
   Section: User-defined parameters
 **/
@@ -126,10 +124,6 @@ void OverCurrent(void);
  * Comment out OVERCURRENT_DETECTION to DISABLE overcurrent detection. */
 #define OVERCURRENT_DETECTION
 
-// Note: Do not comment out OVERCURRENT_DETECTION_DEFINE.
-// User can disable by commenting out OVERCURRENT_DETECTION.
-#define OVERCURRENT_DETECTION_DEFINE 0
-
 // *****************************************************************************
 // Section: Motor Ratings (from Name Plate Details or Datasheet)
 // *****************************************************************************  
@@ -142,11 +136,11 @@ void OverCurrent(void);
 // Section: Open and Closed Loop Speed Limit
 // *****************************************************************************  
 /* Instruction:
- * Recommended to motor in Open Loop and read Minimum and Nominal Speed of the Motor */
-#define MAX_CL_MOTORSPEED   450   // Specify the maximum speed in rpm of motor 
+ * Check Minimum and Nominal Speed of the Motor */
+#define MAX_CL_MOTORSPEED   1000   // Specify the nominal speed of motor
 
-#define MIN_OL_MOTORSPEED   44    // Specify the min openloop speed in rpm of motor
-#define MIN_CL_MOTORSPEED   357    // Specify the min openloop speed in rpm of motor
+#define MIN_OL_MOTORSPEED   400    // Recommendation: 400RPM or higher
+#define MIN_CL_MOTORSPEED   400    // Recommendation: 400RPM or higher
 
 // *****************************************************************************
 // Section: Duty Cycle
@@ -154,49 +148,71 @@ void OverCurrent(void);
 /* Instruction:
  * Change ONLY IF supply for board is greater than the required voltage for motor 
  * Please use appropriate board and supply */
-#define MAX_DUTYCYCLE             (MPER*0.95)      //Specify maximum duty cycle for PWM
+#define MAX_DUTYCYCLE             (MPER*0.99)      //Specify maximum duty cycle for PWM
 #define MIN_DUTYCYCLE             (MPER*0.1)      //Specify minimum duty cycle for PWM
 
 // (DO NOT EDIT BEYOND THIS LINE)
 // *****************************************************************************
-// Section: Constants
+// Section: Parameters and Calculations
 // *****************************************************************************
-/* Potentiometer (Speed Reference - PIN # 61 - RB9) */
-#define ADCBUF_POTENTIOMETER ADCBUF11 
+    /* Potentiometer (Speed Reference - AN11) */
+#define ADCBUF_POTENTIOMETER        ADCBUF11 
 /* Hall Sensor (HALL3 - PIN # 57 - RE10) */
-#define HALLSENSOR                 LVMC_HALL_GetValue()
+#define HALLSENSOR                  LVMC_HALL_GetValue()
 // Instruction cycle frequency (Hz) - 100,000,000 Hz
-#define FCY                     100000000UL
-#define PWM_FREQ_HZ             20000
+#define FCY                         100000000UL
+// PWM frequency (Hz) - 20kHz
+#define PWM_FREQ_HZ                 20000
 //Converting to 1.15 Numerical Format
 #define Q15(Float_Value)	\
 ((Float_Value < 0.0) ? (int16_t)(32768 * (Float_Value) - 0.5) \
 : (int16_t)(32767 * (Float_Value) + 0.5))
-
-
-#define MAX_TMR_COUNT              65535
-// ***************************************************************************** 
-#define TIMER_PRESCALER     64
-// Period Calculation
+// SCCP Timer Period - 2^16
+#define MAX_TMR_COUNT               65535
+// SCCP Timer Prescaler - 1:64
+#define TIMER_PRESCALER             64
+// SCCP Period Calculation
 // Period = (FCY / TIMER_PRESCALE) / (RPM * NO_POLEPAIRS )/10
-#define MAXPERIOD	(unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MIN_OL_MOTORSPEED * POLEPAIRS)/10))	
-#define MINPERIOD	(unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MAX_CL_MOTORSPEED * POLEPAIRS)/10))
-
+#define MAXPERIOD                   (unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MIN_OL_MOTORSPEED * POLEPAIRS)/10))	
+#define MINPERIOD                   (unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MAX_CL_MOTORSPEED * POLEPAIRS)/10))
 //Maximum number of ticks in lowest speed for the counter used
-#define PERIOD_CONSTANT  (unsigned long)((float)MAXPERIOD *(float)MIN_OL_MOTORSPEED) 
+#define PERIOD_CONSTANT             (unsigned long)((float)MAXPERIOD *(float)MIN_OL_MOTORSPEED) 
+// Speed to be reduced in rpm before reversing the direction
+#define REVERSE_DROP_SPEED          500   
+/** Constants for Mathematical Computation */
+#define TICKS                       FCY/(TIMER_PRESCALER)
+/**  SPEED MULTIPLIER CALCULATION = ((FCY*60)/(TIMER_PRESCALER*POLEPAIRS))  */
+#define SPEED_MULTI                 (unsigned long)(((float)FCY/(float)(TIMER_PRESCALER*POLES))*(float)60) //23437500
+#define REV_SPEED_LIMIT             (unsigned long) ((float)(SPEED_MULTI)/(float)(REVERSE_DROP_SPEED*2))
+/** Moving Average - No of Samples*/
+#define SPEED_MOVING_AVG_FILTER_SCALE      4
+#define SPEED_MOVING_AVG_FILTER_SIZE       (uint16_t)(1 << SPEED_MOVING_AVG_FILTER_SCALE) 
 
 // *****************************************************************************
-#define REVERSE_DROP_SPEED   440   // Speed to be reduced in rpm before reversing the direction
-// ***************************************************************************** 
-/** Constants for Mathematical Computation */
-#define TICKS            FCY/(TIMER_PRESCALER)
+// Section: Fault Detection
+// *****************************************************************************
+/* Constants for Motor Stall Detection */
+#define STALL_COUNT_LIMIT               30000 // within 2 seconds
+/* Constants for Overtemperature Detection */
+#define ADCBUF_DSPICTEMP                ADCBUF12
+#define OVERTEMP_LIMITER                925 // 55 degrees celsius limit
+#define OVERTEMP_COUNTER                6000000 // OVERTEMP_COUNTER = 50us * 6000000 = 300 seconds = 5 minutes
+/* Constants For Overcurrent Protection */
+#define OVERCURRENT_COUNTER_DELAY       150
+#define OVERCURRENT_DETECT_FLAG         DAC3CONLbits.CMPSTAT
+#define OVERCURRENT_DETECTION_LIMIT     0x88C // 1.5A for LVMC using internal op amp config
+#define OVERCURRENT_DETECTION_DEFINE 0
 
-/**  SPEED MULTIPLIER CALCULATION = ((FCY*60)/(TIMER_PRESCALER*POLEPAIRS))  */
-#define SPEED_MULTI     (unsigned long)(((float)FCY/(float)(TIMER_PRESCALER*POLES))*(float)60) //23437500
-#define REV_SPEED_LIMIT   (unsigned long) ((float)(SPEED_MULTI)/(float)(REVERSE_DROP_SPEED*2))
+// *****************************************************************************
+// Section: Back EMF Monitoring
+// *****************************************************************************
+// Set up for monitoring only, no involvement in drive
+#define BACKEMF_VA ADCBUF17
+#define BACKEMF_VB ADCBUF23
 
-//******************************************************************************
-/** Velocity Control Loop Coefficients */
+// *****************************************************************************
+// Section: PI Velocity Control Loop Coefficients
+// *****************************************************************************
 #define SPEEDCNTR_PTERM        Q15(0.9999)
 #define SPEEDCNTR_ITERM        Q15(0.0009)
 #define SPEEDCNTR_CTERM        Q15(0.9999)
@@ -204,36 +220,15 @@ void OverCurrent(void);
 #define SPEEDCNTR_OUTMIN       Q15(0.0)
 
 // *****************************************************************************
-/** Moving Average - No of Samples*/
-#define SPEED_MOVING_AVG_FILTER_SCALE      4
-#define SPEED_MOVING_AVG_FILTER_SIZE       (uint16_t)(1 << SPEED_MOVING_AVG_FILTER_SCALE) 
-// ***************************************************************************** 
-//HANDLE TO CHANGE DEFAULT SPIN DIRECTION
-#define RUN_DIRECTION   false         //boolean logic > true = 1, false = 0; CW
-
-/* Constants for Motor Stall Detection */
-#define HALL_STATE_CHANGE_PER_ELEC_CYCLE    2
-#define STALL_COUNT_LIMIT   30000 //5 seconds
-
-/* Constants for Overtemperature Detection */
-#define ADCBUF_DSPICTEMP ADCBUF12
-#define OVERTEMP_LIMITER 925 //55 degrees celsius limit
-#define OVERTEMP_COUNTER 6120000 //5 minutes
-
-/* Constants For Overcurrent Protection */
-#define OVERCURRENT_COUNTER_DELAY 150
-#define OVERCURRENT_DETECT_FLAG DAC3CONLbits.CMPSTAT
-
-/**
-  Section: Single Phase Sequence
-**/
+// Section: Single Phase Sequence
+// *****************************************************************************
 const uint16_t PWM_STATE1_CLKW[4] = {0x3000, 0x0000, 0x3400, 0x3000};
 const uint16_t PWM_STATE2_CLKW[4] = {0x3000, 0x3400, 0x0000, 0x3000};
 uint16_t PWM_STATE1[4];
 uint16_t PWM_STATE2[4];
 
 // *****************************************************************************
-// Section: Enums, Structures
+// Section: Variables
 // *****************************************************************************
 typedef struct {
     uint32_t speedAcc;
@@ -307,3 +302,6 @@ FAULT_T faultDetected;
 
 #endif	/** USERPARAMS_H */
 
+/*
+ End of File
+*/

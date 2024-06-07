@@ -87,12 +87,9 @@ void Init_PIControlParameters(void);
 
 void OverTemperature(void);
 void StallDetection(void);
-void OverCurrent(void);
 /**
-  Section: Variables
+  Section: User-defined parameters
 **/
-
-
 
 // *****************************************************************************
 // Section: LOOP CONTROLLER
@@ -100,8 +97,16 @@ void OverCurrent(void);
 /* Instruction:
  * Default Loop Controller is in Closed Loop mode.
  * Comment out the following line to run the motor in Open Loop mode. */
-//#define CLOSEDLOOP
-#define OPENLOOP
+#define CLOSEDLOOP
+//#define OPENLOOP
+
+// *****************************************************************************
+// Section: STALL DETECTION SET
+// *****************************************************************************  
+/* Instruction:
+ * Stall detection is ENABLED by DEFAULT
+ * Comment out STALL_DETECTION to DISABLE stall detection. */
+#define STALL_DETECTION
 
 // *****************************************************************************
 // Section: OVERCURRENT DETECTION SET
@@ -111,58 +116,100 @@ void OverCurrent(void);
  * Comment out the following line to DISABLE overcurrent detection. */
 #define OVERCURRENT_DETECTION_ENABLE 1
 
-
+// *****************************************************************************
+// Section: Motor Ratings (from Name Plate Details or Datasheet)
+// *****************************************************************************  
+/* Instruction:
+ * Use the parameters of the motor to be used */
+#define POLEPAIRS		    2      // Number of pole pairs    
+#define POLES               4      // Number of poles 
 
 // *****************************************************************************
-// Section: Constants
+// Section: Open and Closed Loop Speed Limit
+// *****************************************************************************  
+/* Instruction:
+ * Check Minimum and Nominal Speed of the Motor */
+#define MAX_CL_MOTORSPEED   3000   // Specify the nominal speed of motor
+
+#define MIN_OL_MOTORSPEED   500    // Recommendation: 500RPM or higher
+#define MIN_CL_MOTORSPEED   500    // Recommendation: 500RPM or higher
+
 // *****************************************************************************
-/* Potentiometer (Speed Reference - PIN # 61 - RB9) */
-#define ADCBUF_POTENTIOMETER ADCBUF19
-/* Hall Sensor (HALL3 - PIN # 57 - RE10) */
-#define HALLSENSOR                 HALL_A_GetValue()
+// Section: Bus Voltage and Duty Cycle
+// *****************************************************************************  
+/* Instruction:
+ * Change ONLY IF supply for board is greater than the required voltage for motor 
+ * Please use appropriate board and supply */
+#define BUS_VOLTAGE               (float)(300) //MCHV3 Board typical bus voltage
+#define MAX_DUTYCYCLE             (MPER*0.9)      //Specify maximum duty cycle for PWM
+#define MIN_DUTYCYCLE             (MPER*0.1)      //Specify minimum duty cycle for PWM
+
+// (DO NOT EDIT BEYOND THIS LINE)
+// *****************************************************************************
+// Section: Parameters and Calculations
+// *****************************************************************************
+/* Potentiometer (Speed Reference - AN19) */
+#define ADCBUF_POTENTIOMETER        ADCBUF19
+/* Hall Sensor (HALL3 - RD1) */
+#define HALLSENSOR                  HALL_A_GetValue()
 // Instruction cycle frequency (Hz) - 100,000,000 Hz
-#define FCY                     100000000UL
-#define PWM_FREQ_HZ             20000
+#define FCY                         100000000UL
+// PWM frequency (Hz) - 20kHz
+#define PWM_FREQ_HZ                 20000
 //Converting to 1.15 Numerical Format
 #define Q15(Float_Value)	\
 ((Float_Value < 0.0) ? (int16_t)(32768 * (Float_Value) - 0.5) \
 : (int16_t)(32767 * (Float_Value) + 0.5))
-
-// *****************************************************************************
-/** Motor Ratings (from Name Plate Details or Datasheet)*/
-// *****************************************************************************   
-#define POLEPAIRS		    2      // Number of pole pairs    
-#define POLES               4      // Number of poles 
-#define MAX_CL_MOTORSPEED   4000   // Specify the maximum speed in rpm of motor 
-
-#define MIN_OL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
-#define MIN_CL_MOTORSPEED   500    // Specify the min openloop speed in rpm of motor
-
-#define MAX_DUTYCYCLE             (MPER*0.92)      //Specify maximum duty cycle for PWM
-#define MIN_DUTYCYCLE             (MPER*0.1)      //Specify minimum duty cycle for PWM
-#define MAX_TMR_COUNT              65535
-// ***************************************************************************** 
-#define TIMER_PRESCALER     64
-// Period Calculation
+// SCCP Timer Period - 2^16
+#define MAX_TMR_COUNT               65535
+// SCCP Timer Prescaler - 1:64
+#define TIMER_PRESCALER             64
+// SCCP Period Calculation
 // Period = (FCY / TIMER_PRESCALE) / (RPM * NO_POLEPAIRS )/10
-#define MAXPERIOD	(unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MIN_OL_MOTORSPEED * POLEPAIRS)/10))	
-#define MINPERIOD	(unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MAX_CL_MOTORSPEED * POLEPAIRS)/10))
-
+#define MAXPERIOD                   (unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MIN_OL_MOTORSPEED * POLEPAIRS)/10))	
+#define MINPERIOD                   (unsigned long)(((float)FCY / (float)TIMER_PRESCALER) / (float)((MAX_CL_MOTORSPEED * POLEPAIRS)/10))
 //Maximum number of ticks in lowest speed for the counter used
-#define PERIOD_CONSTANT  (unsigned long)((float)MAXPERIOD *(float)MIN_OL_MOTORSPEED) 
+#define PERIOD_CONSTANT             (unsigned long)((float)MAXPERIOD *(float)MIN_OL_MOTORSPEED) 
+// Speed to be reduced in rpm before reversing the direction
+#define REVERSE_DROP_SPEED          800   
+/** Constants for Mathematical Computation */
+#define TICKS                       FCY/(TIMER_PRESCALER)
+/**  SPEED MULTIPLIER CALCULATION = ((FCY*60)/(TIMER_PRESCALER*POLEPAIRS))  */
+#define SPEED_MULTI                 (unsigned long)(((float)FCY/(float)(TIMER_PRESCALER*POLES))*(float)60) //23437500
+#define REV_SPEED_LIMIT             (unsigned long) ((float)(SPEED_MULTI)/(float)(REVERSE_DROP_SPEED*2))
+/** Moving Average - No of Samples*/
+#define SPEED_MOVING_AVG_FILTER_SCALE      4
+#define SPEED_MOVING_AVG_FILTER_SIZE       (uint16_t)(1 << SPEED_MOVING_AVG_FILTER_SCALE) 
+/* Start Up */
+#define REPOSITION_STARTUP_STEP_VOLTAGE     (float)(20) //enough to reposition motor
+#define DRAWBACK_STARTUP_STEP_VOLTAGE       (float)(16) //enough to draw back motor
+#define PROPEL_STARTUP_STEP_VOLTAGE         (float)(23) //enough to propel motor to right direction
+#define PWM_MASTER_PERIOD                   (float)(4999)
+//#define REPOSITION_STARTUP_STEP             (unsigned long int)(((float)(REPOSITION_STARTUP_STEP_VOLTAGE/BUS_VOLTAGE ))*(PWM_MASTER_PERIOD)+0.5) // ( 20V /  300V ) * 4999 = 333
+//#define DRAWBACK_STARTUP_STEP               (unsigned long int)(((float)(DRAWBACK_STARTUP_STEP_VOLTAGE/BUS_VOLTAGE ))*(PWM_MASTER_PERIOD)+0.5) // ( 16V /  300V ) * 4999 = 266
+//#define PROPEL_STARTUP_STEP                 (unsigned long int)(((float)(PROPEL_STARTUP_STEP_VOLTAGE/BUS_VOLTAGE ))*(PWM_MASTER_PERIOD)+0.5) // ( 25V /  300V ) * 4999 = 416
+
+#define REPOSITION_MULTIPLIER             (unsigned long int)(REPOSITION_STARTUP_STEP_VOLTAGE*PWM_MASTER_PERIOD) // ( 20V /  300V ) * 4999 = 333
+#define DRAWBACK_MULTIPLIER               (unsigned long int)(DRAWBACK_STARTUP_STEP_VOLTAGE*PWM_MASTER_PERIOD) // ( 16V /  300V ) * 4999 = 266
+#define PROPEL_MULTIPLIER                 (unsigned long int)(PROPEL_STARTUP_STEP_VOLTAGE*PWM_MASTER_PERIOD) // ( 25V /  300V ) * 4999 = 416
+
+#define REPOSITION_STARTUP_STEP             REPOSITION_MULTIPLIER/BUS_VOLTAGE
+#define DRAWBACK_STARTUP_STEP               DRAWBACK_MULTIPLIER/BUS_VOLTAGE
+#define PROPEL_STARTUP_STEP                 PROPEL_MULTIPLIER/BUS_VOLTAGE
+// *****************************************************************************
+// Section: Fault Detection
+// *****************************************************************************
+/* Constants for Motor Stall Detection */
+#define STALL_COUNT_LIMIT               30000 // within 2 seconds
+/* Constants For Overcurrent Protection */
+#define OVERCURRENT_COUNTER_DELAY       150
+#define OVERCURRENT_DETECT_FLAG         DAC1CONLbits.CMPSTAT
+#define OVERCURRENT_DETECTION_LIMIT     0xAB9 // 0x8BB = 1.5A for MCHV3 using external op amp config
+#define OVERCURRENT_DETECTION_DEFINE    0
 
 // *****************************************************************************
-#define REVERSE_DROP_SPEED   800   // Speed to be reduced in rpm before reversing the direction
-// ***************************************************************************** 
-/** Constants for Mathematical Computation */
-#define TICKS            FCY/(TIMER_PRESCALER)
-
-/**  SPEED MULTIPLIER CALCULATION = ((FCY*60)/(TIMER_PRESCALER*POLEPAIRS))  */
-#define SPEED_MULTI     (unsigned long)(((float)FCY/(float)(TIMER_PRESCALER*POLES))*(float)60) 
-#define REV_SPEED_LIMIT   (unsigned long) ((float)(SPEED_MULTI)/(float)(REVERSE_DROP_SPEED*2))
-
-//******************************************************************************
-/** Velocity Control Loop Coefficients */
+// Section: PI Velocity Control Loop Coefficients
+// *****************************************************************************
 #define SPEEDCNTR_PTERM        Q15(0.9999)
 #define SPEEDCNTR_ITERM        Q15(0.0009)
 #define SPEEDCNTR_CTERM        Q15(0.9999)
@@ -170,16 +217,10 @@ void OverCurrent(void);
 #define SPEEDCNTR_OUTMIN       Q15(0.0)
 
 // *****************************************************************************
-/** Moving Average - No of Samples*/
-#define SPEED_MOVING_AVG_FILTER_SCALE      4
-#define SPEED_MOVING_AVG_FILTER_SIZE       (uint16_t)(1 << SPEED_MOVING_AVG_FILTER_SCALE) 
-// ***************************************************************************** 
-//HANDLE TO CHANGE DEFAULT SPIN DIRECTION
-#define RUN_DIRECTION   false         //boolean logic > true = 1, false = 0; CW
 
-/**
-  Section: Single Phase Sequence
-**/
+// *****************************************************************************
+// Section: Single Phase Sequence
+// *****************************************************************************
 const uint16_t PWM_STATE1_CLKW[4] = {0x3000, 0x0000, 0x3400, 0x3000};
 const uint16_t PWM_STATE2_CLKW[4] = {0x3000, 0x3400, 0x0000, 0x3000};
 uint16_t PWM_STATE1[4];
@@ -205,10 +246,9 @@ typedef struct {
 
 typedef struct
 {
-    uint16_t measure;
-    uint16_t monitor;
-    uint32_t counter;
-} OVERTEMP_T;
+    uint8_t overcurrent_detected;
+    uint8_t stall_detected;
+} FAULT_T;
 
 typedef enum
 {
@@ -240,654 +280,17 @@ uint16_t measuredSpeed;
 uint16_t desiredSpeed;
 
 uint32_t motorStallCounter = 0;
-uint32_t overcurrentCounter = 0;
-uint16_t cmp1;
 
-    
+uint32_t overcurrentCounter = 0;
+uint16_t cmp1, overcurrent_enable_flag;
 
 MOVING_AVG_SPEED_T movingAvgSpeed;
 PI_CONTROLLER_T PI_Input;
-OVERTEMP_T faultOverTemp;
 
-/* Function:
-    HALL_ISR()
-  Summary:
-    This routine defines the Hall Sensor State and finds parameters for the
-    calculation of moving average speed.
-  Description:
-    Designates high or low hall value,\ and calculates timer value for 
-    moving average speed.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void HALL_ISR(void)
-{
-    if (HALLSENSOR == 0) //Forward
-    {
-        hallValue = 1;
-    }
-    if (HALLSENSOR == 1) //Reverse
-    {
-        hallValue = 2;
-    }
-    
-    timerValue = SCCP3_TMR_Counter32BitGet();
-    
-    if (timerValue <= pastTimerValue)
-    {
-        timerValueDelta = PERIOD_CONSTANT - (pastTimerValue - timerValue);
-    }
-    else
-    {
-        timerValueDelta = timerValue - pastTimerValue;
-    }
-    pastTimerValue = timerValue;
-
-    CalcMovingAvgSpeed(timerValueDelta);
-}
-
-/* Function:
-    ADC_ISR()
-  Summary:
-    This routine triggers the motor control subroutines and other functions.
-  Description:
-    Called by the ADC module to trigger state machine, 
-    board service interrupt and X2CScope Updates.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void ADC_ISR(void)
-{
-    StateMachine();
-    BoardServiceStepIsr();
-    X2Cscope_Update();
-    IFS6bits.ADCAN11IF = 0;
-}
-
-/* Function:
-    StateMachine()
-  Summary:
-    This routine handles the motor control routines.
-  Description:
-    Initializes the motor and parameters, conducts start up, operates the motor
-    driving and direction change and triggers the stop to the motor.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void StateMachine()
-{ 
-    switch(appState)
-    {
-        case INIT:
-            PWMDisableOutputs();
-            InitMovingAvgSpeed();
-            Init_PIControlParameters();
-            RotationSwitchingTable(runDirection);
-            dutyCycle = MIN_DUTYCYCLE;
-            //enable hall port
-            CNCONDbits.ON = 1;
-            //Reset parameters for start up
-            readyStartUp = 0;
-            startup = 0;
-            readyRun = 0;
-            if(runMotor)
-            {
-                readyStartUp = 1;
-                appState = CMD_WAIT;
-            }
-        break;
-
-        case CMD_WAIT:
-            if(readyStartUp == 1)
-            {
-                startup = 1;  
-            }
-            if(readyRun == 1)
-            {
-                appState = RUN;
-            }
-
-        break;
-
-        case RUN:     
-            CheckHalUpdatePWM();
-            SpeedReference();
-        #ifdef CLOSEDLOOP
-            PICloseLoopController();
-        #else
-            OpenLoopSpeedController();
-        #endif           
-
-        #ifdef  STALL_DETECTION
-            StallDetection();
-        #endif
-    
-        #ifdef  OVERTEMPERATURE_DETECTION
-            OverTemperature();
-        #endif
-    
-        #ifdef  OVERCURRENT_DETECTION
-            OverCurrent();
-        #endif
-        
-            if(changeDirection == 1)
-            {
-                dutyCycle = 0;
-                PG1DC = PG2DC = dutyCycle;
-                PWMDisableOutputs();
-                appState = CHANGE_DIRECTION;
-            }
-            if(runMotor == 0)
-            {
-                appState = STOP;
-            }
-            
-        break;
-        
-        case CHANGE_DIRECTION:
-            
-            if(changeDirection == 1)
-            {
-                if(runDirection == 0)
-                {
-                    runDirection = 1;
-                }
-                else
-                {
-                    runDirection = 0;
-                }
-                changeDirection = 0;
-                RotationSwitchingTable(runDirection);
-            }
-            if(timerValue > REV_SPEED_LIMIT )  
-            {
-                appState = RUN;  
-                PWMEnableOutputs();
-            }
-            
-        break;
-        
-        case STOP:
-            measuredSpeed = 0;
-            desiredSpeed = 0;
-            dutyCycle = 0;
-            PG1DC = PG2DC = dutyCycle;
-            PWMDisableOutputs();
-            readyRun = 0;
-            appState = INIT;
-        break;
-    }
-}
-
-/* Function:
-    InitializePWM()
-  Summary:
-    This routine initializes the PWM Generators and duty cycle prior
-    to enabling the PWM Generator
-  Description:
-    Overrides the PWM generators to disable PWM output. 
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void InitializePWM(void)
-{
-    PG1IOCONL = PG2IOCONL = 0x3000;
-    PG1DC = PG2DC = 0x0000;
-	PG1CONLbits.ON = PG2CONLbits.ON = 1;
-}
-
-/* Function:
-    RotationSwitchingTable()
-  Summary:
-    This routine designates the drive sequences in Forward and Reverse mode.
-  Description:
-    Assigns drive sequence to Forward and Reverse via arrays.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void RotationSwitchingTable()
-{
-	uint16_t arrayIndex = 0;
-    
-	if(runDirection == 0)
-    {
-	    for(arrayIndex = 0; arrayIndex < 4; arrayIndex++)
-        {
-            PWM_STATE1[arrayIndex] = PWM_STATE1_CLKW[arrayIndex];
-            PWM_STATE2[arrayIndex] = PWM_STATE2_CLKW[arrayIndex];
-        }
-	}
-    else
-    {
-		for(arrayIndex = 0;arrayIndex < 4; arrayIndex++)
-        {
-            PWM_STATE1[arrayIndex] = PWM_STATE1_CLKW[3-arrayIndex];
-            PWM_STATE2[arrayIndex] = PWM_STATE2_CLKW[3-arrayIndex];
-        }
-    }
-}
-
-/* Function:
-    CheckHalUpdatePWM()
-  Summary:
-    This routine updates the drive sequence for the current hall sensor state.
-  Description:
-    Assigns the drive sequence to override the PWM Generators depending on the 
-    hall value.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void CheckHalUpdatePWM(void)
-{
-    if((hallValue == 1) || (hallValue == 2))
-    {
-        PG1IOCONL = (PWM_STATE1[hallValue] & 0x7C00);
-        PG2IOCONL = (PWM_STATE2[hallValue] & 0x7C00);
-    }
-}
-
-/* Function:
-    SpeedReference()
-  Summary:
-    This routine calculates the desired duty cycle and desired speed.
-  Description:
-    Reads the potentiometer value via ADC module for the calculation of 
-    desired duty cycle and desired speed
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void SpeedReference(void)
-{
-    inputReference = ADCBUF_POTENTIOMETER;
-    desiredDC =(uint16_t)((__builtin_mulss(inputReference,MAX_DUTYCYCLE)>>12));
-    temp =  (int32_t)(__builtin_muluu(desiredDC,(MAX_CL_MOTORSPEED - MIN_CL_MOTORSPEED)));
-    desiredSpeed = (int16_t)((__builtin_divud(temp,(MAX_DUTYCYCLE)))+ MIN_CL_MOTORSPEED);
-}
-
-/* Function:
-    OpenLoopSpeedController()
-  Summary:
-    This routine runs the motor in Open Loop mode.
-  Description:
-    Assigns the value of the desired duty cycle to the PWM Generators.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void OpenLoopSpeedController(void)
-{
-    //SpeedReference();
-    if (desiredDC > MAX_DUTYCYCLE) //MPER*0.9
-    {
-        dutyCycle = MAX_DUTYCYCLE;
-    }
-    else if (desiredDC <= MIN_DUTYCYCLE) //MPER*0.1
-    {
-        dutyCycle = MIN_DUTYCYCLE;
-    }
-    else
-    {
-        dutyCycle = desiredDC;
-    }
-    
-    PG1DC = dutyCycle;
-    PG2DC = dutyCycle;
-    
-}
-
-/* Function:
-    PICloseLoopController()
-  Summary:
-    This routine runs the motor in Closed Loop mode.
-  Description:
-    Uses the PI Controller to control the duty cycle to be assigned.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void PICloseLoopController(void) 
-{
-    if (runMotor == 1)
-    {
-        measuredSpeed = movingAvgSpeed.avg;
-    }
-    else
-    {
-        measuredSpeed = 0;
-    }
-    
-    PI_Input.piSpeedCalculation.inMeasure = measuredSpeed;
-    PI_Input.piSpeedCalculation.inReference = desiredSpeed;
-    MC_ControllerPIUpdate_Assembly(PI_Input.piSpeedCalculation.inReference,
-                                PI_Input.piSpeedCalculation.inMeasure,
-                                &PI_Input.piSpeedCalculation.piState,
-                                &PI_Input.piOutputSpeed.out);
-    dutyCycle = (uint16_t) (__builtin_mulss(PI_Input.piOutputSpeed.out, (MAX_DUTYCYCLE)) >> 15);
-   
-    PG1DC = dutyCycle;
-    PG2DC = dutyCycle;
-}
-
-/* Function:
-    Timer Interrupt for Start up
-  Summary:
-    This routine changes the starting position the motor.
-  Description:
-    Overrides the PWM Generators to reposition the motor prior to motor driving.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-
-void __attribute__((interrupt, no_auto_psv)) _T1Interrupt() 
-{
-    if(startup == 1)
-    {
-        readyStartUp = 0;
-        PG1IOCONL = 0x3400;
-        PG2IOCONL = 0x0000;
-        PG2DC = MPER*0.1;
-        startup++;
-    }
-    if(startup == 2) 
-    {
-        PG2IOCONL = 0x3400;
-        PG1IOCONL = 0x0000;
-        PG1DC = MPER*0.2;
-        startup++;
-    }
-    else if(startup == 3) 
-    {
-        PG1IOCONL = 0x3400;
-        PG2IOCONL = 0x0000;
-        PG2DC = MPER*0.3;
-        startup++;
-    }
-    else if(startup == 4) 
-    {
-        PG2IOCONL = 0x3400;
-        PG1IOCONL = 0x0000;
-        PG1DC = MPER*0.4;
-        startup++;
-    }
-    else if(startup == 5) 
-    {
-        PG1IOCONL = 0x3400;
-        PG2IOCONL = 0x0000;
-        PG2DC = MPER*0.5;
-        startup++;
-    }
-    else if(startup == 6)
-    {
-        PG2IOCONL = 0x3400;
-        PG1IOCONL = 0x0000;
-        PG1DC = MPER*0.5;
-        startup++;
-    }
-    else if(startup == 7) 
-    {
-        CheckHalUpdatePWM();
-        dutyCycle = MPER*0.5;
-        PG2DC = dutyCycle;
-        PG1DC = dutyCycle;
-        startup++;
-    }
-    else if(startup == 8) 
-    {
-        CheckHalUpdatePWM();
-        dutyCycle = MPER*0.5;
-        PG2DC = dutyCycle;
-        PG1DC = dutyCycle;
-        startup++;
-    }
-    else if(startup == 9) 
-    {
-        CheckHalUpdatePWM();
-        dutyCycle = MPER*0.5;
-        PG2DC = dutyCycle;
-        PG1DC = dutyCycle;
-        startup++;
-    }
-    else if(startup == 10)
-    {
-        CheckHalUpdatePWM();
-        dutyCycle = MPER*0.5;
-        PG2DC = dutyCycle;
-        PG1DC = dutyCycle;
-        startup = 100;
-        readyRun = 1;
-        measuredSpeed = 0;
-    }
-    IFS0bits.T1IF = false;
-}
-
-/* Function:
-    PWMDisableOutputs()
-  Summary:
-    This routine disables the PWM Generators.
-  Description:
-    Overrides the PWM Generators to disable outputs.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void PWMDisableOutputs(void)
-{
-    PG2DC = 0;      
-    PG1DC = 0;
-
-    PG2IOCONLbits.OVRDAT = 0;  // Low State for PWM2H,L, if Override is Enabled
-    PG1IOCONLbits.OVRDAT = 0;  // Low State for PWM1H,L, if Override is Enabled
-
-    PG2IOCONLbits.OVRENH = 1;  // OVRDAT<1> provides data for output on PWM2H
-    PG1IOCONLbits.OVRENH = 1;  // OVRDAT<1> provides data for output on PWM1H
-
-    PG2IOCONLbits.OVRENL = 1;  // OVRDAT<0> provides data for output on PWM2L
-    PG1IOCONLbits.OVRENL = 1;  // OVRDAT<0> provides data for output on PWM1L
-}
-
-/* Function:
-    PWMEnableOutputs()
-  Summary:
-    This routine enables the PWM Generators.
-  Description:
-    Overrides the PWM Generators to enable outputs to continue 
-    motor driving operations.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void PWMEnableOutputs(void)
-{
-    PG2DC = 0;      
-    PG1DC = 0;
-
-    PG2IOCONLbits.OVRENH = 0;  // PWM generator provides data for PWM2H pin
-    PG1IOCONLbits.OVRENH = 0;  // PWM generator provides data for PWM1H pin
-
-    PG2IOCONLbits.OVRENL = 0;  // PWM generator provides data for PWM2L pin
-    PG1IOCONLbits.OVRENL = 0;  // PWM generator provides data for PWM1L pin
-}
-
-/* Function:
-    InitMovingAvgSpeed()
-  Summary:
-    This routine initializes parameters for moving average speed calculation.
-  Description:
-    None.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void InitMovingAvgSpeed(void)
-{
-    uint16_t i;
-
-    for (i = 0; i < SPEED_MOVING_AVG_FILTER_SIZE; i++) {
-        movingAvgSpeed.buffer[i] = 0;
-    }
-
-    movingAvgSpeed.index = 0;
-    movingAvgSpeed.sum = 0;
-    movingAvgSpeed.avg = 0;
-}
-
-/* Function:
-    CalcMovingAvgSpeed()
-  Summary:
-    This routine calculates the moving average speed of the motor.
-  Description:
-    None.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void CalcMovingAvgSpeed(int32_t instCount) 
-{
-    uint16_t i;
-    
-    movingAvgSpeed.speedValue =  instCount;
-    movingAvgSpeed.calculatedSpeed = (int32_t) (__builtin_divud(SPEED_MULTI, movingAvgSpeed.speedValue));
-    movingAvgSpeed.buffer[movingAvgSpeed.index] = movingAvgSpeed.calculatedSpeed;
-    movingAvgSpeed.index++;
-    if (movingAvgSpeed.index >= SPEED_MOVING_AVG_FILTER_SIZE)
-    {
-        movingAvgSpeed.index = 0;
-    }
-    movingAvgSpeed.sum = 0;
-    for (i = 0; i < SPEED_MOVING_AVG_FILTER_SIZE; i++) 
-    {
-        movingAvgSpeed.sum = movingAvgSpeed.sum + movingAvgSpeed.buffer[i];
-        movingAvgSpeed.avg = movingAvgSpeed.sum >> SPEED_MOVING_AVG_FILTER_SCALE;
-    }
-    measuredSpeed = movingAvgSpeed.avg;
-}
-
-/* Function:
-    Init_PIControlParameters()
-  Summary:
-    This routine initializes parameters for PI Controller.
-  Description:
-    None.
-  Precondition:
-    None.
-  Parameters:
-    None
-  Returns:
-    None.
-  Remarks:
-    None.
- */
-void Init_PIControlParameters(void) {
-    PI_Input.piSpeedCalculation.piState.kp = SPEEDCNTR_PTERM;
-    PI_Input.piSpeedCalculation.piState.ki = SPEEDCNTR_ITERM;
-    PI_Input.piSpeedCalculation.piState.kc = SPEEDCNTR_CTERM;
-    PI_Input.piSpeedCalculation.piState.outMax = SPEEDCNTR_OUTMAX;
-    PI_Input.piSpeedCalculation.piState.outMin = SPEEDCNTR_OUTMIN;
-    PI_Input.piSpeedCalculation.piState.integrator = 0;
-    PI_Input.piOutputSpeed.out = 0;
-}
-
-void StallDetection(void)
-{
-    
-}
-
-/* Interrupt Service routine for CMP1 */
-void __attribute__ ( ( interrupt, no_auto_psv ) ) _CMP1Interrupt(void)
-{
-    cmp1 = DAC1CONLbits.CMPSTAT; //IBUS comparator out data
-
-    if (OVERCURRENT_DETECTION_ENABLE) {
-        if (DAC1CONLbits.CMPSTAT) {
-            overcurrentCounter++;
-            if (overcurrentCounter > 100)
-            {
-                PWMDisableOutputs();
-                PG1CONLbits.ON = PG2CONLbits.ON = 0;
-                MCHV3_MCLV2_LED1_SetLow();
-                MCHV3_MCLV2_LED2_SetLow();
-            }
-        }
-    }
-    IFS4bits.CMP1IF = 0;
-}
+FAULT_T faultDetected;
 
 #endif	/** USERPARAMS_H */
+
+/*
+ End of File
+*/

@@ -52,6 +52,9 @@
 */
 void INTERRUPT_Initialize (void)
 {
+    //    CCTI: CCP3 Timer Event
+    //    Priority: 1
+        IPC9bits.CCT3IP = 1;
     //    CNDI: Change Notification D
     //    Priority: 1
         IPC18bits.CNDIP = 1;
