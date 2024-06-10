@@ -90,7 +90,7 @@
  */
 typedef enum 
 {
-    MCHV3_MCLV2_POTENTIOMETER,//Channel Name:AN19   Assigned to:Shared Channel
+    MCHV3_POTENTIOMETER,//Channel Name:AN19   Assigned to:Shared Channel
     channel_AN24,//Channel Name:AN24   Assigned to:Shared Channel
     channel_AN25,//Channel Name:AN25   Assigned to:Shared Channel
 } ADC1_CHANNEL;
@@ -383,7 +383,7 @@ inline static uint16_t ADC1_ConversionResultGet( ADC1_CHANNEL channel )
 
     switch(channel)
     {
-        case MCHV3_MCLV2_POTENTIOMETER:
+        case MCHV3_POTENTIOMETER:
                 result = ADCBUF19;
                 break;
         case channel_AN24:
@@ -441,7 +441,7 @@ inline static bool ADC1_IsConversionComplete(ADC1_CHANNEL channel)
 
     switch(channel)
     {
-        case MCHV3_MCLV2_POTENTIOMETER:
+        case MCHV3_POTENTIOMETER:
                 status = ADSTATHbits.AN19RDY;
                 break;
         case channel_AN24:
@@ -660,7 +660,7 @@ inline static void ADC1_IndividualChannelInterruptEnable(ADC1_CHANNEL channel)
 {
     switch(channel)
     {
-        case MCHV3_MCLV2_POTENTIOMETER:
+        case MCHV3_POTENTIOMETER:
                 IEC6bits.ADCAN19IE = 1;
                 break;
         case channel_AN24:
@@ -700,7 +700,7 @@ inline static void ADC1_IndividualChannelInterruptDisable(ADC1_CHANNEL channel)
 {
     switch(channel)
     {
-        case MCHV3_MCLV2_POTENTIOMETER:
+        case MCHV3_POTENTIOMETER:
                 IEC6bits.ADCAN19IE = 0;
                 break;
         case channel_AN24:
@@ -739,7 +739,7 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
 {
     switch(channel)
     {
-        case MCHV3_MCLV2_POTENTIOMETER:
+        case MCHV3_POTENTIOMETER:
                 IFS6bits.ADCAN19IF = 0;
                 break;
         case channel_AN24:
@@ -755,10 +755,10 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
 
 /**
   @Summary
-    ADC1 MCHV3_MCLV2_POTENTIOMETER callback routine.
+    ADC1 MCHV3_POTENTIOMETER callback routine.
 
   @Description
-    This routine is a ADC1 MCHV3_MCLV2_POTENTIOMETER callback function.
+    This routine is a ADC1 MCHV3_POTENTIOMETER callback function.
   
   @Preconditions
     None.
@@ -771,17 +771,17 @@ inline static void ADC1_IndividualChannelInterruptFlagClear(ADC1_CHANNEL channel
  
   @Example 
     <code>
-        ADC1_SetMCHV3_MCLV2_POTENTIOMETERInterruptHandler(&ADC1_MCHV3_MCLV2_POTENTIOMETER_CallBack);
+        ADC1_SetMCHV3_POTENTIOMETERInterruptHandler(&ADC1_MCHV3_POTENTIOMETER_CallBack);
     </code>
 */
-void ADC1_MCHV3_MCLV2_POTENTIOMETER_CallBack(uint16_t adcVal);
+void ADC1_MCHV3_POTENTIOMETER_CallBack(uint16_t adcVal);
 
 /**
   @Summary
-    Assigns a function pointer with a ADC1 MCHV3_MCLV2_POTENTIOMETER callback address.
+    Assigns a function pointer with a ADC1 MCHV3_POTENTIOMETER callback address.
 
   @Description
-    This routine assigns a function pointer with a ADC1 MCHV3_MCLV2_POTENTIOMETER callback address.
+    This routine assigns a function pointer with a ADC1 MCHV3_POTENTIOMETER callback address.
   
   @Preconditions
     None.
@@ -794,10 +794,10 @@ void ADC1_MCHV3_MCLV2_POTENTIOMETER_CallBack(uint16_t adcVal);
  
   @Example 
     <code>
-        ADC1_SetMCHV3_MCLV2_POTENTIOMETERInterruptHandler(&ADC1_MCHV3_MCLV2_POTENTIOMETER_CallBack);
+        ADC1_SetMCHV3_POTENTIOMETERInterruptHandler(&ADC1_MCHV3_POTENTIOMETER_CallBack);
     </code>
 */
-void ADC1_SetMCHV3_MCLV2_POTENTIOMETERInterruptHandler(void* handler);
+void ADC1_SetMCHV3_POTENTIOMETERInterruptHandler(void* handler);
 
 /**
   @Summary

@@ -219,11 +219,11 @@
   @Example
     <code>
     // Set RD11 high (1)
-    MCHV3_MCLV2_POTENTIOMETER_SetHigh();
+    MCHV3_POTENTIOMETER_SetHigh();
     </code>
 
 */
-#define MCHV3_MCLV2_POTENTIOMETER_SetHigh()          (_LATD11 = 1)
+#define MCHV3_POTENTIOMETER_SetHigh()          (_LATD11 = 1)
 /**
   @Summary
     Sets the GPIO pin, RD11, low using LATD11.
@@ -243,11 +243,11 @@
   @Example
     <code>
     // Set RD11 low (0)
-    MCHV3_MCLV2_POTENTIOMETER_SetLow();
+    MCHV3_POTENTIOMETER_SetLow();
     </code>
 
 */
-#define MCHV3_MCLV2_POTENTIOMETER_SetLow()           (_LATD11 = 0)
+#define MCHV3_POTENTIOMETER_SetLow()           (_LATD11 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RD11, using LATD11.
@@ -267,11 +267,11 @@
   @Example
     <code>
     // Toggle RD11
-    MCHV3_MCLV2_POTENTIOMETER_Toggle();
+    MCHV3_POTENTIOMETER_Toggle();
     </code>
 
 */
-#define MCHV3_MCLV2_POTENTIOMETER_Toggle()           (_LATD11 ^= 1)
+#define MCHV3_POTENTIOMETER_Toggle()           (_LATD11 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RD11.
@@ -293,11 +293,11 @@
     uint16_t portValue;
 
     // Read RD11
-    postValue = MCHV3_MCLV2_POTENTIOMETER_GetValue();
+    postValue = MCHV3_POTENTIOMETER_GetValue();
     </code>
 
 */
-#define MCHV3_MCLV2_POTENTIOMETER_GetValue()         _RD11
+#define MCHV3_POTENTIOMETER_GetValue()         _RD11
 /**
   @Summary
     Configures the GPIO pin, RD11, as an input.
@@ -317,11 +317,11 @@
   @Example
     <code>
     // Sets the RD11 as an input
-    MCHV3_MCLV2_POTENTIOMETER_SetDigitalInput();
+    MCHV3_POTENTIOMETER_SetDigitalInput();
     </code>
 
 */
-#define MCHV3_MCLV2_POTENTIOMETER_SetDigitalInput()  (_TRISD11 = 1)
+#define MCHV3_POTENTIOMETER_SetDigitalInput()  (_TRISD11 = 1)
 /**
   @Summary
     Configures the GPIO pin, RD11, as an output.
@@ -341,11 +341,11 @@
   @Example
     <code>
     // Sets the RD11 as an output
-    MCHV3_MCLV2_POTENTIOMETER_SetDigitalOutput();
+    MCHV3_POTENTIOMETER_SetDigitalOutput();
     </code>
 
 */
-#define MCHV3_MCLV2_POTENTIOMETER_SetDigitalOutput() (_TRISD11 = 0)
+#define MCHV3_POTENTIOMETER_SetDigitalOutput() (_TRISD11 = 0)
 /**
   @Summary
     Sets the GPIO pin, RD5, high using LATD5.
@@ -803,11 +803,11 @@
   @Example
     <code>
     // Set RE8 high (1)
-    MCHV3_MCLV2_LED1_SetHigh();
+    MCHV3_LED1_SetHigh();
     </code>
 
 */
-#define MCHV3_MCLV2_LED1_SetHigh()          (_LATE8 = 1)
+#define MCHV3_LED1_SetHigh()          (_LATE8 = 1)
 /**
   @Summary
     Sets the GPIO pin, RE8, low using LATE8.
@@ -827,11 +827,11 @@
   @Example
     <code>
     // Set RE8 low (0)
-    MCHV3_MCLV2_LED1_SetLow();
+    MCHV3_LED1_SetLow();
     </code>
 
 */
-#define MCHV3_MCLV2_LED1_SetLow()           (_LATE8 = 0)
+#define MCHV3_LED1_SetLow()           (_LATE8 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RE8, using LATE8.
@@ -851,11 +851,11 @@
   @Example
     <code>
     // Toggle RE8
-    MCHV3_MCLV2_LED1_Toggle();
+    MCHV3_LED1_Toggle();
     </code>
 
 */
-#define MCHV3_MCLV2_LED1_Toggle()           (_LATE8 ^= 1)
+#define MCHV3_LED1_Toggle()           (_LATE8 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RE8.
@@ -877,11 +877,11 @@
     uint16_t portValue;
 
     // Read RE8
-    postValue = MCHV3_MCLV2_LED1_GetValue();
+    postValue = MCHV3_LED1_GetValue();
     </code>
 
 */
-#define MCHV3_MCLV2_LED1_GetValue()         _RE8
+#define MCHV3_LED1_GetValue()         _RE8
 /**
   @Summary
     Configures the GPIO pin, RE8, as an input.
@@ -901,11 +901,11 @@
   @Example
     <code>
     // Sets the RE8 as an input
-    MCHV3_MCLV2_LED1_SetDigitalInput();
+    MCHV3_LED1_SetDigitalInput();
     </code>
 
 */
-#define MCHV3_MCLV2_LED1_SetDigitalInput()  (_TRISE8 = 1)
+#define MCHV3_LED1_SetDigitalInput()  (_TRISE8 = 1)
 /**
   @Summary
     Configures the GPIO pin, RE8, as an output.
@@ -925,11 +925,11 @@
   @Example
     <code>
     // Sets the RE8 as an output
-    MCHV3_MCLV2_LED1_SetDigitalOutput();
+    MCHV3_LED1_SetDigitalOutput();
     </code>
 
 */
-#define MCHV3_MCLV2_LED1_SetDigitalOutput() (_TRISE8 = 0)
+#define MCHV3_LED1_SetDigitalOutput() (_TRISE8 = 0)
 /**
   @Summary
     Sets the GPIO pin, RE9, high using LATE9.
@@ -949,11 +949,11 @@
   @Example
     <code>
     // Set RE9 high (1)
-    MCHV3_MCLV2_LED2_SetHigh();
+    MCHV3_LED2_SetHigh();
     </code>
 
 */
-#define MCHV3_MCLV2_LED2_SetHigh()          (_LATE9 = 1)
+#define MCHV3_LED2_SetHigh()          (_LATE9 = 1)
 /**
   @Summary
     Sets the GPIO pin, RE9, low using LATE9.
@@ -973,11 +973,11 @@
   @Example
     <code>
     // Set RE9 low (0)
-    MCHV3_MCLV2_LED2_SetLow();
+    MCHV3_LED2_SetLow();
     </code>
 
 */
-#define MCHV3_MCLV2_LED2_SetLow()           (_LATE9 = 0)
+#define MCHV3_LED2_SetLow()           (_LATE9 = 0)
 /**
   @Summary
     Toggles the GPIO pin, RE9, using LATE9.
@@ -997,11 +997,11 @@
   @Example
     <code>
     // Toggle RE9
-    MCHV3_MCLV2_LED2_Toggle();
+    MCHV3_LED2_Toggle();
     </code>
 
 */
-#define MCHV3_MCLV2_LED2_Toggle()           (_LATE9 ^= 1)
+#define MCHV3_LED2_Toggle()           (_LATE9 ^= 1)
 /**
   @Summary
     Reads the value of the GPIO pin, RE9.
@@ -1023,11 +1023,11 @@
     uint16_t portValue;
 
     // Read RE9
-    postValue = MCHV3_MCLV2_LED2_GetValue();
+    postValue = MCHV3_LED2_GetValue();
     </code>
 
 */
-#define MCHV3_MCLV2_LED2_GetValue()         _RE9
+#define MCHV3_LED2_GetValue()         _RE9
 /**
   @Summary
     Configures the GPIO pin, RE9, as an input.
@@ -1047,11 +1047,11 @@
   @Example
     <code>
     // Sets the RE9 as an input
-    MCHV3_MCLV2_LED2_SetDigitalInput();
+    MCHV3_LED2_SetDigitalInput();
     </code>
 
 */
-#define MCHV3_MCLV2_LED2_SetDigitalInput()  (_TRISE9 = 1)
+#define MCHV3_LED2_SetDigitalInput()  (_TRISE9 = 1)
 /**
   @Summary
     Configures the GPIO pin, RE9, as an output.
@@ -1071,11 +1071,11 @@
   @Example
     <code>
     // Sets the RE9 as an output
-    MCHV3_MCLV2_LED2_SetDigitalOutput();
+    MCHV3_LED2_SetDigitalOutput();
     </code>
 
 */
-#define MCHV3_MCLV2_LED2_SetDigitalOutput() (_TRISE9 = 0)
+#define MCHV3_LED2_SetDigitalOutput() (_TRISE9 = 0)
 
 /**
     Section: Function Prototypes

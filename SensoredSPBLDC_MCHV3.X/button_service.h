@@ -69,11 +69,11 @@
 /* Start/Stop Button (SW1 - RE5) */
 #define S1_MCHV3                  !MCHV3_S1_GetValue()
 
-/* Start/Stop Button (S3 - RE7) */
-#define S3_MCLV2                  !MCLV2_S3_GetValue()
-
-/* Forward Reverse Button (S2 - RD7) */
-#define S2_MCLV2                  !MCLV2_S2_GetValue()
+///* Start/Stop Button (S3 - RE7) */
+//#define S3_MCLV2                  !MCLV2_S3_GetValue()
+//
+///* Forward Reverse Button (S2 - RD7) */
+//#define S2_MCLV2                  !MCLV2_S2_GetValue()
 
 /** Button De-bounce in milli Seconds */
 #define	BUTTON_DEBOUNCE_COUNT      10

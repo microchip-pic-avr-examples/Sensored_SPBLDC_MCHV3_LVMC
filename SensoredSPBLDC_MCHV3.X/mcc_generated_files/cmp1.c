@@ -60,7 +60,7 @@ void CMP1_Initialize(void)
 	SLP1CONL = 0x00; //HCFSEL None; SLPSTRT None; SLPSTOPB None; SLPSTOPA None; 
 	SLP1DAT = 0x00; //SLPDAT 0; 
 	DAC1DATL = 0x00; //DACDATL 0; 
-	DAC1DATH = 0xA74; //DACDATH 2676; 
+	DAC1DATH = 0x945; //DACDATH 2373; 
     
     // Clearing IF flag before enabling the interrupt.
     IFS4bits.CMP1IF = 0;
