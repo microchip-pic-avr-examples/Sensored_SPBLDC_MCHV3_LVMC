@@ -128,6 +128,46 @@ void ADC_ISR(void)
 }
 
 /* Function:
+    Drive_Initialization()
+  Summary:
+    This routine handles initialization of parameters.
+  Description:
+    Initializes the parameters for drive and fault detection
+  Precondition:
+    None.
+  Parameters:
+    None
+  Returns:
+    None.
+  Remarks:
+    None.
+ */
+
+void Drive_initialization(void)
+{
+    PWMDisableOutputs(); //reset PWM
+    InitMovingAvgSpeed(); //initialize speed calculation
+    Init_PIControlParameters(); //initialzie pi calculation
+    RotationSwitchingTable(runDirection); //initialize commutation table
+    CMP1_SetDACDataHighValue(OVERCURRENT_DETECTION_LIMIT); //sets overcurrent limit
+    dutyCycle = 0; //reset dutyCycle
+    //reset fault detected indicator flags
+    faultDetected.overcurrent_detected = 0;
+    faultDetected.stall_detected = 0;
+    //MCHV3 has no on-board temperature sensor
+    motorStallCounter = 0;
+    measuredSpeed = 0;
+    desiredSpeed = 0;
+    timerValue = 0;
+    //enable hall port
+    CNCONDbits.ON = 1;
+    //Reset parameters for start up
+    readyStartUp = 0;
+    startup = 0;
+    readyRun = 0;
+}
+
+/* Function:
     StateMachine()
   Summary:
     This routine handles the motor control routines.
@@ -143,23 +183,13 @@ void ADC_ISR(void)
   Remarks:
     None.
  */
+
 void StateMachine()
 { 
     switch(appState)
     {
         case INIT:
-            PWMDisableOutputs();
-            InitMovingAvgSpeed();
-            Init_PIControlParameters();
-            RotationSwitchingTable(runDirection);
-            CMP1_SetDACDataHighValue(OVERCURRENT_DETECTION_LIMIT);
-            dutyCycle = MIN_DUTYCYCLE;
-            //enable hall port
-            CNCONDbits.ON = 1;
-            //Reset parameters for start up
-            readyStartUp = 0;
-            startup = 0;
-            readyRun = 0;
+            Drive_initialization();
             if(runMotor)
             {
                 readyStartUp = 1;
@@ -193,7 +223,7 @@ void StateMachine()
         #endif
     
         #ifdef  OVERCURRENT_DETECTION
-            OverCurrent();
+            overcurrent_enable_flag = 1;
         #endif
         
             if(changeDirection == 1)
@@ -448,85 +478,7 @@ void PICloseLoopController(void)
  */
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt() 
-{
-//    if(startup == 1)
-//    {
-//        readyStartUp = 0;
-//        PG1IOCONL = 0x3400;
-//        PG2IOCONL = 0x0000;
-//        PG2DC = MPER*0.1;
-//        startup++;
-//    }
-//    if(startup == 2) 
-//    {
-//        PG2IOCONL = 0x3400;
-//        PG1IOCONL = 0x0000;
-//        PG1DC = MPER*0.2;
-//        startup++;
-//    }
-//    else if(startup == 3) 
-//    {
-//        PG1IOCONL = 0x3400;
-//        PG2IOCONL = 0x0000;
-//        PG2DC = MPER*0.3;
-//        startup++;
-//    }
-//    else if(startup == 4) 
-//    {
-//        PG2IOCONL = 0x3400;
-//        PG1IOCONL = 0x0000;
-//        PG1DC = MPER*0.4;
-//        startup++;
-//    }
-//    else if(startup == 5) 
-//    {
-//        PG1IOCONL = 0x3400;
-//        PG2IOCONL = 0x0000;
-//        PG2DC = MPER*0.5;
-//        startup++;
-//    }
-//    else if(startup == 6)
-//    {
-//        PG2IOCONL = 0x3400;
-//        PG1IOCONL = 0x0000;
-//        PG1DC = MPER*0.5;
-//        startup++;
-//    }
-//    else if(startup == 7) 
-//    {
-//        CheckHalUpdatePWM();
-//        dutyCycle = MPER*0.5;
-//        PG2DC = dutyCycle;
-//        PG1DC = dutyCycle;
-//        startup++;
-//    }
-//    else if(startup == 8) 
-//    {
-//        CheckHalUpdatePWM();
-//        dutyCycle = MPER*0.5;
-//        PG2DC = dutyCycle;
-//        PG1DC = dutyCycle;
-//        startup++;
-//    }
-//    else if(startup == 9) 
-//    {
-//        CheckHalUpdatePWM();
-//        dutyCycle = MPER*0.5;
-//        PG2DC = dutyCycle;
-//        PG1DC = dutyCycle;
-//        startup++;
-//    }
-//    else if(startup == 10)
-//    {
-//        CheckHalUpdatePWM();
-//        dutyCycle = MPER*0.5;
-//        PG2DC = dutyCycle;
-//        PG1DC = dutyCycle;
-//        startup = 100;
-//        readyRun = 1;
-//        measuredSpeed = 0;
-//    }
-    
+{    
     if(startup == 1)
     {
         readyStartUp = 0;
@@ -737,8 +689,8 @@ void StallDetection(void)
     {
         PWMDisableOutputs();
         PG1CONLbits.ON = PG2CONLbits.ON = 0;
-        MCHV3_MCLV2_LED1_SetLow();
-        MCHV3_MCLV2_LED2_SetLow();
+        MCHV3_LED1_SetLow();
+        MCHV3_LED2_SetLow();
         motorStallCounter = 0;
         faultDetected.stall_detected = 1;
     }
@@ -770,8 +722,8 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _CMP1Interrupt(void)
             {
                 PWMDisableOutputs();
                 PG1CONLbits.ON = PG2CONLbits.ON = 0;
-                MCHV3_MCLV2_LED1_SetLow();
-        MCHV3_MCLV2_LED2_SetLow();
+                MCHV3_LED1_SetLow();
+                MCHV3_LED2_SetLow();
                 faultDetected.overcurrent_detected = 1;
             }
         }

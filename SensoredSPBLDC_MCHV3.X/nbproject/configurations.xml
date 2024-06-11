@@ -67,7 +67,7 @@
     </logicalFolder>
     <logicalFolder displayName="Important Files" name="ExternalFiles" projectFiles="false">
       <itemPath>Makefile</itemPath>
-      <itemPath>Sensorless_SPBLDC_MCHV3.mc3</itemPath>
+      <itemPath>SensoredSPBLDC_MCHV3.mc3</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>

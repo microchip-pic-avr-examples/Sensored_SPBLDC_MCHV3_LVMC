@@ -53,7 +53,7 @@
 */
 
 static void (*ADC1_CommonDefaultInterruptHandler)(void);
-static void (*ADC1_MCHV3_MCLV2_POTENTIOMETERDefaultInterruptHandler)(uint16_t adcVal);
+static void (*ADC1_MCHV3_POTENTIOMETERDefaultInterruptHandler)(uint16_t adcVal);
 static void (*ADC1_channel_AN24DefaultInterruptHandler)(uint16_t adcVal);
 static void (*ADC1_channel_AN25DefaultInterruptHandler)(uint16_t adcVal);
 
@@ -160,13 +160,13 @@ void ADC1_Initialize (void)
 	
     //Assign Default Callbacks
     ADC1_SetCommonInterruptHandler(&ADC1_CallBack);
-    ADC1_SetMCHV3_MCLV2_POTENTIOMETERInterruptHandler(&ADC1_MCHV3_MCLV2_POTENTIOMETER_CallBack);
+    ADC1_SetMCHV3_POTENTIOMETERInterruptHandler(&ADC1_MCHV3_POTENTIOMETER_CallBack);
     ADC1_Setchannel_AN24InterruptHandler(&ADC1_channel_AN24_CallBack);
     ADC1_Setchannel_AN25InterruptHandler(&ADC1_channel_AN25_CallBack);
     
-    // Clearing MCHV3_MCLV2_POTENTIOMETER interrupt flag.
+    // Clearing MCHV3_POTENTIOMETER interrupt flag.
     IFS6bits.ADCAN19IF = 0;
-    // Enabling MCHV3_MCLV2_POTENTIOMETER interrupt.
+    // Enabling MCHV3_POTENTIOMETER interrupt.
     IEC6bits.ADCAN19IE = 1;
     // Clearing channel_AN24 interrupt flag.
     IFS12bits.ADCAN24IF = 0;
@@ -258,28 +258,28 @@ void __attribute__ ((weak)) ADC1_Tasks ( void )
     }
 }
 
-void __attribute__ ((weak)) ADC1_MCHV3_MCLV2_POTENTIOMETER_CallBack( uint16_t adcVal )
+void __attribute__ ((weak)) ADC1_MCHV3_POTENTIOMETER_CallBack( uint16_t adcVal )
 { 
 
 }
 
-void ADC1_SetMCHV3_MCLV2_POTENTIOMETERInterruptHandler(void* handler)
+void ADC1_SetMCHV3_POTENTIOMETERInterruptHandler(void* handler)
 {
-    ADC1_MCHV3_MCLV2_POTENTIOMETERDefaultInterruptHandler = handler;
+    ADC1_MCHV3_POTENTIOMETERDefaultInterruptHandler = handler;
 }
 
 void __attribute__ ( ( __interrupt__ , auto_psv, weak ) ) _ADCAN19Interrupt ( void )
 {
-    uint16_t valMCHV3_MCLV2_POTENTIOMETER;
+    uint16_t valMCHV3_POTENTIOMETER;
     //Read the ADC value from the ADCBUF
-    valMCHV3_MCLV2_POTENTIOMETER = ADCBUF19;
+    valMCHV3_POTENTIOMETER = ADCBUF19;
 
-    if(ADC1_MCHV3_MCLV2_POTENTIOMETERDefaultInterruptHandler) 
+    if(ADC1_MCHV3_POTENTIOMETERDefaultInterruptHandler) 
     { 
-        ADC1_MCHV3_MCLV2_POTENTIOMETERDefaultInterruptHandler(valMCHV3_MCLV2_POTENTIOMETER); 
+        ADC1_MCHV3_POTENTIOMETERDefaultInterruptHandler(valMCHV3_POTENTIOMETER); 
     }
 
-    //clear the MCHV3_MCLV2_POTENTIOMETER interrupt flag
+    //clear the MCHV3_POTENTIOMETER interrupt flag
     IFS6bits.ADCAN19IF = 0;
 }
 

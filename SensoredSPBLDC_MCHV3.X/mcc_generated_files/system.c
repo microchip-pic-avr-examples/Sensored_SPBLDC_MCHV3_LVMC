@@ -125,14 +125,14 @@
 #include "system.h"
 #include "system_types.h"
 #include "sccp3_tmr.h"
+#include "adc1.h"
+#include "pwm.h"
 #include "X2Cscope/X2Cscope.h"
+#include "uart1.h"
+#include "cmp1.h"
+#include "tmr1.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "tmr1.h"
-#include "uart1.h"
-#include "pwm.h"
-#include "adc1.h"
-#include "cmp1.h"
 
 void SYSTEM_Initialize(void)
 {

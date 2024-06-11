@@ -68,6 +68,7 @@
   Section: Function Declarations
 **/
 
+void Drive_Initialization(void);
 void InitializePWM(void);
 void ADC_ISR(void);
 void HALL_ISR(void);
@@ -114,7 +115,7 @@ void StallDetection(void);
 /* Instruction:
  * Overcurrent detection is ENABLED by default
  * Comment out the following line to DISABLE overcurrent detection. */
-#define OVERCURRENT_DETECTION_ENABLE 1
+#define OVERCURRENT_DETECTION
 
 // *****************************************************************************
 // Section: Motor Ratings (from Name Plate Details or Datasheet)
@@ -181,9 +182,9 @@ void StallDetection(void);
 #define SPEED_MOVING_AVG_FILTER_SCALE      4
 #define SPEED_MOVING_AVG_FILTER_SIZE       (uint16_t)(1 << SPEED_MOVING_AVG_FILTER_SCALE) 
 /* Start Up */
-#define REPOSITION_STARTUP_STEP_VOLTAGE     (float)(20) //enough to reposition motor
-#define DRAWBACK_STARTUP_STEP_VOLTAGE       (float)(16) //enough to draw back motor
-#define PROPEL_STARTUP_STEP_VOLTAGE         (float)(23) //enough to propel motor to right direction
+#define REPOSITION_STARTUP_STEP_VOLTAGE     (float)(16) //enough to reposition motor
+#define DRAWBACK_STARTUP_STEP_VOLTAGE       (float)(20) //enough to draw back motor
+#define PROPEL_STARTUP_STEP_VOLTAGE         (float)(24) //enough to propel motor to right direction
 #define PWM_MASTER_PERIOD                   (float)(4999)
 //#define REPOSITION_STARTUP_STEP             (unsigned long int)(((float)(REPOSITION_STARTUP_STEP_VOLTAGE/BUS_VOLTAGE ))*(PWM_MASTER_PERIOD)+0.5) // ( 20V /  300V ) * 4999 = 333
 //#define DRAWBACK_STARTUP_STEP               (unsigned long int)(((float)(DRAWBACK_STARTUP_STEP_VOLTAGE/BUS_VOLTAGE ))*(PWM_MASTER_PERIOD)+0.5) // ( 16V /  300V ) * 4999 = 266
@@ -204,7 +205,7 @@ void StallDetection(void);
 /* Constants For Overcurrent Protection */
 #define OVERCURRENT_COUNTER_DELAY       150
 #define OVERCURRENT_DETECT_FLAG         DAC1CONLbits.CMPSTAT
-#define OVERCURRENT_DETECTION_LIMIT     0xAB9 // 0x8BB = 1.5A for MCHV3 using external op amp config
+#define OVERCURRENT_DETECTION_LIMIT     0x87D // 0x87D = 1A for MCHV3 using external op amp config
 #define OVERCURRENT_DETECTION_DEFINE    0
 
 // *****************************************************************************

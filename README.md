@@ -5,34 +5,40 @@
 
 ## <b>1. INTRODUCTION</b>
 <p style='text-align: justify;'>
-This document describes the setup requirements to drive the Sensored Single Phase BLDC Motor Driver, which is referenced in the AN5423.</p>
+This document describes the hardware and software setup requirements to drive the Sensored Single Phase Brushless DC (BLDC) Motor, which is referenced in the AN5423.</p>
 
 ## <b>2. TABLE OF CONTENTS</b>
-<p>
-[Introduction](#1-introduction)<br/>
-[Table of contents](#2-table-of-contents) <br/>
-[Requirements](#3-requirements) <br/>
-[Demonstration Set Up for LVMC](#3-demo-set-up-for-lvmc)
 
+<p>
+1. Introduction<br>
+2. Table of Contents<br>
+3. Requirements<br>
+4. Demonstration Set up for LVMC<br>
+    4.1. Hardware Set up for LVMC<br>
+    4.2. Software Set up for LVMC<br>
+5. Demonstration Set up for MCHV3 <br>
+    5.1. Hardware Set up for MCHV3<br>
+    5.2. Software Set up for MCHV3<br>
+6. References<br>
 </p>
 
 
 ## <b>3. REQUIREMENTS </b>
-
-### <b>Motor Control Application Firmware Required for the Demonstration</b>
-- Navigate MPLAB Discover page of AN5423 and download the ZIP file for firmware *Sensored_SPBLDC.X*
-- Navigate GitHub page of AN5423 and go to <> Code and download the ZIP file for firmware *Sensored_SPBLDC.X*
+### <b>Motor Control Firmware </b>
+> <b>SensoredSPBLDC_LVMC.X or SensoredSPBLDC_MCHV3.X</b> <br>
+> - Navigate MPLAB Discover page of AN5423 and download the ZIP file for firmware *Sensored_SPBLDC.X*
+> - Navigate GitHub page of AN5423 and go to <> Code and download the ZIP file for firmware *Sensored_SPBLDC.X*
 
 ### <b>Software Tools Used for testing</b>
 
-- MPLAB® X IDE v6.15 
-- dsPIC33CK-MP_DFP v1.12.354
-- MPLAB® XC16 Compiler v2.10
-- MPLAB® X IDE Plugin X2Cscope v1.6.6 
+> - MPLAB® X IDE v6.15 
+> - dsPIC33CK-MP_DFP v1.12.354
+> - MPLAB® XC16 Compiler v2.10
+> - MPLAB® X IDE Plugin X2Cscope v1.6.6 
 
 ### <b> Hardware Tools Required for the Demonstration</b>
 
-<table>
+> <table>
   <tr>
     <th>Development Board</th>
     <th>Power Supply</th>
@@ -46,7 +52,7 @@ This document describes the setup requirements to drive the Sensored Single Phas
     <td>12V DC</td>
   </tr>
   
-</table>
+> </table>
   <br />
 
 ## <b>3. DEMONSTRATION SET UP FOR LVMC </b>
@@ -83,8 +89,8 @@ This document describes the setup requirements to drive the Sensored Single Phas
     <td>Hall Signal</td>
     <td>HALL A (J7)</td>
   </tr>
-</table>
-
+ </table>
+  <br />
 
 <table>
   <tr>
@@ -104,7 +110,7 @@ This document describes the setup requirements to drive the Sensored Single Phas
   </tr>
 </table>
 
-2. <p style='text-align: justify;'> On the MCHV3 Development Board, connect a 250V power adapter to the J1 Terminal. On the LVMC Development Board, plug in the 12V power supply to connector J1. The table below is provided to summarize the supply and terminal as well. </p>
+2. <p style='text-align: justify;'> On the LVMC Development Board, plug in the 12V power supply to connector J1. Please see LVMC User's Guide for set-up using higher than 12V if desired.</p>
 
 <table>
   <tr>
@@ -146,12 +152,12 @@ This document describes the setup requirements to drive the Sensored Single Phas
  
 <br />
 
-### <b>3.2. SOFTWARE SETUP AND DEMONSTRATION LVMC</b>
+### <b>3.2. SOFTWARE SET UP FOR LVMC</b>
 
 #### <b> Firmware Description</b>
 
 <p style='text-align: justify;'>
-This firmware is implemented to work on Microchip’s 16-bit Digital signal controller (dsPIC® DSC) dsPIC33CK256MP508. It uses peripherals such as the PWM, ADC, TIMER, CMP, UART etc. For more information, see the dsPIC33CK256MP508 Family datasheet (DS70005349).
+This firmware is implemented on Microchip’s 16-bit Digital signal controller (dsPIC® DSC) dsPIC33CK256MP508. It uses peripherals such as the PWM, ADC, TIMER, CMP, UART etc. For more information, see the dsPIC33CK256MP508 Family datasheet (DS70005349).
 </p>
 <p style='text-align: justify;'>
 This motor control demonstration uses the LVMC Development board user interface elements such as the push button (to start or stop the motor) and potentiometer (to vary speed of the motor). 
@@ -162,22 +168,22 @@ This motor control demonstration uses the LVMC Development board user interface 
 Follow below instructions step by step to setup and run the motor control demo application:
 </p>
 
-1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File>Open Project)</span> the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_LVMC.X</span></p>
+1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File > Open Project)</span> the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC.X</span></p>
     <p align="left">
        <img  src="images/idedeviceselection.PNG"></p>
   
 
-2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_LVMC.X </span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'Sensored_SPBLDC_LVMC'</b> will then appear in boldface.</p>
+2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC</span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'SensoredSPBLDC_LVMC'</b> will then appear in boldface.</p>
     <p align="left">
      <img  src="images/ideprojectsetup.PNG"></p>
 
-3. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> Sensored_SPBLDC_LVMC.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_LVMC.X</span> </p>
+3. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> SensoredSPBLDC_LVMC > headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC</span> </p>
      <p style='text-align: leftjustify;'>
 - Ensure either <span style="font-family:Courier New; font-size:;">CLOSEDLOOP  or OPENLOOP</span> are defined in the <span style="font-family:Courier New; font-size:;">LOOP CONTROLLER</span> section.
 - Uncomment the defined <span style="font-family:Courier New; font-size:;">OVERTEMPERATURE_DETECTION</span>, <span style="font-family:Courier New; font-size:;">OVERCURRENT_DETECTION</span> and/or <span style="font-family:Courier New; font-size:;">STALL_DETECTION</span> in the <span style="font-family:Courier New; font-size:;">MOTOR FAULT DETECTION</span> section to enable the motor fault detections. 
       <p align="left"><img  src="images/config.png"></p><p style='text-align: leftjustify;'>
 
-4. Right click on the project <i>Sensored_SPBLDC_LVMC.X</i> and select “Properties”  to open its Project Properties Dialog. In the category window: 
+4. Right click on the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC</span> and select “Properties”  to open its Project Properties Dialog. In the category window: 
 
  - Select the dsPIC33CK DFP Pack and Compiler Toolchain from the available list of compilers. Please ensure MPLAB® XC16 Compiler supports the device dsPIC33CK256MP508. In this case, "v1.12.354" and “XC16(v2.10)” are selected.
       <p style='text-align: justify;'>
@@ -187,21 +193,21 @@ Follow below instructions step by step to setup and run the motor control demo a
         <p align="left">
         <img  src="images/projectpropertiessettings.PNG"></p>
 
-5. <p style='text-align: justify;'> Ensure that the checkbox <b>'Load symbols when programming or building for production (slows process)'</b> is checked, which is under the 'Loading' category of the Project Properties window.</p>        
+5. <p style='text-align: justify;'> Ensure that the checkbox <b>'Load symbols when programming or building for production (slows process)'</b> is checked, which is under the 'Loading' category of the Project Properties window. This is used for X2Cscope. </p>        
         
       <p align="left">
       <img  src="images/loadvariables.PNG"></p>
 
-6. <p style='text-align: justify;'>To build the project (in this case Sensored_SPBLDC_MCHV3_LVMC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
+6. <p style='text-align: justify;'>To build the project and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
     <p align="left">
     <img  src="images/deviceprogramming.PNG"></p>
 
-7. <p style='text-align: justify;'> When the device is programmed successfully, run or stop the motor by pressing the push button. The appropriate LEDs should turn on and the motor should start spinning smoothly in one direction in the range indicated by the potentiometer. Ensure that the motor is spinning smoothly without any vibration.</p>
+7. <p style='text-align: justify;'> When the device is programmed successfully, run or stop the motor by pressing the push button SW1. The LED LD11 and LD1O should turn on and the motor should start spinning in one direction in the speed range set by the potentiometer.</p>
 
 <table>
   <tr>
     <th></th>
-    <th>LVMC Terminal</th>
+    <th>LVMC Board</th>
   </tr>
   <tr>
   <td>Push Button</td>
@@ -210,15 +216,15 @@ Follow below instructions step by step to setup and run the motor control demo a
   </tr>
 </table>
 
-8.  <p style='text-align: justify;'> The motor speed can be varied using the potentiometer of the LVMC board as indicated below.</p>
+8.  <p style='text-align: justify;'> The motor speed can be varied using the potentiometer POT1 of the LVMC board as shown below.</p>
     <img  src="images/potentiometer.jpg" width ="200">
     
 
-9. <p style='text-align: justify;'>	Press S2 to change the rotational direction of the motor. Motor runs CLOCKWISE by DEFAULT and this is indicated by LD11 in OFF. Motor runs COUNTERCLOCKWISE when S2 is pressed and the LD11 is ON. Press the S1 push button again to stop the motor. LD10 indicates ON or OFF state of drive. </p>
+9. <p style='text-align: justify;'>	Press SW2 to change the rotational direction of the motor. Motor runs CLOCKWISE by DEFAULT and this is indicated by LD11 in ON. Motor runs COUNTERCLOCKWISE when SW2 is pressed and the LD11 is OFF. Press the SW1 push button again to stop the motor. LD10 indicates ON or OFF state of drive. </p>
  
 
 ## <b>4. DEMONSTRATION SETUP FOR MCHV3</b>
-### <b> 4.1 Hardware Set Up for MCHV3 </b>
+### <b> 4.1 HARDWARE SET UP FOR MCHV3 </b>
 <p style='text-align: justify;'>This section describes hardware setup required to drive the motor using <i>MCHV3 Development Board</i>.</p>
 
 > **_NOTE:_**
@@ -321,91 +327,75 @@ D13 LED is off.
 
 
 
-## <b>BASIC DEMONSTRATION</b>
-### <b> Firmware Description</b>
+### <b>4.2 SOFTWARE SET UP AND DEMONSTRATION FOR MCHV3</b>
+#### <b> Firmware Description</b>
 
 <p style='text-align: justify;'>
-This firmware is implemented to work on Microchip’s 16-bit Digital signal controller (dsPIC® DSC) dsPIC33CK256MP508. 
+This firmware is implemented on Microchip’s 16-bit Digital signal controller (dsPIC® DSC) dsPIC33CK256MP508. 
 For more information, see the dsPIC33CK256MP508 Family datasheet (DS70005349).</p>
 <p style='text-align: justify;'>
 The Motor Control Demo application uses push button to start or stop the motor and potentiometer to vary speed of the motor. This Motor Control Demo Application configures and uses peripherals like PWM, ADC, SCCP, UART etc.</p>
-
-<p style='text-align: justify;'>
-
-For more details refer Microchip Application note 'Sensored Single Phase BLDC Motor driver' available at [Microchip web site](https://www.microchip.com/). </p>
 
 ### Basic Demonstration
 <p style='text-align: justify;'>
 Follow below instructions step by step to setup and run the motor control demo application:</p>
 
-1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File>Open Project)</span> the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_MCHV3_LVMC.X</span></p>
+1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File>Open Project)</span> the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_MCHV3.X</span></p>
     <p align="left">
-       <img  src="images/idedeviceselection.PNG"></p>
+       <img  src="images/idedeviceselectionMCHV3.PNG"></p>
   
 
-2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_MCHV3_LVMC.X </span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'Sensored_SPBLDC_MCHV3_LVMC'</b> will then appear in bold.</p>
+2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_MCHV3.X </span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'SensoredSPBLDC_MCHV3'</b> will then appear in bold.</p>
     <p align="left">
-     <img  src="images/ideprojectsetup.PNG"></p>
- 
+     <img  src="images/ideprojectsetupMCHV3.PNG"></p>
 
-3. <p style='text-align: leftjustify;'> On the configuration panel drop down menu, select if the development board used for demonstration is MCHV3 or LVMC.</p>
-    <p align="left">
-     <img  src="images/configpanel.png"></p>
-
-4. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> Sensored_SPBLDC_MCHV3_LVMC.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">Sensored_SPBLDC_MCHV3_LVMC.X</span> </p>
+3. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> SensoredSPBLDC_MCHV3.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_MCHV3.X</span> </p>
      <p style='text-align: leftjustify;'>
 - Ensure either <span style="font-family:Courier New; font-size:;">CLOSEDLOOP  or OPENLOOP</span> are defined in the <span style="font-family:Courier New; font-size:;">LOOP CONTROLLER</span> section.
-- Select the default rotation of the motor based on the motor specification sheet by commenting either <span style="font-family:Courier New; font-size:;"> CW or CCW</span>.
-- Uncomment the defined <span style="font-family:Courier New; font-size:;">OVERTEMPERATURE_DETECTION</span>, <span style="font-family:Courier New; font-size:;">OVERCURRENT_DETECTION</span> and/or <span style="font-family:Courier New; font-size:;">STALL_DETECTION</span> in the <span style="font-family:Courier New; font-size:;">MOTOR FAULT DETECTION</span> section to enable the motor fault detections. 
-      <p align="left"><img  src="images/config.png"></p><p style='text-align: leftjustify;'>
+- Uncomment the defined <span style="font-family:Courier New; font-size:;">OVERCURRENT_DETECTION</span> and/or <span style="font-family:Courier New; font-size:;">STALL_DETECTION</span> in the <span style="font-family:Courier New; font-size:;">MOTOR FAULT DETECTION</span> section to enable the motor fault detections. 
+      <p align="left"><img  src="images/configMCHV3.png"></p><p style='text-align: leftjustify;'>
 
-5. Right click on the project <i>Sensored_SPBLDC_MCHV3_LVMC.X</i> and select “Properties”  to open its Project Properties Dialog. Click the selected category “Conf: [MCHV3]" or "Conf: [LVMC]” to display the general project configuration information. In the category window: 
+4. Right click on the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_MCHV3.X</span>. In the category window: 
 
- - Select the specific Compiler Toolchain from the available list of compilers. Please ensure MPLAB® XC16 Compiler supports the device dsPIC33CK256MP508. In this case, “XC16(v1.70)” is selected.
+- Select the dsPIC33CK DFP Pack and Compiler Toolchain from the available list of compilers. Please ensure MPLAB® XC16 Compiler supports the device dsPIC33CK256MP508. In this case, "v1.12.354" and “XC16(v2.10)” are selected.
       <p style='text-align: justify;'>
  - Select the Hardware Tool to be used for programming and debugging. 
        <p style='text-align: justify;'>     
  -   After selecting Hardware Tool and Compiler Toolchain, click button <b>Apply</b>
         <p align="left">
-        <img  src="images/projectpropertiessettings.PNG"></p>
+        <img  src="images/projectpropertiessettingsMCHV3.PNG"></p>
 
-6. <p style='text-align: justify;'> Ensure that the checkbox <b>'Load symbols when programming or building for production (slows process)'</b> is checked, which is under the 'Loading' category of the Project Properties window.</p>        
+5. <p style='text-align: justify;'> Ensure that the checkbox <b>'Load symbols when programming or building for production (slows process)'</b> is checked, which is under the 'Loading' category of the Project Properties window.</p>        
         
       <p align="left">
-      <img  src="images/loadvariables.PNG"></p>
+      <img  src="images/loadvariablesMCHV3.PNG"></p>
 
-7. <p style='text-align: justify;'>To build the project (in this case Sensored_SPBLDC_MCHV3_LVMC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
+6. <p style='text-align: justify;'>To build the project (in this case Sensored_SPBLDC_MCHV3_LVMC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
     <p align="left">
     <img  src="images/deviceprogramming.PNG"></p>
 
-8. <p style='text-align: justify;'> When the device is programmed successfully, run or stop the motor by pressing the push button. The appropriate LEDs should turn on and the motor should start spinning smoothly in one direction in the range indicated by the potentiometer. Ensure that the motor is spinning smoothly without any vibration.</p>
+7. <p style='text-align: justify;'> When the device is programmed successfully, run or stop the motor by pressing the push button. The appropriate LEDs should turn on and the motor should start spinning smoothly in one direction in the range indicated by the potentiometer. Ensure that the motor is spinning smoothly without any vibration.</p>
 
 <table>
   <tr>
     <th></th>
-    <th>MCHV3 Terminal</th>
-    <th>LVMC Terminal</th>
+    <th>MCHV3 Board</th>
   </tr>
   <tr>
   <td>Push Button</td>
     <td>PUSH BUTTON - ON/OFF<p align="left" >
      <img  src="images/mchv3start.png" width ="700"></p></td>
-    <td>SW1 - ON/OFF<br> SW2 - REVERSE direction<p align="left">
-     <img  src="images/startButton.jpg" width ="350"></p></td>
   </tr>
 </table>
 
-9.  <p style='text-align: justify;'> The motor speed can be varied using the potentiometer of the respective development board as indicated below.</p>
+8.  <p style='text-align: justify;'> The motor speed can be varied using the potentiometer of the respective development board as indicated below.</p>
     <p align="left"><img  src="images/mchv3pot.png" width ="400"></p>
-    <img  src="images/potentiometer.jpg" width ="200"></p>
-     <p align="left">
     
-
-10. <p style='text-align: justify;'>	Press the appropriate push button to stop the motor.</p>
+9. <p style='text-align: justify;'>	Press the appropriate push button to stop the motor.</p>
  
- ## <b>REFERENCES:</b>
-For additional information, refer following documents or links.
-1. Sensored Single Phase BLDC Motor Driver using dsPIC33CK Application Note
+ ## <b>6. REFERENCES</b>
+For additional information, refer to the following documents or links.
+1. AN5423 Application Note "Sensored Single Phase BLDC Motor Driver using dsPIC33CK"
 2. [dsPICDEM™ MCHV3 Development Board User’s Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/OTH/ProductDocuments/UserGuides/DS50002505a.pdf)
 2. [dsPIC33CK Low-Voltage Motor Control board User's Guide](https://ww1.microchip.com/downloads/aemDocuments/documents/MCU16/ProductDocuments/UserGuides/DS50002927a.pdf)
 3. [dsPIC33CK256MP508 Family Datasheet (DS70005349)](https://ww1.microchip.com/downloads/en/DeviceDoc/dsPIC33CK256MP508-Family-Data-Sheet-DS70005349H.pdf)
