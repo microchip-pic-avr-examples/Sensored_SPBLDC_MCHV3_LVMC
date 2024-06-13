@@ -168,7 +168,7 @@ This motor control demonstration uses the LVMC Development board user interface 
 Follow below instructions step by step to setup and run the motor control demo application:
 </p>
 
-1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File > Open Project)</span> the project <b><span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC.X</span></p></b>
+1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File > Open Project)</span> the project <span style="font-family:Courier New; font-size:;"><b>SensoredSPBLDC_LVMC.X</b></span></p>
     <p align="left">
        <img  src="images/idedeviceselection.PNG"></p>
   
