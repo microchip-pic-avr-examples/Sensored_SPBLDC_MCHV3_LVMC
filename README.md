@@ -14,11 +14,11 @@ This document describes the hardware and software setup requirements and step-by
 &nbsp;2. Table of Contents<br>
 &nbsp;3. Requirements<br>
 &nbsp;4. Demonstration Set up for LVMC<br>
-&nbsp;&nbsp;&nbsp;&nbsp;4.1. Hardware Set up for LVMC<br>
-&nbsp;&nbsp;&nbsp;&nbsp;4.2. Software Set up for LVMC<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.1. Hardware Set up for LVMC<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.2. Software Set up for LVMC<br>
 &nbsp;5. Demonstration Set up for MCHV3 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;5.1. Hardware Set up for MCHV3<br>
-&nbsp;&nbsp;&nbsp;&nbsp;5.2. Software Set up for MCHV3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.1. Hardware Set up for MCHV3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.2. Software Set up for MCHV3<br>
 &nbsp;6. References<br>
 </p>
 
@@ -26,19 +26,19 @@ This document describes the hardware and software setup requirements and step-by
 ## <b>3. REQUIREMENTS </b>
 ### <b>Motor Control Firmware </b>
 <b>SensoredSPBLDC_LVMC.X or SensoredSPBLDC_MCHV3.X</b> <br>
-> - Navigate MPLAB Discover page of AN5423 and download the ZIP file for firmware *Sensored_SPBLDC.X*
-> - Navigate GitHub page of AN5423 and go to <> Code and download the ZIP file for firmware *Sensored_SPBLDC.X*
+- Navigate MPLAB Discover page of AN5423 and download the ZIP file for firmware *Sensored_SPBLDC.X*
+- Navigate GitHub page of AN5423 and go to <> Code and download the ZIP file for firmware *Sensored_SPBLDC.X*
 
 ### <b>Software Tools Used for testing</b>
 
-> - MPLAB® X IDE v6.15 
-> - dsPIC33CK-MP_DFP v1.12.354
-> - MPLAB® XC16 Compiler v2.10
-> - MPLAB® X IDE Plugin X2Cscope v1.6.6 
+- MPLAB® X IDE v6.15 
+- dsPIC33CK-MP_DFP v1.12.354
+- MPLAB® XC16 Compiler v2.10
+- MPLAB® X IDE Plugin X2Cscope v1.6.6 
 
 ### <b> Hardware Tools Required for the Demonstration</b>
 
-> <table>
+<table>
   <tr>
     <th>Development Board</th>
     <th>Power Supply</th>
@@ -52,13 +52,13 @@ This document describes the hardware and software setup requirements and step-by
     <td>12V DC</td>
   </tr>
   
-> </table>
+</table>
   <br />
 
-## <b>3. DEMONSTRATION SET UP FOR LVMC </b>
+## <b>4. DEMONSTRATION SET UP FOR LVMC </b>
 
 
-### <b>3.1. HARDWARE SETUP FOR LVMC</b>
+### <b>4.1. HARDWARE SETUP FOR LVMC</b>
 <p style='text-align: justify;'>This section describes hardware setup required to drive the motor using <i>LVMC Development Board</i>.</p>
 
 
@@ -152,7 +152,7 @@ This document describes the hardware and software setup requirements and step-by
  
 <br />
 
-### <b>3.2. SOFTWARE SET UP FOR LVMC</b>
+### <b>4.2. SOFTWARE SET UP FOR LVMC</b>
 
 #### <b> Firmware Description</b>
 
@@ -223,8 +223,8 @@ Follow below instructions step by step to setup and run the motor control demo a
 9. <p style='text-align: justify;'>	Press SW2 to change the rotational direction of the motor. Motor runs CLOCKWISE by DEFAULT and this is indicated by LD11 in ON. Motor runs COUNTERCLOCKWISE when SW2 is pressed and the LD11 is OFF. Press the SW1 push button again to stop the motor. LD10 indicates ON or OFF state of drive. </p>
  
 
-## <b>4. DEMONSTRATION SETUP FOR MCHV3</b>
-### <b> 4.1 HARDWARE SET UP FOR MCHV3 </b>
+## <b>5. DEMONSTRATION SETUP FOR MCHV3</b>
+### <b> 5.1 HARDWARE SET UP FOR MCHV3 </b>
 <p style='text-align: justify;'>This section describes hardware setup required to drive the motor using <i>MCHV3 Development Board</i>.</p>
 
 > **_NOTE:_**
@@ -327,7 +327,7 @@ D13 LED is off.
 
 
 
-### <b>4.2 SOFTWARE SET UP FOR MCHV3</b>
+### <b>5.2 SOFTWARE SET UP FOR MCHV3</b>
 #### <b> Firmware Description</b>
 
 <p style='text-align: justify;'>
