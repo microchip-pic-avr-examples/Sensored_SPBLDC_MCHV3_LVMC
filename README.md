@@ -5,27 +5,27 @@
 
 ## <b>1. INTRODUCTION</b>
 <p style='text-align: justify;'>
-This document describes the hardware and software setup requirements to drive the Sensored Single Phase Brushless DC (BLDC) Motor, which is referenced in the AN5423.</p>
+This document describes the hardware and software setup requirements and step-by-step instructions to do Sensored drive on the Single Phase Brushless DC (BLDC) Motor, as referenced in the AN5423.</p>
 
 ## <b>2. TABLE OF CONTENTS</b>
 
 <p>
-1. Introduction<br>
-2. Table of Contents<br>
-3. Requirements<br>
-4. Demonstration Set up for LVMC<br>
-    4.1. Hardware Set up for LVMC<br>
-    4.2. Software Set up for LVMC<br>
-5. Demonstration Set up for MCHV3 <br>
-    5.1. Hardware Set up for MCHV3<br>
-    5.2. Software Set up for MCHV3<br>
-6. References<br>
+&nbsp;1. Introduction<br>
+&nbsp;2. Table of Contents<br>
+&nbsp;3. Requirements<br>
+&nbsp;4. Demonstration Set up for LVMC<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.1. Hardware Set up for LVMC<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4.2. Software Set up for LVMC<br>
+&nbsp;5. Demonstration Set up for MCHV3 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.1. Hardware Set up for MCHV3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5.2. Software Set up for MCHV3<br>
+&nbsp;6. References<br>
 </p>
 
 
 ## <b>3. REQUIREMENTS </b>
 ### <b>Motor Control Firmware </b>
-> <b>SensoredSPBLDC_LVMC.X or SensoredSPBLDC_MCHV3.X</b> <br>
+<b>SensoredSPBLDC_LVMC.X or SensoredSPBLDC_MCHV3.X</b> <br>
 > - Navigate MPLAB Discover page of AN5423 and download the ZIP file for firmware *Sensored_SPBLDC.X*
 > - Navigate GitHub page of AN5423 and go to <> Code and download the ZIP file for firmware *Sensored_SPBLDC.X*
 
@@ -168,12 +168,12 @@ This motor control demonstration uses the LVMC Development board user interface 
 Follow below instructions step by step to setup and run the motor control demo application:
 </p>
 
-1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File > Open Project)</span> the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC.X</span></p>
+1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File > Open Project)</span> the project <b><span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC.X</span></p></b>
     <p align="left">
        <img  src="images/idedeviceselection.PNG"></p>
   
 
-2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_LVMC</span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'SensoredSPBLDC_LVMC'</b> will then appear in boldface.</p>
+2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;"><b>SensoredSPBLDC_LVMC</b></span> as main project by right clicking on the project name and selecting 'Set as Main Project' in the drop down menu. The project <b>'SensoredSPBLDC_LVMC'</b> will then appear in boldface.</p>
     <p align="left">
      <img  src="images/ideprojectsetup.PNG"></p>
 
@@ -327,7 +327,7 @@ D13 LED is off.
 
 
 
-### <b>4.2 SOFTWARE SET UP AND DEMONSTRATION FOR MCHV3</b>
+### <b>4.2 SOFTWARE SET UP FOR MCHV3</b>
 #### <b> Firmware Description</b>
 
 <p style='text-align: justify;'>
@@ -342,12 +342,12 @@ Follow below instructions step by step to setup and run the motor control demo a
 
 1. <p style='text-align: leftjustify;'> Start MPLAB X IDE and open<span style="font-family:Courier New; font-size:;"> (File>Open Project)</span> the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_MCHV3.X</span></p>
     <p align="left">
-       <img  src="images/idedeviceselectionMCHV3.PNG"></p>
+       <img  src="images/idedeviceselectionMCHV3.png"></p>
   
 
 2. <p style='text-align: leftjustify;'> Set the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_MCHV3.X </span>as main project by right clicking on the project name and selecting 'Set as Main Project' as shown. The project <b>'SensoredSPBLDC_MCHV3'</b> will then appear in bold.</p>
     <p align="left">
-     <img  src="images/ideprojectsetupMCHV3.PNG"></p>
+     <img  src="images/ideprojectsetupMCHV3.png"></p>
 
 3. <p style='text-align: leftjustify;'> Open <span style="font-family:Courier New; font-size:;">userparams.h </span>(under<span style="font-family:Courier New; font-size:;"> SensoredSPBLDC_MCHV3.X -> headerfiles)</span> in the project <span style="font-family:Courier New; font-size:;">SensoredSPBLDC_MCHV3.X</span> </p>
      <p style='text-align: leftjustify;'>
@@ -363,12 +363,12 @@ Follow below instructions step by step to setup and run the motor control demo a
        <p style='text-align: justify;'>     
  -   After selecting Hardware Tool and Compiler Toolchain, click button <b>Apply</b>
         <p align="left">
-        <img  src="images/projectpropertiessettingsMCHV3.PNG"></p>
+        <img  src="images/projectpropertiessettingsMCHV3.png"></p>
 
 5. <p style='text-align: justify;'> Ensure that the checkbox <b>'Load symbols when programming or building for production (slows process)'</b> is checked, which is under the 'Loading' category of the Project Properties window.</p>        
         
       <p align="left">
-      <img  src="images/loadvariablesMCHV3.PNG"></p>
+      <img  src="images/loadvariablesMCHV3.png"></p>
 
 6. <p style='text-align: justify;'>To build the project (in this case Sensored_SPBLDC_MCHV3_LVMC.X) and program the device dsPIC33CK256MP508, click <b>'Make and Program Device Main project'</b> on the toolbar.</p>
     <p align="left">
