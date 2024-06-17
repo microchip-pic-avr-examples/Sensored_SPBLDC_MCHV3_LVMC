@@ -39,7 +39,7 @@
          "ADC",
          "PWM",
          "SCCP",
-         "Timer"
+         "TMR"
       ],
       "keywords":[
          "Motor Control",
@@ -48,9 +48,7 @@
          "Sensored Control",
          "Motor Driver",
          "dsPIC",
-         "Trapezoidal Control",
          "DSC",
-         "Position Detection",
          "DSP"
       ]
    }
