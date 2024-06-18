@@ -6,7 +6,7 @@
       "name":"com.microchip.mplabx.project.lvmc-dspic33ck-an2049-sensored-single-phase-bldc-motor-driver",
       "version":"1.0.1",
       "displayName":"AN5423 Sensored Single Phase BLDC Motor Control using dsPIC33CK",
-      "projectName":"SensoredSPBLDC_LVMC and SensoredSPBLDC_MCHV3",
+      "projectName":"SensoredSPBLDC_LVMC SensoredSPBLDC_MCHV3",
       "shortDescription":"This drive is created to control the Single Phase Brushless DC (BLDC) Motor Driver using Microchip's dsPIC33CK DSC in a sensored fashion (Hall Effect sensor).",
       "ide":{
          "name":"MPLABX",
