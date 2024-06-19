@@ -109,7 +109,7 @@ pipeline {
             steps {
                script {                    
                     validateMetaData(
-                        unapprovedKeywordsOverrideList: "NONE"
+                        unapprovedKeywordsOverrideList: "${UNAPPROVED_KEYWORDS_OVERRIDE_LIST}"
                     )
                 }
             }
