@@ -4,25 +4,25 @@
    "content":{
       "metaDataVersion":"1.3.0",
       "name":"com.microchip.mplabx.project.lvmc-dspic33ck-an2049-sensored-single-phase-bldc-motor-driver",
-      "version":"1.0.0",
-      "displayName":"dsPIC33CK Single Phase Motor Driver",
+      "version":"1.0.1",
+      "displayName":"AN5423 Sensored Single Phase BLDC Motor Control using dsPIC33CK",
       "projectName":"Sensored_SPBLDC_MCHV3_LVMC",
-      "shortDescription":"Single Phase Brushless DC Motor Driver using dsPIC33CK256MP508",
+      "shortDescription":"This drive is created to control the Single Phase Brushless DC (BLDC) Motor Driver using Microchip's dsPIC33CK DSC in a sensored fashion (Hall Effect sensor).",
       "ide":{
          "name":"MPLABX",
-         "semverRange":">=5.40.0"
+         "semverRange":">=6.15.0"
       },
       "compiler":{
          "name":"XC16",
-         "semverRange":"^1.50.0"
+         "semverRange":"^2.10.0"
       },
       "dfp":{
          "name":"dsPIC33CK-MP_DFP",
-         "semverRange":">=1.4.102"
+         "semverRange":">=1.12.354"
       },
 	  "configurator": {
          "name": "MCC",
-         "semverRange": ">=4.0.1"
+         "semverRange": ">=5.5.7"
       },
       "device":{
          "metaDataVersion":"1.0.0",
@@ -38,7 +38,8 @@
          "GPIO",
          "ADC",
          "PWM",
-         "SCCP"
+         "SCCP",
+         "TMR"
       ],
       "keywords":[
          "Motor Control",
@@ -46,7 +47,9 @@
          "BLDC",
          "Sensored Control",
          "Motor Driver",
-         "dsPIC"
+         "dsPIC",
+         "DSC",
+         "DSP"
       ]
    }
 }
